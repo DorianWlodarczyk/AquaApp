@@ -1,10 +1,11 @@
 import React from 'react';
+import Sidebar from './components/sidebar/sidebar';
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <>
+      <Sidebar />
+    </>
   );
 }
 
