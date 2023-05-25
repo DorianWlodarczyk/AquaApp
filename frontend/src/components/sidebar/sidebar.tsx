@@ -1,4 +1,5 @@
 import React from 'react'
+import SidebarButton from './sidebar-button/sidebar-button'
 
 export interface SidebarProps {
   headerName?: String,
@@ -8,7 +9,15 @@ const Sidebar = ({headerName}: SidebarProps) => {
 
   const Header = () => {
     return (
-      <div>header</div>
+      <div>
+        <div className='w-full h-[50px] flex items-center justify-center flex-col'>
+          <div className='text-white text-xl '>
+            AQUA FRIENDS
+          </div>
+        </div>
+        <hr className='mx-3 h-[2px] border-0 bg-gradient-to-r from-transparent via-neutral-500 to-transparent' />
+      </div>
+
     )
   }
 
@@ -25,12 +34,13 @@ const Sidebar = ({headerName}: SidebarProps) => {
   }
 
   return (
-    <div className='bg-neutral-900 w-[200px] h-[100vh] flex flex-col justify-between'>
-      <Header/>
+    <div className='bg-neutral-900 w-[225px] h-[100vh] flex flex-col justify-between'>
+      <div>
+        <Header/>
+      </div>
       <Footer/>
     </div>
   )
 }
 
 export default Sidebar
-
