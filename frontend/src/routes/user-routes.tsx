@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import TestPage from '../pages/test-page/test-page'
+import TestPage from '../pages/common/test-page/test-page'
 
 const UserRoutes = () => {
   return (
