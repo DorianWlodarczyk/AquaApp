@@ -1,0 +1,31 @@
+.sidebarCollapsed{
+  width: 55px;
+
+  @media(max-width:768px) {
+    position: relative;
+    width: 225px;
+    left: -225px;
+  }
+}
+
+.sidebarOpen{
+  width: 225px;
+  @media(max-width:768px) {
+    position: relative;
+
+    left: 0px;
+  }
+}
+
+.blackout{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  @media(min-width:768px) {
+    display: none;
+  }
+}

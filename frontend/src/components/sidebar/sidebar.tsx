@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import SidebarButton, { SidebarButtonProps } from './sidebar-button/sidebar-button'
 import { MainContext } from '../../contexts/main-context'
-
+import style from './sidebar.module.css'
 export interface Category {
   headerName?: string,
   buttons?: SidebarButtonProps[]
@@ -78,15 +78,16 @@ const Sidebar = ({ categories }: props) => {
   }
 
   return (
-    <div className={`bg-neutral-900 h-[100vh] flex flex-col justify-between duration-100`} style={{
-      width: mainContext.isOpen ? '225px' : '55px'
-    }}>
-      <div>
-        <Header />
-        <Categories categories={categories} />
+    <>
+      {mainContext.isOpen && <div className={style.blackout} onClick={() => mainContext.setOpen(false)}>s</div>}
+      <div className={`z-5 bg-neutral-900 h-[100vh] flex flex-col justify-between duration-100 ${mainContext.isOpen ? style.sidebarOpen : style.sidebarCollapsed}`}>
+        <div>
+          <Header />
+          <Categories categories={categories} />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   )
 }
 
