@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 interface props {
   children: React.ReactNode
@@ -11,17 +11,17 @@ interface MainContextState {
 
 
 export const MainContext = React.createContext({
-  isOpen: false,
-  setOpen: (open: boolean) => {},
+  isOpen: true,
+  setOpen: (open: boolean) => { },
 });
 
-export const MainContextProvider = ({children}: props) => {
+export const MainContextProvider = ({ children }: props) => {
   const setOpen = (value: boolean) => {
-    setState({...state, isOpen: value})
+    setState({ ...state, isOpen: value })
   }
 
   const initState: MainContextState = {
-    isOpen: false,
+    isOpen: true,
     setOpen: setOpen,
   }
 
