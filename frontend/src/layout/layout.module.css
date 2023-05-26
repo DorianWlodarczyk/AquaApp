@@ -28,7 +28,7 @@
 .sidebar{
   grid-row: span 2 / span 2;
 
-  @media(max-width:768px) {
+  @media(max-width:767px) {
     position: relative;
     z-index: 9999;
     width: 225px

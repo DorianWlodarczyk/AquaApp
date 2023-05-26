@@ -21,6 +21,7 @@ const Sidebar = ({ categories }: props) => {
             <div key={index}>
               <SidebarButton
                 name={item.name}
+                to={item.to}
               />
             </div>
           )

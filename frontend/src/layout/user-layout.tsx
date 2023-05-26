@@ -3,6 +3,7 @@ import Sidebar, { Category } from '../components/sidebar/sidebar';
 import Navbar from '../components/navbar/navbar';
 import { UIContext } from '../contexts/ui-context';
 import style from './layout.module.css';
+import UserRoutes from '../routes/user-routes';
 
 const categories: Category[] = [
   {
@@ -29,7 +30,8 @@ const categories: Category[] = [
         name: 'Dwa'
       },
       {
-        name: 'Trzy'
+        name: 'Test1',
+        to: '/test1'
       }
     ]
   }
@@ -51,12 +53,7 @@ const UserLayout = () => {
       <div className={`${getOpenStyle()}`}><Sidebar categories={categories} /></div>
       <div className={`${style.navbar}`}><Navbar /></div>
       <div className={`${style.body}`}>
-        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
-        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
-        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
-        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
-        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
-        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+        <UserRoutes />
       </div>
     </div>
   )
