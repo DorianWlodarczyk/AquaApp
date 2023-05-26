@@ -27,7 +27,8 @@ const categories: Category[] = [
         name: 'Jeden'
       },
       {
-        name: 'Dwa'
+        name: 'Page not found',
+        to: '404'
       },
       {
         name: 'Test1',

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import TestPage from '../pages/test-page/test-page'
+import TestPage from '../pages/common/test-page/test-page'
+import PageNotFound from '../pages/common/page-not-found/page-not-found'
 
 const UserRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const UserRoutes = () => {
 
         <Route path='/test1' element={<TestPage />} />
       </Route>
+      <Route path='*' element={<PageNotFound />} />
     </Routes>
   )
 }
