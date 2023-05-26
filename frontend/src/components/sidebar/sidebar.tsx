@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import SidebarButton, { SidebarButtonProps } from './sidebar-button/sidebar-button'
+import { MainContext } from '../../contexts/main-context'
 
 export interface Category {
     headerName?: string,
@@ -58,10 +59,12 @@ const Header = () => {
 }
 
 const Footer = () => {
+const mainContext = useContext(MainContext);
+
   return(
     <div className='h-[50px] bg-neutral-700 flex flex-col justify-center'>
       <div className='h-[40px] w-[40px] bg-neutral-500 rounded-md ml-auto mr-2 cursor-pointer select-none'>
-        <div className='h-full flex justify-center items-center text-xl'>
+        <div className='h-full flex justify-center items-center text-xl' onClick={() => mainContext.setOpen(!mainContext.isOpen)}>
           {"<"}
         </div>
       </div>
