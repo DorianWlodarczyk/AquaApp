@@ -1,0 +1,51 @@
+.button{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  width: 90%;
+  cursor: pointer;
+  border-radius: 0.25rem
+}
+
+.button:hover{
+  background-color: #262626
+}
+
+.icon{
+  color: #737373;
+  font-size: 0.875rem;
+  padding-left: 1rem;
+}
+
+.text{
+  color: #737373;
+  font-size: 0.875rem;
+  padding-left: 1rem;
+}
+
+.hint{
+  position: absolute;
+  background-color: #262626;
+  display: none;
+  left: 65px;
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  color: #a3a3a3;
+  border-radius: 0.375rem;
+}
+
+.button:hover .hint{
+  @media(min-width:768px) {
+    display: block;
+  }
+}
+
+.arrow{
+  position: absolute;
+  background-color: #262626;
+  left: -12px;
+  width: 0.75rem;
+  height: 1.25rem;
+  clip-path: polygon(0 50%, 100% 100%, 100% 0);
+}

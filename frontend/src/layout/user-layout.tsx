@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import Sidebar, { Category } from '../components/sidebar/sidebar';
 import Navbar from '../components/navbar/navbar';
-import { MainContext } from '../contexts/main-context';
+import { UIContext } from '../contexts/ui-context';
 import style from './layout.module.css';
 
 const categories: Category[] = [
@@ -36,12 +36,28 @@ const categories: Category[] = [
 ];
 
 const UserLayout = () => {
-  const mainContext = useContext(MainContext);
+  const uiContext = useContext(UIContext);
+
+  const getExpandedStyle = (): string => {
+    return `${uiContext.isExpanded ? style.expanded : style.collapsed}`;
+  }
+
+  const getOpenStyle = (): string => {
+    return `${uiContext.isOpen ? style.opened : style.closed}`;
+  }
+
   return (
-    <div className={`${mainContext.isOpen ? style.open : style.collapsed} ${style.user} `}>
-      <div className='row-span-2'><Sidebar categories={categories} /></div>
-      <div><Navbar /></div>
-      <div>body</div>
+    <div className={`${getExpandedStyle()}`}>
+      <div className={`${getOpenStyle()}`}><Sidebar categories={categories} /></div>
+      <div className={`${style.navbar}`}><Navbar /></div>
+      <div className={`${style.body}`}>
+        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+        Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />Body<br />
+      </div>
     </div>
   )
 }
