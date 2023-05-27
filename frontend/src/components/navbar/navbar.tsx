@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <div className='w-full h-[50px] bg-white drop-shadow flex flex-row justify-between items-center'>
       <div>
-        <button className='ml-5 md:hidden' onClick={() => uiContext.setOpen(!uiContext.isOpen)}>
+        <button className='ml-5 lg:hidden' onClick={() => uiContext.setOpen(!uiContext.isOpen)}>
           <MenuIcon className='text-slate-800' style={{
             fontSize: '28px'
           }} />
