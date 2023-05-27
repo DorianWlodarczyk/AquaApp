@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { UIContext } from '../../contexts/ui-context';
 import MenuIcon from '@mui/icons-material/Menu';
+import UserMenu from './user-menu/user-menu';
 
 const Navbar = () => {
   const uiContext = useContext(UIContext);
@@ -15,8 +16,8 @@ const Navbar = () => {
         </button>
       </div>
 
-      <div>
-        <MenuIcon className='text-slate-800' />
+      <div className='h-full'>
+        <UserMenu />
       </div>
     </div>
   )
