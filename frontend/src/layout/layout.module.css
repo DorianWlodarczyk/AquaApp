@@ -51,4 +51,11 @@
 
 .body{
   overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.bodyContent{
+  max-width: 1720px;
+  width: 100%;
 }

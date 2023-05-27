@@ -55,7 +55,10 @@ const UserLayout = () => {
       <div className={`${getOpenStyle()}`}><Sidebar categories={categories} /></div>
       <div className={`${style.navbar}`}><Navbar /></div>
       <div className={`${style.body}`}>
-        <UserRoutes />
+        <div className={style.bodyContent}>
+          <UserRoutes />
+
+        </div>
       </div>
     </div>
   )
