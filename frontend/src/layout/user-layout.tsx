@@ -10,7 +10,8 @@ const categories: Category[] = [
     headerName: 'Kategoria 1',
     buttons: [
       {
-        name: 'Jeden'
+        name: 'Akwaria',
+        to: '/aquariums'
       },
       {
         name: 'Dwa'
