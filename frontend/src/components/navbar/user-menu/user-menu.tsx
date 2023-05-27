@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { FocusEvent, useState } from 'react'
 import NavbarButton from '../navbar-button/navbar-button';
 
 const UserMenu = () => {
   const [isOpen, setOpen] = useState(false);
 
+  const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+    setTimeout(() => setOpen(false), 100);
+  }
+
   return (
     <>
-      <div className='flex items-center h-full cursor-pointer mr-3'>
+      <div className='flex items-center h-full cursor-pointer mr-3' onBlur={onBlur}>
         <div className='rounded-full w-[43px] h-[43px] hover:bg-neutral-200 flex items-center justify-center'>
           <button
             onClick={() => setOpen(!isOpen)}
@@ -23,10 +27,12 @@ const UserMenu = () => {
         <div className='min-w-[150px] absolute right-[15px] top-[60px] bg-neutral-800 rounded-lg'>
           <NavbarButton
             text='Konto'
+            to='account'
           />
 
           <NavbarButton
             text='Wyloguj'
+            onClick={() => console.log('Wyloguj')}
           />
         </div>
       }
