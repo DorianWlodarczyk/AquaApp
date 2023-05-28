@@ -9,7 +9,7 @@ const UserRoutes = () => {
     <Routes>
       <Route path='/'>
         <Route index element={<></>} />
-        <Route path='/aquariums' element={<AquariumsList />} />
+        <Route path='/aqua' element={<AquariumsList />} />
         <Route path='/test1' element={<TestPage />} />
       </Route>
       <Route path='*' element={<PageNotFound />} />

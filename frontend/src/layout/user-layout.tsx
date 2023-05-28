@@ -11,7 +11,7 @@ const categories: Category[] = [
     buttons: [
       {
         name: 'Akwaria',
-        to: '/aquariums'
+        to: '/aqua'
       },
       {
         name: 'Dwa'
