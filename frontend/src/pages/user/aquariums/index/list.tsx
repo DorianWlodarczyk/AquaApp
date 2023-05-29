@@ -28,7 +28,7 @@ const AquariumsList = () => {
 
   return (
     <>
-      <div className='m-5 grid 2xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7'>
+      <div className='m-5 grid 2xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 pb-5'>
         {aquaData.map((item, index) => {
           return (
             <Aquarium
