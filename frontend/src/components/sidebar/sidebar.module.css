@@ -1,4 +1,4 @@
-.blackout{
+.blackout {
   position: fixed;
   z-index: 10;
   left: 0px;
@@ -7,12 +7,12 @@
   height: 100vh;
   background-color: #00000080;
 
-  @media(min-width:768px) {
+  @media (min-width: 1024px) {
     display: none;
   }
 }
 
-.sidebar{
+.sidebar {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,19 +26,19 @@
 
 /* FOOTER */
 
-.footer{
+.footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 50px;
   background-color: #404040;
 
-  @media(max-width:768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 }
 
-.toggleButton{
+.toggleButton {
   height: 40px;
   width: 40px;
   background-color: #737373;
@@ -49,7 +49,7 @@
   user-select: none;
 }
 
-.toggleIcon{
+.toggleIcon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +60,7 @@
 
 /* HEADER */
 
-.header{
+.header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,33 +69,36 @@
   height: 50px;
 }
 
-
-.title{
+.title {
   color: #ffffff;
   text-align: center;
 }
 
-.normalTitle{
+.normalTitle {
   composes: title;
   font-size: 1.25rem;
 }
 
-.smallTitle{
+.smallTitle {
   composes: title;
   font-size: 0.75rem;
 }
 
-.line{
+.line {
   height: 2px;
   border: none;
   margin-left: 0.75rem;
   margin-right: 0.75rem;
-  background-image: linear-gradient(90deg, transparent 0%, #737373 50%, transparent 100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #737373 50%,
+    transparent 100%
+  );
 }
 
-
 /* CATEGORIES */
-.categories{
+.categories {
   font-weight: 500;
   margin-top: 1.25rem;
   font-size: 0.875rem;
