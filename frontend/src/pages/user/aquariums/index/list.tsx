@@ -4,15 +4,21 @@ import EmptyAquariumsList from "./components/empty-list";
 import AddIcon from "@mui/icons-material/Add";
 import { AquariumData } from "./models/aquarium.interface";
 import AquariumListApi from "./aquarium-list-api.service";
+import Loader from "../../../../components/loader/loader";
+import { FetchStatus } from "../../../../utils/models/fetch-status";
+
 const AquariumsList = () => {
   const [aquaData, setAquaData] = useState<AquariumData[]>([]);
+  const [status, setStatus] = useState(FetchStatus.NotStarted);
 
   useEffect(() => {
     const fetchData = async () => {
+      setStatus(FetchStatus.Loading);
+
       try {
         const data = await AquariumListApi.getAquariumList();
-        console.log(data);
         setAquaData(data);
+        setStatus(FetchStatus.Loaded);
       } catch {}
     };
 
@@ -22,7 +28,7 @@ const AquariumsList = () => {
   if (false) return <EmptyAquariumsList />;
 
   return (
-    <>
+    <Loader status={status}>
       <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
         {aquaData.map((item, index) => {
           return (
@@ -45,7 +51,7 @@ const AquariumsList = () => {
       <button className="fixed bottom-[5%] right-[5%] flex h-[64px] w-[64px] items-center justify-center rounded-full bg-sky-600 shadow-lg duration-100 hover:bg-sky-500">
         <AddIcon className="text-white" style={{ fontSize: "36px" }} />
       </button>
-    </>
+    </Loader>
   );
 };
 
