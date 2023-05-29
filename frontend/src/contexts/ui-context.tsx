@@ -1,34 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface props {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 interface UIContextState {
-  isOpen: boolean,
-  setOpen: (open: boolean) => void,
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
 
-  isExpanded: boolean,
-  setExpanded: (open: boolean) => void
+  isExpanded: boolean;
+  setExpanded: (open: boolean) => void;
 }
-
 
 export const UIContext = React.createContext({
   isOpen: false,
-  setOpen: (open: boolean) => { },
+  setOpen: (open: boolean) => {},
 
   isExpanded: true,
-  setExpanded: (open: boolean) => { },
+  setExpanded: (open: boolean) => {},
 });
 
 export const MainContextProvider = ({ children }: props) => {
   const setOpen = (value: boolean) => {
-    setState({ ...state, isOpen: value })
-  }
+    setState({ ...state, isOpen: value });
+  };
 
   const setExpanded = (value: boolean) => {
-    setState({ ...state, isExpanded: value })
-  }
+    setState({ ...state, isExpanded: value });
+  };
 
   const initState: UIContextState = {
     isOpen: false,
@@ -36,13 +35,9 @@ export const MainContextProvider = ({ children }: props) => {
 
     isExpanded: true,
     setExpanded: setExpanded,
-  }
+  };
 
-  const [state, setState] = useState(initState)
+  const [state, setState] = useState(initState);
 
-  return (
-    <UIContext.Provider value={state}>
-      {children}
-    </UIContext.Provider>
-  )
-}
+  return <UIContext.Provider value={state}>{children}</UIContext.Provider>;
+};

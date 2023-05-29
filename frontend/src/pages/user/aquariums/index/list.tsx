@@ -1,12 +1,10 @@
-
-import { useEffect, useState } from 'react';
-import Aquarium from './components/aquarium';
-import EmptyAquariumsList from './components/empty-list';
-import AddIcon from '@mui/icons-material/Add';
-import { AquariumData } from './models/aquarium.interface';
-import AquariumListApi from './aquarium-list-api.service';
+import { useEffect, useState } from "react";
+import Aquarium from "./components/aquarium";
+import EmptyAquariumsList from "./components/empty-list";
+import AddIcon from "@mui/icons-material/Add";
+import { AquariumData } from "./models/aquarium.interface";
+import AquariumListApi from "./aquarium-list-api.service";
 const AquariumsList = () => {
-
   const [aquaData, setAquaData] = useState<AquariumData[]>([]);
 
   useEffect(() => {
@@ -15,20 +13,17 @@ const AquariumsList = () => {
         const data = await AquariumListApi.getAquariumList();
         console.log(data);
         setAquaData(data);
-      } catch {
-
-      }
-    }
+      } catch {}
+    };
 
     fetchData();
-  }, [])
+  }, []);
 
-  if (false)
-    return (<EmptyAquariumsList />)
+  if (false) return <EmptyAquariumsList />;
 
   return (
     <>
-      <div className='m-5 grid 2xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 pb-5'>
+      <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
         {aquaData.map((item, index) => {
           return (
             <Aquarium
@@ -38,21 +33,20 @@ const AquariumsList = () => {
               fishNumber={item.fishNumber}
               key={index}
             />
-          )
+          );
         })}
 
-        <div className='group h-[130px] rounded-3xl border-dashed border-neutral-400 hover:border-neutral-500 border-[4px] flex items-center justify-center flex-row cursor-pointer select-none'>
-          <div className='text-neutral-400 group-hover:text-neutral-500 font-bold'>
+        <div className="group flex h-[130px] cursor-pointer select-none flex-row items-center justify-center rounded-3xl border-[4px] border-dashed border-neutral-400 hover:border-neutral-500">
+          <div className="font-bold text-neutral-400 group-hover:text-neutral-500">
             Dodaj nowe akwarium
           </div>
         </div>
-
       </div>
-      <button className='w-[64px] h-[64px] bg-sky-600 hover:bg-sky-500 fixed right-[5%] bottom-[5%] rounded-full flex items-center justify-center shadow-lg duration-100'>
-        <AddIcon className='text-white' style={{ fontSize: '36px' }} />
+      <button className="fixed bottom-[5%] right-[5%] flex h-[64px] w-[64px] items-center justify-center rounded-full bg-sky-600 shadow-lg duration-100 hover:bg-sky-500">
+        <AddIcon className="text-white" style={{ fontSize: "36px" }} />
       </button>
     </>
-  )
-}
+  );
+};
 
-export default AquariumsList
+export default AquariumsList;
