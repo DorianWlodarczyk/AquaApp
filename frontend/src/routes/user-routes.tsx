@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import TestPage from '../pages/common/test-page/test-page'
 import PageNotFound from '../pages/common/page-not-found/page-not-found'
-import AquariumsList from '../pages/user/aquariums-list/aquariums-list'
+import AquariumsList from '../pages/user/aquariums/index/list'
 
 const UserRoutes = () => {
   return (

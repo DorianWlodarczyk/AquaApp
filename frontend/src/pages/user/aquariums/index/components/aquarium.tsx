@@ -1,22 +1,21 @@
 import React from 'react'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import getAquariumImg from '../../../utils/images/aquarium-image'
-import { getRandomFishIcon } from '../../../utils/images/fish-icon';
+import getAquariumImg from '../../../../../utils/images/aquarium-image'
+import { getRandomFishIcon } from '../../../../../utils/images/fish-icon';
 
 interface props {
-  name?: string,
-  imageID?: string,
-  fishID?: string,
-  fishNumber?: number,
-  aquariumID: string
+  id: string,
+  name: string,
+  fishNumber: number,
+  imgID: string
 }
 
-const Aquarium = ({ name, imageID, fishID, fishNumber, aquariumID }: props) => {
+const Aquarium = ({ name, id, fishNumber, imgID }: props) => {
   return (
-    <div className='bg-white flex flex-row shadow rounded cursor-pointer group '>
+    <div className='bg-white flex flex-row shadow rounded cursor-pointer group hover:bg-neutral-50'>
       <div className='h-full flex items-center'>
         <div className='w-[65px] h-[65px] sm:w-[75px] sm:h-[75px] md:w-[100px] md:h-[100px] my-4 ml-5'>
-          <img src={getAquariumImg(aquariumID)} alt="" />
+          <img src={getAquariumImg(imgID)} alt="" />
         </div>
       </div>
       <div className='my-4 ml-3 w-full'>
