@@ -13,7 +13,7 @@ export interface inputConfig {
   name?: string;
   helperText?: string;
   pattern?: RegExp;
-  type?: "TEXT" | "DROPDOWN" | "IMG";
+  type?: "TEXT" | "DROPDOWN" | "IMG" | "LABEL";
   clearIcon?: boolean;
   className?: string;
 }
@@ -45,6 +45,19 @@ const Form = ({ inputs, className }: props) => {
     );
   };
 
+  const renderLabel = (input: inputConfig, index: number) => {
+    return (
+      <div
+        className={`flex h-full items-center justify-center text-center text-xl ${
+          input.className ? input.className : ""
+        }`}
+        key={index}
+      >
+        {input.label}
+      </div>
+    );
+  };
+
   const renderInputs = () => {
     if (inputs?.length === 0) return <></>;
 
@@ -55,6 +68,9 @@ const Form = ({ inputs, className }: props) => {
 
         case "IMG":
           return renderImgPicker(item, index);
+
+        case "LABEL":
+          return renderLabel(item, index);
       }
 
       return <></>;
