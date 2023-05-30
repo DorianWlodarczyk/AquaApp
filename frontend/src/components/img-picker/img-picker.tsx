@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { aquariumImg } from "../../utils/images/aquarium-image";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -26,23 +26,24 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
     return output;
   };
 
-  useEffect(() => {
+  const onClickHandler = (value: number) => {
+    setIndex(value);
     const mapKeys: string[] = Array.from(aquariumImg.keys());
 
     const key =
-      index % mapKeys.length >= 0
-        ? index % mapKeys.length
-        : mapKeys.length - Math.abs(index % mapKeys.length);
+      value % mapKeys.length >= 0
+        ? value % mapKeys.length
+        : mapKeys.length - Math.abs(value % mapKeys.length);
 
     onClick(mapKeys[key]);
-  }, [index, onClick]);
+  };
 
   return (
     <div className="w-full">
       <div className="flex flex-row justify-around">
         <button
           className="group flex w-full items-center justify-center"
-          onClick={() => setIndex(index + 1)}
+          onClick={() => onClickHandler(index + 1)}
         >
           <div className="mr-2 flex h-[60px] w-[30px] items-center justify-center rounded-full text-3xl font-bold text-neutral-600 group-hover:bg-neutral-100">
             <ArrowBackIosNewIcon />
@@ -57,7 +58,7 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
 
         <button
           className="group flex w-full items-center justify-center"
-          onClick={() => setIndex(index - 1)}
+          onClick={() => onClickHandler(index - 1)}
         >
           <div className="ml-2 flex h-[60px] w-[30px] items-center justify-center rounded-full text-3xl font-bold text-neutral-600 group-hover:bg-neutral-100">
             <ArrowForwardIosIcon />
@@ -74,7 +75,7 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
               }`}
               src={item}
               onClick={() => {
-                setIndex(index - (i - previewNumber));
+                onClickHandler(index - (i - previewNumber));
               }}
               alt="aquarium"
               key={i}
