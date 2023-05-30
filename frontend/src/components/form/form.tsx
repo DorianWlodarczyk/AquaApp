@@ -6,6 +6,7 @@ interface props {
   inputs?: inputConfig[];
   className?: string;
   onChange?: (value: inputData[]) => void;
+  values: inputData[];
 }
 
 export interface inputConfig {
@@ -21,26 +22,53 @@ export interface inputConfig {
 export interface inputData {
   value: string;
   error: boolean;
-  name?: string;
+  name: string;
 }
 
-const Form = ({ inputs, className }: props) => {
-  const renderTextInput = (input: inputConfig, index: number) => {
+export const getInitState = (inputs: inputConfig[]): inputData[] => {
+  const states: inputData[] = [];
+
+  for (let item of inputs) {
+    if (item.type !== "LABEL") {
+      states.push({
+        value: "",
+        error: false,
+        name: `${item.name}`,
+      });
+    }
+  }
+
+  return states;
+};
+
+const Form = ({ inputs, className, values, onChange }: props) => {
+  const renderTextInput = (
+    input: inputConfig,
+    index: number,
+    value: inputData
+  ) => {
+    console.log(value.value);
     return (
       <div className={`${input.className}`} key={index}>
         <InputText
           label={input.label}
           helperText={input.helperText}
           clearIcon={true}
+          value={value.value}
+          onChange={(value) => onChangeHandler(input.name!, value)}
         />
       </div>
     );
   };
 
-  const renderImgPicker = (input: inputConfig, index: number) => {
+  const renderImgPicker = (
+    input: inputConfig,
+    index: number,
+    value: inputData
+  ) => {
     return (
       <div className={`${input.className}`} key={index}>
-        <ImgPicker onClick={(value) => console.log("Img picker => ", value)} />
+        <ImgPicker onClick={(value) => onChangeHandler(input.name!, value)} />
       </div>
     );
   };
@@ -59,15 +87,14 @@ const Form = ({ inputs, className }: props) => {
   };
 
   const renderInputs = () => {
-    if (inputs?.length === 0) return <></>;
-
     return inputs?.map((item, index) => {
+      const input = values.find((element) => item.name === element.name);
       switch (item.type) {
         case "TEXT":
-          return renderTextInput(item, index);
+          return renderTextInput(item, index, input!);
 
         case "IMG":
-          return renderImgPicker(item, index);
+          return renderImgPicker(item, index, input!);
 
         case "LABEL":
           return renderLabel(item, index);
@@ -75,6 +102,18 @@ const Form = ({ inputs, className }: props) => {
 
       return <></>;
     });
+  };
+
+  const onChangeHandler = (name: string, value: string) => {
+    const newValues = [...values];
+
+    for (let item of newValues) {
+      if (item.name === name) {
+        item.value = value;
+        break;
+      }
+    }
+    if (onChange) onChange(newValues);
   };
 
   return (
