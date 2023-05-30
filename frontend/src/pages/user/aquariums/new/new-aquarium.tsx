@@ -4,7 +4,11 @@ import QueuePlayNextIcon from "@mui/icons-material/QueuePlayNext";
 import Form, { inputConfig } from "../../../../components/form/form";
 
 const inputsConfig: inputConfig[] = [
-  { type: "IMG", className: "row-span-4 lg:col-span-2 col-span-full" },
+  {
+    type: "IMG",
+    name: "imgID",
+    className: "row-span-4 lg:col-span-2 col-span-full",
+  },
   {
     type: "TEXT",
     label: "Nazwa",
@@ -12,13 +16,43 @@ const inputsConfig: inputConfig[] = [
     className: "lg:col-span-4 col-span-full",
   },
   { type: "LABEL", label: "Wymiary" },
-  { type: "TEXT", label: "Długość", helperText: "helper Text" },
-  { type: "TEXT", label: "Szerokość", helperText: "helper Text" },
-  { type: "TEXT", label: "Wysokość", helperText: "helper Text" },
+  {
+    type: "TEXT",
+    name: "length",
+    label: "Długość",
+    helperText: "Wartość [cm]",
+  },
+  {
+    type: "TEXT",
+    name: "width",
+    label: "Szerokość",
+    helperText: "Wartość [cm]",
+  },
+  {
+    type: "TEXT",
+    name: "height",
+    label: "Wysokość",
+    helperText: "Wartość [cm]",
+  },
   { type: "LABEL", label: "Akcesoria" },
-  { type: "TEXT", label: "Grzałka", helperText: "helper Text" },
-  { type: "TEXT", label: "Pompa", helperText: "helper Text" },
-  { type: "TEXT", label: "Lampa", helperText: "helper Text" },
+  {
+    type: "TEXT",
+    name: "heaterID",
+    label: "Grzałka",
+    helperText: "Wybierz rodzaj grzałki",
+  },
+  {
+    type: "TEXT",
+    name: "pumpID",
+    label: "Pompa",
+    helperText: "Wybierz rodzaj pompy",
+  },
+  {
+    type: "TEXT",
+    name: "lampID",
+    label: "Lampa",
+    helperText: "Wybierz rodzaj lampy",
+  },
 ];
 
 const NewAquarium = () => {
