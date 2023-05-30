@@ -31,7 +31,7 @@ const Form = ({ inputs, className }: props) => {
         <InputText
           label={input.label}
           helperText={input.helperText}
-          clearIcon={input.clearIcon}
+          clearIcon={true}
         />
       </div>
     );
