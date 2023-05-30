@@ -50,7 +50,7 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
         </button>
 
         <img
-          className="h-[200px] w-[200px]"
+          className="h-[200px] w-[200px] select-none"
           src={getPreviewImg(previewNumber)[previewNumber]}
           alt="Aquarium"
         />
@@ -69,7 +69,7 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
         {getPreviewImg(previewNumber).map((item, i) => {
           return (
             <img
-              className={`h-[50px] w-[50px] cursor-pointer hover:opacity-100 ${
+              className={`h-[50px] w-[50px] cursor-pointer select-none hover:opacity-100 ${
                 i !== previewNumber ? "opacity-40" : ""
               }`}
               src={item}
