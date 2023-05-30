@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { aquariumImg } from "../../../../../../utils/images/aquarium-image";
+import { aquariumImg } from "../../utils/images/aquarium-image";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 interface props {
@@ -34,7 +34,7 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
         ? index % mapKeys.length
         : mapKeys.length - Math.abs(index % mapKeys.length);
 
-    onClick(aquariumImg.get(mapKeys[key]) || "");
+    onClick(mapKeys[key]);
   }, [index, onClick]);
 
   return (
