@@ -1,25 +1,30 @@
 import React from "react";
 import WidgetBox from "../../../../components/widget-box/widget-box";
-import ImgPicker from "./components/img-picker/img-picker";
-import InputText from "../../../../components/input-text/input-text";
 import QueuePlayNextIcon from "@mui/icons-material/QueuePlayNext";
+import Form, { inputConfig } from "../../../../components/form/form";
+
+const inputsConfig: inputConfig[] = [
+  { type: "IMG", className: "row-span-4" },
+  {
+    type: "TEXT",
+    label: "Nazwa",
+    helperText: "Max 32 znaki",
+    className: "col-span-2",
+  },
+  { type: "TEXT", label: "Długość", helperText: "helper Text" },
+  { type: "TEXT", label: "Szerokość", helperText: "helper Text" },
+  { type: "TEXT", label: "Wysokość", helperText: "helper Text" },
+  { type: "TEXT", label: "Grzałka", helperText: "helper Text" },
+  { type: "TEXT", label: "Pompa", helperText: "helper Text" },
+  { type: "TEXT", label: "Lampa", helperText: "helper Text" },
+];
+
 const NewAquarium = () => {
   return (
     <div className="h-full w-full px-5 py-10">
       <WidgetBox title="Nowe akwarium" icon={<QueuePlayNextIcon />}>
         <div className="flex flex-row">
-          <div className="w-[400px]">
-            <ImgPicker
-              onClick={(value) => console.log(`Img Picker ->`, value)}
-            />
-          </div>
-          <InputText
-            label="Nazwa akwarium"
-            helperText="Max 32 znaki"
-            searchIcon
-            clearIcon
-            onChange={(value) => console.log(`Input text ->`, value)}
-          />
+          <Form inputs={inputsConfig} className="grid-cols-3" />
         </div>
       </WidgetBox>
     </div>
