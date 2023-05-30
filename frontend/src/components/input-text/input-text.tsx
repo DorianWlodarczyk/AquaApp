@@ -41,6 +41,7 @@ const InputText = ({
         type={password ? "password" : "text"}
         required={true}
         onChange={onChangeHandler}
+        value={value}
       />
 
       {searchIcon && (
