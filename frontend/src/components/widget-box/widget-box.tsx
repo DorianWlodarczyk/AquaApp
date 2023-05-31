@@ -5,11 +5,16 @@ interface props {
   children: React.ReactNode;
   title?: string;
   icon?: React.ReactElement<SvgIconProps>;
+  className?: string;
 }
 
-const WidgetBox = ({ children, title, icon }: props) => {
+const WidgetBox = ({ children, title, icon, className }: props) => {
   return (
-    <div className="relative w-full rounded bg-white pb-3 shadow">
+    <div
+      className={`relative w-full rounded bg-white pb-3 shadow ${
+        className ? className : ""
+      }`}
+    >
       <div className="absolute left-[30px] top-[-20px]">
         {icon && <IconBox color="GREEN" icon={icon} />}
       </div>
