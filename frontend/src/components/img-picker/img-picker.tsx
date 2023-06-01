@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { aquariumImg } from "../../utils/images/aquarium-image";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 interface props {
   previewNumber?: number;
   onClick: (value: string) => void;
+  value: string;
 }
 
-const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
+const ImgPicker = ({ previewNumber = 2, onClick, value }: props) => {
   const [index, setIndex] = useState(0);
 
   const getPreviewImg = (number: number) => {
@@ -37,6 +38,12 @@ const ImgPicker = ({ previewNumber = 2, onClick }: props) => {
 
     onClick(mapKeys[key]);
   };
+
+  useEffect(() => {
+    const mapKeys: string[] = Array.from(aquariumImg.keys());
+    setIndex(mapKeys.indexOf(value));
+    console.log(value);
+  }, [value]);
 
   return (
     <div className="w-full">
