@@ -13,7 +13,7 @@
   transition-duration: 300ms;
 }
 
-.inputText:focus{
+.inputText:not(.errorText):focus{
   background-color: #e7f6ff;
   border-bottom: var(--border-weight) solid #0068a5;
 }
@@ -28,7 +28,7 @@
   font-style: normal;
 }
 
-.inputText:valid:not(.error):not(:focus){
+.inputText:valid:not(.errorText):not(:focus){
   border-bottom: var(--border-weight) solid #33b300;
 }
 
