@@ -13,7 +13,6 @@ const ProgressBar = ({ labels, step }: props) => {
       <div className={style.content}>
         <div className={style.backgroundLine}>
           {labels.map((item, index) => {
-            console.log(`${(100 / labels.length) * index + 1}%`);
             return (
               <div
                 className={`${style.dot} 
