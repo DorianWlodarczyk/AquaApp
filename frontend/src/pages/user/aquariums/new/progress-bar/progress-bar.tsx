@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./progress-bar.module.css";
 import { getRandomFishIcon } from "../../../../../utils/images/fish-icon";
 
@@ -8,6 +8,12 @@ interface props {
 }
 
 const ProgressBar = ({ labels, step }: props) => {
+  const [fish, setFish] = useState("");
+
+  useEffect(() => {
+    setFish(getRandomFishIcon());
+  }, []);
+
   return (
     <div className="flex w-full items-center justify-center">
       <div className={style.content}>
@@ -38,7 +44,7 @@ const ProgressBar = ({ labels, step }: props) => {
           <div>
             <img
               className={style.fishIcon}
-              src={getRandomFishIcon()}
+              src={fish}
               alt=""
               style={{
                 left: `${(100 / (labels.length - 1)) * step}%`,
