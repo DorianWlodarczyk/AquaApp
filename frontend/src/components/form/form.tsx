@@ -68,7 +68,7 @@ const Form = ({ inputs, className, values, onChange }: props) => {
   ) => {
     return (
       <div className={`${input.className}`} key={index}>
-        <ImgPicker onClick={(value) => onChangeHandler(input.name!, value)} />
+        {/* <ImgPicker onClick={(value) => onChangeHandler(input.name!, value)} /> */}
       </div>
     );
   };
