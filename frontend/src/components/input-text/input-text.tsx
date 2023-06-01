@@ -12,6 +12,8 @@ interface props {
   label?: string;
   clearIcon?: boolean;
   onChange?: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 const InputText = ({
@@ -23,6 +25,8 @@ const InputText = ({
   label,
   clearIcon,
   onChange,
+  onFocus,
+  onBlur,
 }: props) => {
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) onChange(e.target.value);
@@ -30,6 +34,14 @@ const InputText = ({
 
   const onClearHandler = () => {
     if (onChange) onChange("");
+  };
+
+  const onFocusHandler = () => {
+    if (onFocus) onFocus();
+  };
+
+  const onBlurHandler = () => {
+    if (onBlur) onBlur();
   };
 
   return (
@@ -42,6 +54,8 @@ const InputText = ({
         required={true}
         onChange={onChangeHandler}
         value={value}
+        onFocus={onFocusHandler}
+        onBlur={onBlurHandler}
       />
 
       {searchIcon && (
