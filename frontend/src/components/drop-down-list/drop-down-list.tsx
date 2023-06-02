@@ -42,13 +42,9 @@ const DropDownList = ({
     });
   };
 
-  const onClickHandler = (value: DropDownOption) => {
-    console.log(
-      "🚀 ~ file: drop-down-list.tsx:50 ~ onClickHandler ~ value.name:",
-      value.name
-    );
-    setText(value.name);
-    if (onChange) onChange(value.value);
+  const onClickHandler = (newValue: DropDownOption) => {
+    setText(newValue.name);
+    if (onChange) onChange(newValue.value);
   };
 
   const onBlurHandler = () => {
@@ -56,9 +52,17 @@ const DropDownList = ({
       setText(optionsList[0].name);
 
       if (onChange) onChange(optionsList[0].value);
+    } else {
+      setText(value ?? "");
+      if (onChange) onChange("");
     }
 
     setTimeout(() => setOpen(false), 100);
+  };
+
+  const onChangeHandler = (value: string) => {
+    setText(value);
+    if (onChange) onChange(value);
   };
 
   useEffect(() => {
@@ -86,20 +90,24 @@ const DropDownList = ({
     setOptionsList(options || []);
   }, [options]);
 
+  useEffect(() => {
+    if (value) setText(value);
+  }, [value]);
+
   return (
-    <div>
+    <div className="relative w-full">
       <InputText
         label={label}
         onFocus={() => setOpen(true)}
         onBlur={onBlurHandler}
-        onChange={(value) => setText(value)}
+        onChange={onChangeHandler}
         value={text}
         clearIcon
         error={localError}
       />
 
       {isOpen && (
-        <div className="absolute box-border max-h-[200px] w-full overflow-y-auto border-2">
+        <div className="absolute z-10 box-border max-h-[200px] w-full overflow-y-auto border-2">
           {renderOptionsList()}
         </div>
       )}
