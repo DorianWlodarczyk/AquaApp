@@ -19,7 +19,6 @@ const AquariumPreview = ({ values }: props) => {
   const [lengthText, setLengthText] = useState("");
   const [heightText, setHeightText] = useState("");
 
-  const [degrees, setDegrees] = useState(45);
   const lineWidth = 5;
 
   useEffect(() => {
