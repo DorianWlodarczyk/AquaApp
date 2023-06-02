@@ -9,6 +9,7 @@ import {
   maxNameLength,
 } from "../../../../utils/regex/text-input.regex";
 import Step2 from "./steps/Step2";
+import Step3 from "./steps/Step3";
 
 export interface inputData {
   value: string;
@@ -82,6 +83,7 @@ const NewAquariumPage = () => {
         />
         <div>{step === 0 && <Step1 onChange={onChange} values={inputs} />}</div>
         <div>{step === 1 && <Step2 onChange={onChange} values={inputs} />}</div>
+        <div>{step === 2 && <Step3 onChange={onChange} values={inputs} />}</div>
 
         <div className="mt-8 flex justify-center">
           {step === 0 && (
