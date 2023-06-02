@@ -42,7 +42,6 @@ const ImgPicker = ({ previewNumber = 2, onClick, value }: props) => {
   useEffect(() => {
     const mapKeys: string[] = Array.from(aquariumImg.keys());
     setIndex(mapKeys.indexOf(value));
-    console.log(value);
   }, [value]);
 
   return (
