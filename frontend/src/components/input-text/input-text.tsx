@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./input-text.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -28,7 +28,11 @@ const InputText = ({
   onFocus,
   onBlur,
 }: props) => {
+  const [localError, setLocalError] = useState(false);
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") {
+      setLocalError(false);
+    }
     if (onChange) onChange(e.target.value);
   };
 
@@ -44,10 +48,16 @@ const InputText = ({
     if (onBlur) onBlur();
   };
 
+  useEffect(() => {
+    if (value !== "") {
+      setLocalError(error ?? false);
+    }
+  }, [error, value]);
+
   return (
     <div className="relative">
       <input
-        className={`${style.inputText} ${error ? style.errorText : ""} ${
+        className={`${style.inputText} ${localError ? style.errorText : ""} ${
           searchIcon ? style.withSearchIcon : ""
         }`}
         type={password ? "password" : "text"}
@@ -65,14 +75,18 @@ const InputText = ({
       )}
 
       {label && (
-        <span className={`${style.label} ${error ? style.errorLabel : ""}`}>
+        <span
+          className={`${style.label} ${localError ? style.errorLabel : ""}`}
+        >
           {label}
         </span>
       )}
 
       {helperText && (
         <span
-          className={`${style.helperText}  ${error ? style.errorLabel : ""}`}
+          className={`${style.helperText}  ${
+            localError ? style.errorLabel : ""
+          }`}
         >
           {helperText}
         </span>
