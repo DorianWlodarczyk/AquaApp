@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import style from "./progress-bar.module.css";
 import { getRandomFishIcon } from "../../../../../utils/images/fish-icon";
-
+import seaweed from "../../../../../img/seaweed.png";
+import getAquariumImg from "../../../../../utils/images/aquarium-image";
 interface props {
   labels: string[];
   step: number;
+  imgID: string;
 }
 
-const ProgressBar = ({ labels, step }: props) => {
+const ProgressBar = ({ labels, step, imgID }: props) => {
   const [fish, setFish] = useState("");
+  const [aquaImg, setAquaImg] = useState("");
+
+  useEffect(() => {
+    setAquaImg(getAquariumImg(imgID));
+  }, [imgID]);
 
   useEffect(() => {
     setFish(getRandomFishIcon());
@@ -20,21 +27,24 @@ const ProgressBar = ({ labels, step }: props) => {
         <div className={style.backgroundLine}>
           {labels.map((item, index) => {
             return (
-              <div
-                className={`${style.dot} 
-                  ${index < step ? style.DotDone : ""}
-                `}
-                key={index}
-                style={{
-                  left: `${(100 / (labels.length - 1)) * index}%`,
-                }}
-              >
-                <div
-                  className={`${style.stepName} 
-                  ${index === step ? style.active : ""}
-                  ${index < step ? style.stepNameDone : ""}
+              <div>
+                <img
+                  className={style.dot}
+                  key={index}
+                  src={index <= labels.length - 2 ? seaweed : aquaImg}
+                  alt=""
+                  style={{
+                    left: `${(97 / (labels.length - 1)) * index}%`,
+                  }}
+                />
 
-                  `}
+                <div
+                  className={`${style.stepName} ${
+                    index === step ? style.active : ""
+                  } ${index < step ? style.stepNameDone : ""}`}
+                  style={{
+                    left: `${(97 / (labels.length - 1)) * index}%`,
+                  }}
                 >
                   {item}
                 </div>
@@ -47,13 +57,13 @@ const ProgressBar = ({ labels, step }: props) => {
               src={fish}
               alt=""
               style={{
-                left: `${(100 / (labels.length - 1)) * step}%`,
+                left: `${(97 / (labels.length - 1)) * step}%`,
               }}
             />
             <div
               className={style.line}
               style={{
-                width: `${(100 / (labels.length - 1)) * step}%`,
+                width: `${(97 / (labels.length - 1)) * step}%`,
               }}
             ></div>
           </div>

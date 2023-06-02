@@ -16,18 +16,17 @@
   position: absolute;
   height: 5px;
   width: 50%;
-  background-color: rgb(0, 162, 255);
+  background-color: rgb(66, 186, 255);
   transition-duration: var(--duration);
 
 }
 
 .dot{
   position: absolute;
-  top: -8px;
-  height: 20px;
-  width: 20px;
-  background-color: #4d4d4d;
-  border-radius: 100%;
+  transform: translateX(0px);
+  bottom: 3px;
+  height: 40px;
+  width: 40px;
   z-index: 2;
   transition-duration: var(--duration);
 
@@ -39,11 +38,10 @@
 
 .stepName{
   position: absolute;
-  top: 20px;
+  top: 5px;
   font-size: 1.15rem;
   font-weight: 600;
-  left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + 20px));
   transition-duration: var(--duration);
   color: #444444;
 
@@ -57,7 +55,8 @@
 }
 
 .active{
-  top:30px;
+  top:25px;
+  color: rgb(0, 123, 194);
 
   @media (max-width: 768px) {
     display: block;
@@ -67,7 +66,7 @@
 .fishIcon{
   position: absolute;
   top: -35px;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + 10px));
   width: 69px;
   height: 69px;
   transition-duration: var(--duration);

@@ -75,7 +75,11 @@ const NewAquariumPage = () => {
   return (
     <div className="flex justify-center px-5 py-10">
       <WidgetBox title="Krok 1" icon={<QueuePlayNextIcon />}>
-        <ProgressBar labels={progressLabels} step={step} />
+        <ProgressBar
+          labels={progressLabels}
+          step={step}
+          imgID={`${inputs.find((item) => item.name === "imgID")?.value}`}
+        />
         <div>{step === 0 && <Step1 onChange={onChange} values={inputs} />}</div>
         <div>{step === 1 && <Step2 onChange={onChange} values={inputs} />}</div>
 
