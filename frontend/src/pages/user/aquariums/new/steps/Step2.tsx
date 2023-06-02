@@ -19,7 +19,7 @@ const Step2 = ({ onChange, values }: props) => {
         <div className="mb-3 w-full text-center text-xl">
           Podaj wymiary akwarium
         </div>
-        <div className="flex h-full flex-col items-center gap-8">
+        <div className="mt-3 flex h-full flex-col items-center gap-10">
           <InputText
             label="Długość"
             helperText="wartość w [cm]"
