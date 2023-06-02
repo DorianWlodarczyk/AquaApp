@@ -4,7 +4,11 @@ import QueuePlayNextIcon from "@mui/icons-material/QueuePlayNext";
 import ProgressBar from "./progress-bar/progress-bar";
 import Step1 from "./steps/Step1";
 import Button from "../../../../components/button/button";
-import { maxNameLength } from "../../../../utils/regex/text-input.regex";
+import {
+  aquariumDimension,
+  maxNameLength,
+} from "../../../../utils/regex/text-input.regex";
+import Step2 from "./steps/Step2";
 
 export interface inputData {
   value: string;
@@ -62,9 +66,9 @@ const NewAquariumPage = () => {
     setInputs([
       { name: "name", value: "", error: true, pattern: maxNameLength },
       { name: "imgID", value: "1", error: false },
-      { name: "width", value: "", error: true },
-      { name: "height", value: "", error: true },
-      { name: "length", value: "", error: true },
+      { name: "width", value: "50", error: false, pattern: aquariumDimension },
+      { name: "height", value: "50", error: false, pattern: aquariumDimension },
+      { name: "length", value: "50", error: false, pattern: aquariumDimension },
     ]);
   }, []);
 
@@ -73,8 +77,9 @@ const NewAquariumPage = () => {
       <WidgetBox title="Krok 1" icon={<QueuePlayNextIcon />}>
         <ProgressBar labels={progressLabels} step={step} />
         <div>{step === 0 && <Step1 onChange={onChange} values={inputs} />}</div>
+        <div>{step === 1 && <Step2 onChange={onChange} values={inputs} />}</div>
 
-        <div className="flex justify-center">
+        <div className="mt-8 flex justify-center">
           {step === 0 && (
             <div>
               <Button
