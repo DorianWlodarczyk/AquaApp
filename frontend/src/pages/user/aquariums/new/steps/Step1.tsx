@@ -25,8 +25,9 @@ const Step1 = ({ onChange, values }: props) => {
         <div className="flex h-full items-center">
           <InputText
             label="Nazwa akwarium"
-            helperText="Max 32 znaki"
+            helperText="od 3 do 32 znaków"
             onChange={(value) => onChange(value, "name")}
+            error={values.find((item) => item.name === "name")?.error}
             value={values.find((item) => item.name === "name")?.value || ""}
           />
         </div>
