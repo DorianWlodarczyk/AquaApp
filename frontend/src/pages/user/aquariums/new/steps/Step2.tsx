@@ -12,7 +12,9 @@ const Step2 = ({ onChange, values }: props) => {
   return (
     <div className="mt-5 flex w-full flex-col items-center justify-around lg:flex-row">
       <div className="flex min-h-[300px] w-[200px] flex-col items-center justify-center">
-        <div className="mb-[100px] w-full text-center text-xl">Podgląd</div>
+        <div className="mb-[100px] mt-3 w-full text-center text-xl">
+          Podgląd
+        </div>
         <AquariumPreview values={values} />
       </div>
       <div className="flex flex-col">
