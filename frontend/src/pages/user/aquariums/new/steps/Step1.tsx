@@ -10,8 +10,8 @@ interface props {
 
 const Step1 = ({ onChange, values }: props) => {
   return (
-    <div className="mt-5 flex justify-around">
-      <div className="flex flex-col items-center justify-center">
+    <div className="mt-5 flex flex-col justify-around sm:flex-row">
+      <div className="mb-5 flex flex-col items-center justify-center">
         <div className="mb-3 w-full text-center text-xl">Wybierz grafikę</div>
         <ImgPicker
           onClick={(value) => onChange(value, "imgID")}
@@ -22,7 +22,7 @@ const Step1 = ({ onChange, values }: props) => {
         <div className="mb-3 w-full text-center text-xl">
           Nadaj nazwę swojemu akwarium
         </div>
-        <div className="flex h-full items-center">
+        <div className="flex h-full items-center justify-center p-5">
           <InputText
             label="Nazwa akwarium"
             helperText="od 3 do 32 znaków"
