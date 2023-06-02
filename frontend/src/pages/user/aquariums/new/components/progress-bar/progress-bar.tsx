@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import style from "./progress-bar.module.css";
-import { getRandomFishIcon } from "../../../../../utils/images/fish-icon";
-import seaweed from "../../../../../img/seaweed.png";
-import getAquariumImg from "../../../../../utils/images/aquarium-image";
+import { getRandomFishIcon } from "../../../../../../utils/images/fish-icon";
+import seaweed from "../../../../../../img/seaweed.png";
+import getAquariumImg from "../../../../../../utils/images/aquarium-image";
 interface props {
   labels: string[];
   step: number;
@@ -27,10 +27,9 @@ const ProgressBar = ({ labels, step, imgID }: props) => {
         <div className={style.backgroundLine}>
           {labels.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <img
                   className={style.dot}
-                  key={index}
                   src={index <= labels.length - 2 ? seaweed : aquaImg}
                   alt=""
                   style={{

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./aquarium-preview.module.css";
-import { inputData } from "../../../../../utils/models/input-data";
+import { inputData } from "../../../../../../utils/models/input-data";
 
 interface props {
   values: inputData[];
@@ -61,8 +61,6 @@ const AquariumPreview = ({ values }: props) => {
     setWidth(newWidth);
     setLength(newLength);
     setHeight(newHeight);
-
-    console.log(`W: ${newWidth}, L: ${newLength}, H:${newHeight}`);
   }, [values]);
 
   /**

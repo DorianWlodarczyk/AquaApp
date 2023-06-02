@@ -1,7 +1,7 @@
 import React from "react";
 import { inputData } from "../../../../../utils/models/input-data";
 import InputText from "../../../../../components/input-text/input-text";
-import AquariumPreview from "../aquarium-preview/aquarium-preview";
+import AquariumPreview from "../components/aquarium-preview/aquarium-preview";
 
 interface props {
   onChange: (value: string, name: string) => void;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import WidgetBox from "../../../../components/widget-box/widget-box";
 import QueuePlayNextIcon from "@mui/icons-material/QueuePlayNext";
-import ProgressBar from "./progress-bar/progress-bar";
+import ProgressBar from "./components/progress-bar/progress-bar";
 import Step1 from "./steps/Step1";
 import Button from "../../../../components/button/button";
 import {
