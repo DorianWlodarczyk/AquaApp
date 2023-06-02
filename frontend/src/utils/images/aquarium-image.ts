@@ -10,7 +10,7 @@ import aqua9 from "../../img/aquarium/aquarium-9.png";
 import aqua10 from "../../img/aquarium/aquarium-10.png";
 import aqua11 from "../../img/aquarium/aquarium-11.png";
 
-const aquariumImg = new Map<string, string>([
+export const aquariumImg = new Map<string, string>([
   ["1", aqua1],
   ["2", aqua2],
   ["3", aqua3],

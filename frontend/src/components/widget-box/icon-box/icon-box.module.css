@@ -1,0 +1,36 @@
+.bgIcon{
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px 0px #42445a75;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon{
+  transform: scale(1.5);
+  color: #fff;
+}
+
+.green{
+  background: linear-gradient(0deg, rgb(4, 110, 22) 0%, rgb(4, 201, 30) 100%);
+}
+
+.blue{
+  background: linear-gradient(0deg ,rgb(0, 64, 160) 0% ,rgb(0, 162, 255) 100%);
+}
+
+.red{
+  background: linear-gradient(0deg, rgb(163, 0, 0) 0%, rgb(236, 24, 24) 80%);
+}
+
+.orange{
+  background: linear-gradient(0deg, rgb(172, 77, 0) 0%, rgb(255, 166, 41) 100%);
+}
+
+.purple{
+  background: linear-gradient(0deg, rgb(63, 0, 126) 0%, rgb(179, 0, 255) 80%);
+}

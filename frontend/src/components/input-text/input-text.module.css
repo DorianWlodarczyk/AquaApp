@@ -1,0 +1,96 @@
+.inputText{
+  --border-weight: 3px;
+
+  width: 100%;
+  font-size: 1.2rem;
+  outline: none;
+  border: none;
+  border-bottom: var(--border-weight) solid #008fe2;
+  background-color: rgb(245, 245, 245);
+  padding: 5px;
+  box-sizing: border-box;
+  padding-right: 35px;
+  transition-duration: 300ms;
+}
+
+.inputText:not(.errorText):focus{
+  background-color: #e7f6ff;
+  border-bottom: var(--border-weight) solid #0068a5;
+}
+
+.inputText:focus ~ .label,
+.inputText:valid ~ .label{
+  top: -22px;
+  padding-left: 0px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #4e4e4e;
+  font-style: normal;
+}
+
+.inputText:valid:not(.errorText):not(:focus){
+  border-bottom: var(--border-weight) solid #33b300;
+}
+
+.withSearchIcon{
+  padding-left: 35px;
+}
+
+.withSearchIcon ~ .label{
+  padding-left: 35px;
+}
+
+.label{
+  position: absolute;
+  font-size: 1.1rem;
+  padding: 5px;
+  top: 0px;
+  left: 0px;
+  transition-duration: 300ms;
+  user-select: none;
+  pointer-events: none;
+  color: #5e5e5e;
+  font-style: italic;
+}
+
+.searchIcon{
+  position: absolute;
+  padding: 5px;
+  top: 0px;
+  left: 0px;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  color: #747474;
+}
+
+.helperText{
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  font-size: 0.75rem;
+  padding-top: 8px;
+  user-select: none;
+}
+
+.errorText{
+  border-bottom: var(--border-weight) solid #e00000;
+  background-color: rgb(255, 224, 224);
+}
+
+.errorLabel{
+  color: #e00000 !important;
+}
+
+.errorLabel::after{
+  content: "*";
+}
+
+.clear{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 5px;
+  color: #747474;
+  cursor: pointer;
+}

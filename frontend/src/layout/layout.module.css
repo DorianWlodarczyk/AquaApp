@@ -19,6 +19,7 @@
 
 .collapsed {
   composes: content;
+  content: "";
   @media (min-width: 1025px) {
     grid-template-columns: 55px 1fr;
   }

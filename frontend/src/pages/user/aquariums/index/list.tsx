@@ -6,6 +6,7 @@ import { AquariumData } from "./models/aquarium.interface";
 import AquariumListApi from "./aquarium-list-api.service";
 import Loader from "../../../../components/loader/loader";
 import { FetchStatus } from "../../../../utils/models/fetch-status";
+import { Link } from "react-router-dom";
 
 const AquariumsList = () => {
   const [aquaData, setAquaData] = useState<AquariumData[]>([]);
@@ -42,15 +43,19 @@ const AquariumsList = () => {
           );
         })}
 
-        <div className="group flex h-[130px] cursor-pointer select-none flex-row items-center justify-center rounded-3xl border-[4px] border-dashed border-neutral-400 hover:border-neutral-500">
-          <div className="font-bold text-neutral-400 group-hover:text-neutral-500">
-            Dodaj nowe akwarium
+        <Link to="new">
+          <div className="group flex h-[130px] cursor-pointer select-none flex-row items-center justify-center rounded-3xl border-[4px] border-dashed border-neutral-400 hover:border-neutral-500">
+            <div className="font-bold text-neutral-400 group-hover:text-neutral-500">
+              Dodaj nowe akwarium
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
-      <button className="fixed bottom-[5%] right-[5%] flex h-[64px] w-[64px] items-center justify-center rounded-full bg-sky-600 shadow-lg duration-100 hover:bg-sky-500">
-        <AddIcon className="text-white" style={{ fontSize: "36px" }} />
-      </button>
+      <Link to="new">
+        <button className="fixed bottom-[5%] right-[5%] flex h-[64px] w-[64px] items-center justify-center rounded-full bg-sky-600 shadow-lg duration-100 hover:bg-sky-500">
+          <AddIcon className="text-white" style={{ fontSize: "36px" }} />
+        </button>
+      </Link>
     </Loader>
   );
 };
