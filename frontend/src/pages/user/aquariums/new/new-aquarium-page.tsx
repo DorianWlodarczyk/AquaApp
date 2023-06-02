@@ -5,6 +5,7 @@ import ProgressBar from "./components/progress-bar/progress-bar";
 import Step1 from "./steps/Step1";
 import Button from "../../../../components/button/button";
 import {
+  anyCharacter,
   aquariumDimension,
   maxNameLength,
 } from "../../../../utils/regex/text-input.regex";
@@ -34,6 +35,7 @@ const NewAquariumPage = () => {
   const inputsOnPage = [
     ["name", "imgID"],
     ["width", "height", "length"],
+    ["heater", "pump", "lamp"],
   ];
 
   const onChange = (value: string, name: string) => {
@@ -52,9 +54,14 @@ const NewAquariumPage = () => {
   };
 
   const checkInputs = () => {
+    if (inputs.length === 0) {
+      setEnabledButton(false);
+      return;
+    }
+
     let isOk = true;
     for (let i = 0; i <= step; i++) {
-      for (let item of inputsOnPage[i]) {
+      for (let item of inputsOnPage[Math.min(i, inputsOnPage.length - 1)]) {
         isOk =
           (isOk && !inputs.find((element) => element.name === item)?.error) ??
           false;
@@ -70,8 +77,20 @@ const NewAquariumPage = () => {
       { name: "width", value: "50", error: false, pattern: aquariumDimension },
       { name: "height", value: "50", error: false, pattern: aquariumDimension },
       { name: "length", value: "50", error: false, pattern: aquariumDimension },
+      { name: "heater", value: "", error: true, pattern: anyCharacter },
+      { name: "pump", value: "", error: true, pattern: anyCharacter },
+      { name: "lamp", value: "", error: true, pattern: anyCharacter },
     ]);
   }, []);
+
+  const changeStep = (value: number) => {
+    setStep(value);
+  };
+
+  useEffect(() => {
+    checkInputs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   return (
     <div className="flex justify-center px-5 py-10">
@@ -91,29 +110,29 @@ const NewAquariumPage = () => {
               <Button
                 text="Dalej"
                 enabled={enabledButton}
-                onClick={() => setStep(step + 1)}
+                onClick={() => changeStep(step + 1)}
               />
             </div>
           )}
 
           {step > 0 && step < progressLabels.length - 1 && (
             <div>
-              <Button text="Poprzednie" onClick={() => setStep(step - 1)} />
+              <Button text="Poprzednie" onClick={() => changeStep(step - 1)} />
               <Button
                 text="Dalej"
                 enabled={enabledButton}
-                onClick={() => setStep(step + 1)}
+                onClick={() => changeStep(step + 1)}
               />
             </div>
           )}
 
           {step === progressLabels.length - 1 && (
             <div>
-              <Button text="Poprzednie" onClick={() => setStep(step - 1)} />
+              <Button text="Poprzednie" onClick={() => changeStep(step - 1)} />
               <Button
                 text="Zakończ"
                 enabled={enabledButton}
-                onClick={() => setStep(step)}
+                onClick={() => changeStep(step)}
               />
             </div>
           )}
