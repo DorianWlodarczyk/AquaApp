@@ -24,7 +24,7 @@ const temp: DropDownOption[] = [
 const Step3 = ({ onChange, values }: props) => {
   return (
     <div className="mt-10 flex w-full justify-center">
-      <div className="flex w-11/12 flex-col items-center justify-around gap-10 lg:w-full lg:flex-row">
+      <div className="flex w-11/12 flex-col items-center justify-around gap-16 lg:w-9/12 lg:flex-row">
         <DropDownList
           options={temp}
           label="Grzałka"
