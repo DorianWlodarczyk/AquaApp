@@ -10,7 +10,7 @@ interface props {
 
 const Step1 = ({ onChange, values }: props) => {
   return (
-    <div className="mt-5 flex flex-col justify-around sm:flex-row">
+    <div className="mt-5 flex flex-col justify-around md:flex-row">
       <div className="mb-5 flex flex-col items-center justify-center">
         <div className="mb-3 w-full text-center text-xl">Wybierz grafikę</div>
         <ImgPicker
