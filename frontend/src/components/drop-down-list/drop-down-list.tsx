@@ -44,7 +44,8 @@ const DropDownList = ({
 
   const onClickHandler = (newValue: DropDownOption) => {
     setText(newValue.name);
-    if (onChange) onChange(newValue.value);
+    setOpen(false);
+    if (onChange) onChange(newValue.name);
   };
 
   const onBlurHandler = () => {
