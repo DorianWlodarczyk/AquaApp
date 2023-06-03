@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Sidebar, { Category } from "../components/sidebar/sidebar";
 import Navbar from "../components/navbar/navbar";
 import { UIContext } from "../contexts/ui-context";
-import style from "./layout.module.css";
+import style from "./layout.module.scss";
 import UserRoutes from "../routes/user-routes";
 
 const categories: Category[] = [
