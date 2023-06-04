@@ -1,4 +1,4 @@
 export interface LampData {
   id: string;
-  name: number;
+  name: string;
 }
