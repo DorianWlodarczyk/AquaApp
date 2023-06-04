@@ -33,6 +33,7 @@ const NewAquariumPage = () => {
     pumps: [],
     lamps: [],
   });
+  const [title, setTitle] = useState("");
 
   const progressLabels = [
     "Wstęp",
@@ -81,6 +82,36 @@ const NewAquariumPage = () => {
   };
 
   useEffect(() => {
+    let newTitle = "";
+    if (step >= 0) {
+      const name = `${inputs.find((item) => item.name === "name")?.value}`;
+      if (name === "") {
+        newTitle = "Nowe akwarium";
+      } else {
+        if (name.length <= 20) {
+          newTitle = name;
+        } else {
+          newTitle = `${name.slice(0, 20)}...`;
+        }
+      }
+    }
+
+    if (step >= 1) {
+      const width = `${inputs.find((item) => item.name === "width")?.value}`;
+      const height = `${inputs.find((item) => item.name === "height")?.value}`;
+      const length = `${inputs.find((item) => item.name === "length")?.value}`;
+      const volume = (Number(width) * Number(height) * Number(length)) / 1000;
+
+      if (Number.isNaN(volume)) {
+        newTitle += " > ???";
+      } else {
+        newTitle += ` > ${volume} litrów`;
+      }
+    }
+    setTitle(newTitle);
+  }, [inputs, step]);
+
+  useEffect(() => {
     setInputs([
       { name: "name", value: "", error: true, pattern: maxNameLength },
       { name: "imgID", value: "1", error: false },
@@ -110,7 +141,7 @@ const NewAquariumPage = () => {
   return (
     <Loader status={status}>
       <div className="flex justify-center px-5 py-10">
-        <WidgetBox title="Krok 1" icon={<QueuePlayNextIcon />}>
+        <WidgetBox title={title} icon={<QueuePlayNextIcon />}>
           <ProgressBar
             labels={progressLabels}
             step={step}
