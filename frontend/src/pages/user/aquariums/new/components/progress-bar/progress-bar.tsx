@@ -22,7 +22,7 @@ const ProgressBar = ({ labels, step, imgID }: props) => {
   }, []);
 
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="mt-5 flex w-full items-center justify-center">
       <div className={style.content}>
         <div className={style.backgroundLine}>
           {labels.map((item, index) => {
