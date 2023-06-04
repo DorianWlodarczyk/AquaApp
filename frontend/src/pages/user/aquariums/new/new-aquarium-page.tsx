@@ -11,6 +11,10 @@ import {
 } from "../../../../utils/regex/text-input.regex";
 import Step2 from "./steps/Step2";
 import Step3 from "./steps/Step3";
+import Loader from "../../../../components/loader/loader";
+import { FetchStatus } from "../../../../utils/models/fetch-status";
+import NewAquariumApi from "./new-aquarium-api.service";
+import AccessoriesData from "../../../../utils/models/accessories/accessories-data";
 
 export interface inputData {
   value: string;
@@ -23,6 +27,12 @@ const NewAquariumPage = () => {
   const [step, setStep] = useState(0);
   const [inputs, setInputs] = useState<inputData[]>([]);
   const [enabledButton, setEnabledButton] = useState(false);
+  const [status, setStatus] = useState(FetchStatus.NotStarted);
+  const [accessories, setAccessories] = useState<AccessoriesData>({
+    heaters: [],
+    pumps: [],
+    lamps: [],
+  });
 
   const progressLabels = [
     "Wstęp",
@@ -83,62 +93,81 @@ const NewAquariumPage = () => {
     ]);
   }, []);
 
-  const changeStep = (value: number) => {
-    setStep(value);
-  };
-
   useEffect(() => {
-    checkInputs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
+    const fetchData = async () => {
+      setStatus(FetchStatus.Loading);
+
+      try {
+        const data = await NewAquariumApi.fetchAccessoriesData();
+        setAccessories(data);
+        setStatus(FetchStatus.Loaded);
+      } catch {}
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="flex justify-center px-5 py-10">
-      <WidgetBox title="Krok 1" icon={<QueuePlayNextIcon />}>
-        <ProgressBar
-          labels={progressLabels}
-          step={step}
-          imgID={`${inputs.find((item) => item.name === "imgID")?.value}`}
-        />
-        <div>{step === 0 && <Step1 onChange={onChange} values={inputs} />}</div>
-        <div>{step === 1 && <Step2 onChange={onChange} values={inputs} />}</div>
-        <div>{step === 2 && <Step3 onChange={onChange} values={inputs} />}</div>
-
-        <div className="mt-8 flex justify-center">
-          {step === 0 && (
-            <div>
-              <Button
-                text="Dalej"
-                enabled={enabledButton}
-                onClick={() => changeStep(step + 1)}
+    <Loader status={status}>
+      <div className="flex justify-center px-5 py-10">
+        <WidgetBox title="Krok 1" icon={<QueuePlayNextIcon />}>
+          <ProgressBar
+            labels={progressLabels}
+            step={step}
+            imgID={`${inputs.find((item) => item.name === "imgID")?.value}`}
+          />
+          <div>
+            {step === 0 && <Step1 onChange={onChange} values={inputs} />}
+          </div>
+          <div>
+            {step === 1 && <Step2 onChange={onChange} values={inputs} />}
+          </div>
+          <div>
+            {step === 2 && (
+              <Step3
+                accessories={accessories}
+                onChange={onChange}
+                values={inputs}
               />
-            </div>
-          )}
+            )}
+          </div>
 
-          {step > 0 && step < progressLabels.length - 1 && (
-            <div>
-              <Button text="Poprzednie" onClick={() => changeStep(step - 1)} />
-              <Button
-                text="Dalej"
-                enabled={enabledButton}
-                onClick={() => changeStep(step + 1)}
-              />
-            </div>
-          )}
+          <div className="mt-8 flex justify-center">
+            {step === 0 && (
+              <div>
+                <Button
+                  text="Dalej"
+                  enabled={enabledButton}
+                  onClick={() => setStep(step + 1)}
+                />
+              </div>
+            )}
 
-          {step === progressLabels.length - 1 && (
-            <div>
-              <Button text="Poprzednie" onClick={() => changeStep(step - 1)} />
-              <Button
-                text="Zakończ"
-                enabled={enabledButton}
-                onClick={() => changeStep(step)}
-              />
-            </div>
-          )}
-        </div>
-      </WidgetBox>
-    </div>
+            {step > 0 && step < progressLabels.length - 1 && (
+              <div>
+                <Button text="Poprzednie" onClick={() => setStep(step - 1)} />
+                <Button
+                  text="Dalej"
+                  enabled={enabledButton}
+                  onClick={() => setStep(step + 1)}
+                />
+              </div>
+            )}
+
+            {step === progressLabels.length - 1 && (
+              <div>
+                <Button text="Poprzednie" onClick={() => setStep(step - 1)} />
+                <Button
+                  text="Zakończ"
+                  enabled={enabledButton}
+                  onClick={() => setStep(step)}
+                />
+              </div>
+            )}
+          </div>
+        </WidgetBox>
+      </div>
+    </Loader>
   );
 };
 
