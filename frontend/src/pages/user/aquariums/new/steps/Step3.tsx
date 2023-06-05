@@ -106,7 +106,7 @@ const Step3 = ({ onChange, values, accessories, volume }: props) => {
 
         <div className="w-full">
           <DropDownList
-            options={lamps}
+            options={pumps}
             label="Pompa"
             sort
             onChange={(value) => onChange(value, "pump")}
@@ -117,7 +117,7 @@ const Step3 = ({ onChange, values, accessories, volume }: props) => {
 
         <div className="w-full">
           <DropDownList
-            options={pumps}
+            options={lamps}
             label="Oświetlenie"
             sort
             onChange={(value) => onChange(value, "lamp")}
