@@ -16,6 +16,7 @@ import { FetchStatus } from "../../../../utils/models/fetch-status";
 import NewAquariumApi from "./new-aquarium-api.service";
 import AccessoriesData from "../../../../utils/models/accessories/accessories-data";
 import Step4 from "./steps/Step4";
+import { useNavigate } from "react-router-dom";
 
 export interface inputData {
   value: string;
@@ -25,6 +26,8 @@ export interface inputData {
 }
 
 const NewAquariumPage = () => {
+  const navigate = useNavigate();
+
   const [step, setStep] = useState(0);
   const [inputs, setInputs] = useState<inputData[]>([]);
   const [enabledButton, setEnabledButton] = useState(false);
@@ -89,6 +92,14 @@ const NewAquariumPage = () => {
   const changeStep = (newStep: number) => {
     checkInputs(newStep);
     setStep(newStep);
+  };
+
+  const saveAquarium = async () => {
+    await new Promise((r) => setTimeout(r, 1000));
+
+    const id = await NewAquariumApi.saveAquarium(inputs);
+
+    navigate(`/aqua/${id}`);
   };
 
   useEffect(() => {
@@ -199,8 +210,8 @@ const NewAquariumPage = () => {
               </div>
             )}
 
-            {step > 0 && step < progressLabels.length - 1 && (
-              <div>
+            {step > 0 && step < progressLabels.length - 2 && (
+              <div className="flex flex-row gap-5">
                 <Button
                   text="Poprzednie"
                   onClick={() => changeStep(step - 1)}
@@ -213,14 +224,23 @@ const NewAquariumPage = () => {
               </div>
             )}
 
-            {step === progressLabels.length - 1 && (
-              <div>
+            {step === progressLabels.length - 2 && (
+              <div className="flex flex-row gap-5">
                 <Button text="Poprzednie" onClick={() => setStep(step - 1)} />
                 <Button
                   text="Zakończ"
                   enabled={enabledButton}
-                  onClick={() => changeStep(step)}
+                  onClick={() => {
+                    changeStep(step + 1);
+                    saveAquarium();
+                  }}
                 />
+              </div>
+            )}
+
+            {step === progressLabels.length - 1 && (
+              <div className="mb-5 w-full text-center text-2xl font-bold text-neutral-700">
+                Trwa przetwarzanie
               </div>
             )}
           </div>

@@ -1,7 +1,28 @@
 import ApiService from "../../../../utils/api/api.service";
 import AccessoriesData from "../../../../utils/models/accessories/accessories-data";
+import { inputData } from "../../../../utils/models/input-data";
 
 class NewAquariumApi extends ApiService {
+  static async saveAquarium(value: inputData[]): Promise<string> {
+    const body = {
+      name: value.find((item) => item.name === "name")?.value,
+      imgID: value.find((item) => item.name === "imgID")?.value,
+      width: value.find((item) => item.name === "width")?.value,
+      height: value.find((item) => item.name === "height")?.value,
+      length: value.find((item) => item.name === "length")?.value,
+      heaterID: value.find((item) => item.name === "heater")?.value,
+      pumpID: value.find((item) => item.name === "pump")?.value,
+      lampID: value.find((item) => item.name === "lamp")?.value,
+      assetID: value.find((item) => item.name === "asset")?.value,
+      plantID: value.find((item) => item.name === "plant")?.value,
+      groundID: value.find((item) => item.name === "ground")?.value,
+    };
+
+    alert(JSON.stringify(body, null, 2));
+
+    return "69";
+  }
+
   static async fetchAccessoriesData() {
     await new Promise((r) => setTimeout(r, 500));
 
@@ -84,6 +105,10 @@ class NewAquariumApi extends ApiService {
       ],
       assets: [
         {
+          id: "-1",
+          name: "-Dowolne-",
+        },
+        {
           id: "0",
           name: "Małe coś",
         },
@@ -106,6 +131,10 @@ class NewAquariumApi extends ApiService {
       ],
       plants: [
         {
+          id: "-1",
+          name: "-Dowolne-",
+        },
+        {
           id: "0",
           name: "Glony",
         },
@@ -127,6 +156,10 @@ class NewAquariumApi extends ApiService {
         },
       ],
       grounds: [
+        {
+          id: "-1",
+          name: "-Dowolne-",
+        },
         {
           id: "0",
           name: "Piasek",
