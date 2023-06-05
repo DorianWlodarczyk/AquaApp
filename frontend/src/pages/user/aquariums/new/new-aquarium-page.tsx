@@ -100,13 +100,15 @@ const NewAquariumPage = () => {
       const width = `${inputs.find((item) => item.name === "width")?.value}`;
       const height = `${inputs.find((item) => item.name === "height")?.value}`;
       const length = `${inputs.find((item) => item.name === "length")?.value}`;
-      const volume = (Number(width) * Number(height) * Number(length)) / 1000;
+      const v = (Number(width) * Number(height) * Number(length)) / 1000;
 
-      if (Number.isNaN(volume)) {
+      if (Number.isNaN(v)) {
         newTitle += " > ???";
       } else {
-        newTitle += ` > ${volume} litrów`;
+        newTitle += ` > ${Math.round(v)}L`;
       }
+
+      setVolume(Math.round(v));
     }
     setTitle(newTitle);
   }, [inputs, step]);
