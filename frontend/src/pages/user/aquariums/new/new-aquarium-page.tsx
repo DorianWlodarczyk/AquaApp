@@ -28,12 +28,13 @@ const NewAquariumPage = () => {
   const [inputs, setInputs] = useState<inputData[]>([]);
   const [enabledButton, setEnabledButton] = useState(false);
   const [status, setStatus] = useState(FetchStatus.NotStarted);
+  const [title, setTitle] = useState("");
+  const [volume, setVolume] = useState(0);
   const [accessories, setAccessories] = useState<AccessoriesData>({
     heaters: [],
     pumps: [],
     lamps: [],
   });
-  const [title, setTitle] = useState("");
 
   const progressLabels = [
     "Wstęp",
