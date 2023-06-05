@@ -4,6 +4,7 @@ import DropDownList, {
   DropDownOption,
 } from "../../../../../components/drop-down-list/drop-down-list";
 import AccessoriesData from "../../../../../utils/models/accessories/accessories-data";
+import ReportIcon from "@mui/icons-material/Report";
 interface props {
   onChange: (value: string, name: string) => void;
   values: inputData[];
@@ -18,13 +19,46 @@ const Step3 = ({ onChange, values, accessories, volume }: props) => {
 
   const showHeatersHint = () => {
     const id = values.find((item) => item.name === "heater")?.value;
-    const maxVolume = accessories.heaters.find(
-      (item) => item.id === id
-    )?.maxCapacity;
+    const maxVolume =
+      accessories.heaters.find((item) => item.id === id)?.maxCapacity || -1;
 
-    console.log(id, maxVolume, volume);
-    // if()
-    return <>{values.find((item) => item.name === "heater")?.value}</>;
+    if (maxVolume < volume && maxVolume !== -1) {
+      return (
+        <div className="my-5 rounded-2xl border-4 border-solid border-red-500 bg-red-50 px-5 py-2 font-semibold text-red-700">
+          <div className="w-full text-center">
+            <ReportIcon className="" style={{ fontSize: "50px" }} />
+          </div>
+          <div>
+            Wybrana przez Ciebie grzałka jest przeznaczona do mniejszego
+            akwarium (do {maxVolume}L). Sugerujemy wybór mocniejszej grzałki
+          </div>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
+  const showPumpHint = () => {
+    const id = values.find((item) => item.name === "pump")?.value;
+    const maxVolume =
+      accessories.pumps.find((item) => item.id === id)?.maxCapacity || -1;
+
+    if (maxVolume < volume && maxVolume !== -1) {
+      return (
+        <div className="my-5 inline-block rounded-2xl border-4 border-solid border-red-500 bg-red-50 px-5 py-2 font-semibold text-red-700">
+          <div className="w-full text-center">
+            <ReportIcon className="" style={{ fontSize: "50px" }} />
+          </div>
+          <div>
+            Wybrana przez Ciebie pompa jest przeznaczona do mniejszego akwarium
+            ({maxVolume}L). Sugerujemy wybór wydajniejszej pompy
+          </div>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
   };
 
   useEffect(() => {
@@ -58,7 +92,7 @@ const Step3 = ({ onChange, values, accessories, volume }: props) => {
 
   return (
     <div className="mt-10 flex w-full justify-center">
-      <div className="flex w-11/12 flex-col items-center justify-around gap-16 lg:w-9/12 lg:flex-row">
+      <div className="flex w-11/12 max-w-[1200px] flex-col justify-around gap-16 xl:flex-row">
         <div className="w-full">
           <DropDownList
             options={heaters}
@@ -78,6 +112,7 @@ const Step3 = ({ onChange, values, accessories, volume }: props) => {
             onChange={(value) => onChange(value, "pump")}
             value={values.find((item) => item.name === "pump")?.value || ""}
           />
+          {showPumpHint()}
         </div>
 
         <div className="w-full">
