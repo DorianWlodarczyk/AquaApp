@@ -47,7 +47,10 @@ const DropDownList = ({
   const onClickHandler = (newValue: DropDownOption) => {
     setText(newValue.name);
     setOpen(false);
-    if (onChange) onChange(newValue.name);
+    if (onChange)
+      onChange(
+        `${optionsList.find((item) => item.name === newValue.name)?.value}`
+      );
   };
 
   const onBlurHandler = () => {
@@ -64,8 +67,8 @@ const DropDownList = ({
   };
 
   const onChangeHandler = (value: string) => {
+    if (onChange) onChange("");
     setText(value);
-    if (onChange) onChange(value);
   };
 
   const compareOptions = (a: DropDownOption, b: DropDownOption): number => {
@@ -105,8 +108,9 @@ const DropDownList = ({
   }, [options, sort]);
 
   useEffect(() => {
-    if (value) setText(value);
-  }, [value]);
+    if (value)
+      setText(`${options?.find((item) => item.value === value)?.name}`);
+  }, [options, value]);
 
   return (
     <div className="relative w-full">
