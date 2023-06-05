@@ -1,0 +1,18 @@
+{
+  "css.lint.validProperties": ["composes"],
+  "scss.lint.validProperties": ["composes"],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true
+  },
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2
+}

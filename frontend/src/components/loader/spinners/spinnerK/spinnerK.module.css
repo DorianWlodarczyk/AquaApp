@@ -1,0 +1,72 @@
+.loader {
+  font-size: 32px;
+  color: #525252;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  position: relative;
+}
+.loader:before {
+  content: "";
+  animation: 5s print linear alternate infinite;
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translatey(-45%);
+  width: 2px;
+  height: 1.3em;
+  background: currentColor;
+  opacity: 0.8;
+  animation: 1s blink steps(2) infinite;
+}
+
+@keyframes blink {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes print {
+  0% {
+    content: "Ł";
+  }
+  8.3% {
+    content: "Ła";
+  }
+  16.6% {
+    content: "Ład";
+  }
+  25% {
+    content: "Łado";
+  }
+  33.3% {
+    content: "Ładow";
+  }
+  41.6% {
+    content: "Ładowa";
+  }
+  50% {
+    content: "Ładowan";
+  }
+  58.3% {
+    content: "Ładowani";
+  }
+  66.6% {
+    content: "Ładowanie";
+  }
+  75% {
+    content: "Ładowanie.";
+  }
+  83.3% {
+    content: "Ładowanie..";
+  }
+  91.6%,
+  100% {
+    content: "Ładowanie...";
+  }
+}
