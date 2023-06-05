@@ -82,6 +82,72 @@ class NewAquariumApi extends ApiService {
           maxCapacity: 200,
         },
       ],
+      assets: [
+        {
+          id: "0",
+          name: "Małe coś",
+        },
+        {
+          id: "1",
+          name: "Inne coś",
+        },
+        {
+          id: "2",
+          name: "Skarb",
+        },
+        {
+          id: "3",
+          name: "Titanic",
+        },
+        {
+          id: "4",
+          name: "Szkoda gadać",
+        },
+      ],
+      plants: [
+        {
+          id: "0",
+          name: "Glony",
+        },
+        {
+          id: "1",
+          name: "Rzodkiewka",
+        },
+        {
+          id: "2",
+          name: "Morela",
+        },
+        {
+          id: "3",
+          name: "Co jeszcze można mieć w akwarium?",
+        },
+        {
+          id: "4",
+          name: "Kosodrzewina",
+        },
+      ],
+      grounds: [
+        {
+          id: "0",
+          name: "Piasek",
+        },
+        {
+          id: "1",
+          name: "Ziemia",
+        },
+        {
+          id: "2",
+          name: "Hemoglobina",
+        },
+        {
+          id: "3",
+          name: "Taka",
+        },
+        {
+          id: "4",
+          name: "Sytuacja",
+        },
+      ],
     };
 
     return output;

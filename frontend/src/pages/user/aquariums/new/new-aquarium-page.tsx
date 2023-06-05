@@ -15,6 +15,7 @@ import Loader from "../../../../components/loader/loader";
 import { FetchStatus } from "../../../../utils/models/fetch-status";
 import NewAquariumApi from "./new-aquarium-api.service";
 import AccessoriesData from "../../../../utils/models/accessories/accessories-data";
+import Step4 from "./steps/Step4";
 
 export interface inputData {
   value: string;
@@ -34,6 +35,9 @@ const NewAquariumPage = () => {
     heaters: [],
     pumps: [],
     lamps: [],
+    assets: [],
+    plants: [],
+    grounds: [],
   });
 
   const progressLabels = [
@@ -129,6 +133,9 @@ const NewAquariumPage = () => {
       { name: "heater", value: "", error: true, pattern: anyCharacter },
       { name: "pump", value: "", error: true, pattern: anyCharacter },
       { name: "lamp", value: "", error: true, pattern: anyCharacter },
+      { name: "asset", value: "", error: true, pattern: anyCharacter },
+      { name: "plant", value: "", error: true, pattern: anyCharacter },
+      { name: "ground", value: "", error: true, pattern: anyCharacter },
     ]);
   }, []);
 
@@ -168,6 +175,15 @@ const NewAquariumPage = () => {
                 onChange={onChange}
                 values={inputs}
                 volume={volume}
+              />
+            )}
+          </div>
+          <div>
+            {step === 3 && (
+              <Step4
+                accessories={accessories}
+                onChange={onChange}
+                values={inputs}
               />
             )}
           </div>
