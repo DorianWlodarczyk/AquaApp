@@ -8,6 +8,7 @@ interface props {
   label?: string;
   value?: string;
   error?: boolean;
+  sort?: boolean;
   onChange?: (value: string) => void;
 }
 
@@ -23,6 +24,7 @@ const DropDownList = ({
   value,
   error,
   onChange,
+  sort,
 }: props) => {
   const [optionsList, setOptionsList] = useState<DropDownOption[]>([]);
   const [isOpen, setOpen] = useState(false);
@@ -33,7 +35,7 @@ const DropDownList = ({
       return (
         <div
           key={index}
-          className="flex h-[40px] cursor-pointer items-center bg-white pl-2 even:bg-neutral-50 hover:bg-neutral-100"
+          className="flex h-[40px] cursor-pointer items-center truncate bg-white pl-2 even:bg-neutral-50 hover:bg-neutral-100"
           onClick={() => onClickHandler(item)}
         >
           {item.name}
@@ -44,7 +46,11 @@ const DropDownList = ({
 
   const onClickHandler = (newValue: DropDownOption) => {
     setText(newValue.name);
-    if (onChange) onChange(newValue.value);
+    setOpen(false);
+    if (onChange)
+      onChange(
+        `${optionsList.find((item) => item.name === newValue.name)?.value}`
+      );
   };
 
   const onBlurHandler = () => {
@@ -61,14 +67,23 @@ const DropDownList = ({
   };
 
   const onChangeHandler = (value: string) => {
+    if (onChange) onChange("");
     setText(value);
-    if (onChange) onChange(value);
+  };
+
+  const compareOptions = (a: DropDownOption, b: DropDownOption): number => {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+
+    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+
+    return 0;
   };
 
   useEffect(() => {
     setLocalError(false);
     if (text === "") {
-      setOptionsList(options || []);
+      if (sort) setOptionsList(options?.sort(compareOptions) || []);
+      else setOptionsList(options || []);
       return;
     }
     const newList = options?.filter((item) => {
@@ -79,20 +94,23 @@ const DropDownList = ({
       return false;
     });
 
-    setOptionsList(newList || []);
+    if (sort) setOptionsList(newList?.sort(compareOptions) || []);
+    else setOptionsList(newList || []);
 
     if (newList?.length === 0) {
       setLocalError(true);
     }
-  }, [options, text]);
+  }, [options, sort, text]);
 
   useEffect(() => {
-    setOptionsList(options || []);
-  }, [options]);
+    if (sort) setOptionsList(options?.sort(compareOptions) || []);
+    else setOptionsList(options || []);
+  }, [options, sort]);
 
   useEffect(() => {
-    if (value) setText(value);
-  }, [value]);
+    if (value)
+      setText(`${options?.find((item) => item.value === value)?.name}`);
+  }, [options, value]);
 
   return (
     <div className="relative w-full">

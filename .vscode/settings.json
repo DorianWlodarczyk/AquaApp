@@ -1,5 +1,6 @@
 {
   "css.lint.validProperties": ["composes"],
+  "scss.lint.validProperties": ["composes"],
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnType": true

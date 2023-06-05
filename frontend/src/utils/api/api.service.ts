@@ -4,7 +4,10 @@ class ApiService {
   private static API_ROOT =
     process.env.REACT_APP_API_ROOT || "http://localhost:8080";
 
-  static async get<T>(link: string, headers?: {}): Promise<T | undefined> {
+  protected static async get<T>(
+    link: string,
+    headers?: {}
+  ): Promise<T | undefined> {
     try {
       const res: AxiosResponse<T, any> = await axios.get<T>(
         `${this.API_ROOT}/${link}`,
