@@ -166,6 +166,7 @@ const NewAquariumPage = () => {
                 accessories={accessories}
                 onChange={onChange}
                 values={inputs}
+                volume={volume}
               />
             )}
           </div>
