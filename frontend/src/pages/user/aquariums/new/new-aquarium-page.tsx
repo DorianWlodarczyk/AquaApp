@@ -64,14 +64,14 @@ const NewAquariumPage = () => {
     checkInputs();
   };
 
-  const checkInputs = () => {
+  const checkInputs = (newStep: number = step) => {
     if (inputs.length === 0) {
       setEnabledButton(false);
       return;
     }
 
     let isOk = true;
-    for (let i = 0; i <= step; i++) {
+    for (let i = 0; i <= newStep; i++) {
       for (let item of inputsOnPage[Math.min(i, inputsOnPage.length - 1)]) {
         isOk =
           (isOk && !inputs.find((element) => element.name === item)?.error) ??
@@ -79,6 +79,11 @@ const NewAquariumPage = () => {
       }
     }
     setEnabledButton(isOk);
+  };
+
+  const changeStep = (newStep: number) => {
+    checkInputs(newStep);
+    setStep(newStep);
   };
 
   useEffect(() => {
@@ -171,18 +176,21 @@ const NewAquariumPage = () => {
                 <Button
                   text="Dalej"
                   enabled={enabledButton}
-                  onClick={() => setStep(step + 1)}
+                  onClick={() => changeStep(step + 1)}
                 />
               </div>
             )}
 
             {step > 0 && step < progressLabels.length - 1 && (
               <div>
-                <Button text="Poprzednie" onClick={() => setStep(step - 1)} />
+                <Button
+                  text="Poprzednie"
+                  onClick={() => changeStep(step - 1)}
+                />
                 <Button
                   text="Dalej"
                   enabled={enabledButton}
-                  onClick={() => setStep(step + 1)}
+                  onClick={() => changeStep(step + 1)}
                 />
               </div>
             )}
@@ -193,7 +201,7 @@ const NewAquariumPage = () => {
                 <Button
                   text="Zakończ"
                   enabled={enabledButton}
-                  onClick={() => setStep(step)}
+                  onClick={() => changeStep(step)}
                 />
               </div>
             )}
