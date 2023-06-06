@@ -55,3 +55,94 @@ Example response
   //...
 ]
 ```
+
+#### Get accessories list
+
+```
+  GET /api/accessories
+```
+
+Retrieve the list of accessories.
+
+Example response
+
+```
+{
+      heaters: [
+        {
+          id: "0",
+          name: "heater W30 50L",
+          maxCapacity: 50,
+        },
+        //...
+      ],
+      lamps: [
+        {
+          id: "0",
+          name: "lampoinator 3000",
+        },
+        //...
+      ],
+      pumps: [
+        {
+          id: "0",
+          name: "pump 30L",
+          maxCapacity: 30,
+        },
+        //...
+      ],
+      assets: [
+        {
+          id: "0",
+          name: "small rock",
+        },
+        //...
+      ],
+      plants: [
+        {
+          id: "0",
+          name: "red flower",
+        },
+        //...
+      ],
+      grounds: [
+        {
+          id: "0",
+          name: "sand",
+        },
+        //...
+      ],
+    };
+```
+
+#### Create new aquarium
+
+```
+  POST /api/aquarium
+```
+
+Example body
+
+```
+{
+  "name": "My aquarium",
+  "imgID": "1",
+  "width": "50",
+  "height": "50",
+  "length": "50",
+  "heaterID": "2",
+  "pumpID": "1",
+  "lampID": "1",
+  "assetID": "0",
+  "plantID": "4",
+  "groundID": "4"
+}
+```
+
+Example response
+```
+{
+    status: "ok"
+    aquariumID: "69"
+}
+```
