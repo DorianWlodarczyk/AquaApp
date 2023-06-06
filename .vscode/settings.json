@@ -14,5 +14,9 @@
     "editor.formatOnType": true
   },
   "editor.formatOnSave": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "cSpell.words": [
+    "Barwniak",
+    "czerwonobrzuchy"
+  ]
 }
