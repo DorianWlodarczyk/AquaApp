@@ -17,7 +17,7 @@ class NewAquariumApi extends ApiService {
       plantID: value.find((item) => item.name === "plant")?.value,
       groundID: value.find((item) => item.name === "ground")?.value,
     };
-
+    console.log(JSON.stringify(body, null, 2));
     alert(JSON.stringify(body, null, 2));
 
     return "69";
