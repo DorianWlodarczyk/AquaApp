@@ -16,7 +16,7 @@ const UserRoutes = () => {
           <Route path="new" element={<NewAquariumPage />} />
           <Route path=":id">
             <Route index element={<AquaPage />} />
-            <Route path=":fishID" element={<FishList />} />
+            <Route path="fish" element={<FishList />} />
           </Route>
         </Route>
         <Route path="fish">
