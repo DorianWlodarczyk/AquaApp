@@ -14,7 +14,8 @@ const categories: Category[] = [
         to: "/aqua",
       },
       {
-        name: "Dwa",
+        name: "Ryby",
+        to: "/fish",
       },
       {
         name: "Trzy",
