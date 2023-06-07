@@ -214,9 +214,9 @@ const FishList = () => {
                   value={searchText}
                   onChange={(value) => setSearchText(value)}
                 />
-                <div className="mt-5 flex flex-row justify-around">
+                <div className="mt-5 flex w-full flex-col items-center justify-around gap-10 lg:flex-row">
                   {fishList.length > 1 && (
-                    <div className="relative">
+                    <div className="relative w-full lg:max-w-[200px]">
                       <CheckboxList
                         options={fishList.map((item) => {
                           return {
@@ -230,7 +230,7 @@ const FishList = () => {
                       />
                     </div>
                   )}
-                  <div className="relative">
+                  <div className="relative w-full lg:max-w-[200px]">
                     <CheckboxList
                       options={species.map((item) => {
                         return {
@@ -244,7 +244,12 @@ const FishList = () => {
                     />
                   </div>
 
-                  <Button text="Wyczyść filtrowanie" onClick={clearAllFilter} />
+                  <div className=" w-full lg:max-w-[200px]">
+                    <Button
+                      text="Wyczyść filtrowanie"
+                      onClick={clearAllFilter}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

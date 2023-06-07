@@ -19,7 +19,7 @@ const Button = ({ text, onClick, icon, enabled = true }: props) => {
 
   return (
     <button
-      className={`min-w-[100px] rounded-lg  p-3 text-base font-semibold text-white duration-200  ${
+      className={`w-full min-w-[100px] rounded-lg  p-3 text-base font-semibold text-white duration-200  ${
         enabled
           ? "bg-blue-500 hover:bg-blue-600"
           : "cursor-default bg-neutral-500 text-neutral-100"
