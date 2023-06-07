@@ -1,18 +1,50 @@
 import React, { useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import Loader from "../../../../components/loader/loader";
 import { FetchStatus } from "../../../../utils/models/fetch-status";
-import { Link } from "react-router-dom";
 import FishButton from "./components/fish-button";
 import FishListApi from "./fish-list-api.service";
 import NewFishButton from "./components/new-fish-button";
 import { SpeciesData } from "../../../../utils/models/fish/species-data";
-import { FishListData } from "../../../../utils/models/fish/fish-data";
+import {
+  FishData,
+  FishListData,
+} from "../../../../utils/models/fish/fish-data";
+import InputText from "../../../../components/input-text/input-text";
 
 const FishList = () => {
   const [status, setStatus] = useState(FetchStatus.NotStarted);
   const [species, setSpecies] = useState<SpeciesData[]>([]);
   const [fishList, setFishList] = useState<FishListData[]>([]);
+  const [filteredFish, setFilteredFish] = useState<FishListData[]>([]);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    const newList: FishListData[] = [];
+
+    for (let item of fishList) {
+      const newFishList: FishData[] = [];
+
+      for (let fish of item.fish) {
+        if (fish.name.toLowerCase().includes(searchText.toLowerCase())) {
+          newFishList.push(fish);
+        } else {
+          const speciesName = species.find(
+            (item) => item.id === fish.speciesID
+          )?.name;
+
+          if (speciesName?.toLowerCase().includes(searchText.toLowerCase())) {
+            newFishList.push(fish);
+          }
+        }
+      }
+
+      if (newFishList.length !== 0) {
+        newList.push({ ...item, fish: newFishList });
+      }
+    }
+
+    setFilteredFish(newList);
+  }, [fishList, searchText, species]);
 
   useEffect(() => {
     const fetchFishData = async () => {
@@ -21,6 +53,7 @@ const FishList = () => {
       try {
         const data = await FishListApi.getFishList();
         setFishList(data);
+        setFilteredFish(data);
         setStatus(FetchStatus.Loaded);
       } catch {}
     };
@@ -41,10 +74,16 @@ const FishList = () => {
   const renderFish = () => {
     return (
       <>
-        {fishList.map((item, index) => {
+        {filteredFish.map((item, index) => {
           return (
-            <div key={index}>
-              <div>{item.aquariumName}</div>
+            <div className="mb-[50px] mt-[25px]" key={index}>
+              <div className="flex items-center">
+                <div className="h-[2px] w-[100%] bg-gradient-to-r from-[#F2F3F4] to-gray-300 sm:ml-[50px] sm:mr-[10px]"></div>
+                <span className="w-[500px] text-center text-2xl text-gray-600">
+                  {item.aquariumName}
+                </span>
+                <div className="h-[2px] w-[100%] bg-gradient-to-l from-[#F2F3F4] to-gray-300 sm:ml-[10px] sm:mr-[50px]"></div>
+              </div>
               <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
                 {item.fish.map((fish, index) => {
                   return (
@@ -71,6 +110,24 @@ const FishList = () => {
 
   return (
     <Loader status={status}>
+      <div className="flex justify-center pt-5">
+        <div className="w-9/12 rounded bg-white shadow">
+          <div className="w-full p-5 text-center text-xl">
+            Wyszukiwarka
+            <div className="mt-5 flex justify-center">
+              <div className="w-9/12">
+                <InputText
+                  label="Szukaj"
+                  searchIcon
+                  clearIcon
+                  value={searchText}
+                  onChange={(value) => setSearchText(value)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div>{renderFish()}</div>
     </Loader>
   );
