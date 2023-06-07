@@ -6,49 +6,72 @@ import { Link } from "react-router-dom";
 import FishButton from "./components/fish-button";
 import FishListApi from "./fish-list-api.service";
 import NewFishButton from "./components/new-fish-button";
+import { SpeciesData } from "../../../../utils/models/fish/species-data";
+import { FishListData } from "../../../../utils/models/fish/fish-data";
 
 const FishList = () => {
   const [status, setStatus] = useState(FetchStatus.NotStarted);
+  const [species, setSpecies] = useState<SpeciesData[]>([]);
+  const [fishList, setFishList] = useState<FishListData[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchFishData = async () => {
       setStatus(FetchStatus.Loading);
 
       try {
         const data = await FishListApi.getFishList();
-        // setAquaData(data);
+        setFishList(data);
         setStatus(FetchStatus.Loaded);
       } catch {}
     };
 
-    fetchData();
+    const fetchSpeciesData = async () => {
+      setStatus(FetchStatus.Loading);
+      try {
+        const data = await FishListApi.getSpecies();
+        setSpecies(data);
+        setStatus(FetchStatus.Loaded);
+      } catch {}
+    };
+
+    fetchFishData();
+    fetchSpeciesData();
   }, []);
+
+  const renderFish = () => {
+    return (
+      <>
+        {fishList.map((item, index) => {
+          return (
+            <div key={index}>
+              <div>{item.aquariumName}</div>
+              <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
+                {item.fish.map((fish, index) => {
+                  return (
+                    <FishButton
+                      key={index}
+                      name={fish.name}
+                      species={
+                        species.find((item) => item.id === fish.speciesID)
+                          ?.name ?? "Brak danych"
+                      }
+                      aquaImg={item.aquariumImg}
+                    />
+                  );
+                })}
+
+                <NewFishButton aquariumID={item.aquariumID} />
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
+  };
 
   return (
     <Loader status={status}>
-      <div>
-        <div>Akwarium przy kominku</div>
-        <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
-          <FishButton name={"Andrzej"} species={"Gupik"} aquaImg={"9"} />
-
-          <FishButton name={"Karolina"} species={"Sum"} aquaImg={"9"} />
-          <FishButton name={"Karolina"} species={"Sum"} aquaImg={"9"} />
-          <FishButton name={"Karolina"} species={"Sum"} aquaImg={"9"} />
-          <FishButton
-            name={"Po co nazywać ryby?"}
-            species={"Karaś"}
-            aquaImg={"9"}
-          />
-
-          <NewFishButton />
-        </div>
-      </div>
-
-      <Link to="new">
-        <button className="fixed bottom-[5%] right-[5%] flex h-[64px] w-[64px] items-center justify-center rounded-full bg-sky-600 shadow-lg duration-100 hover:bg-sky-500">
-          <AddIcon className="text-white" style={{ fontSize: "36px" }} />
-        </button>
-      </Link>
+      <div>{renderFish()}</div>
     </Loader>
   );
 };
