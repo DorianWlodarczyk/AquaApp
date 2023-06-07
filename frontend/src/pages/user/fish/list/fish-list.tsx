@@ -13,6 +13,8 @@ import InputText from "../../../../components/input-text/input-text";
 import CheckboxList, {
   CheckboxData,
 } from "../../../../components/checkbox-list/checkbox-list";
+import { useParams } from "react-router-dom";
+import Button from "../../../../components/button/button";
 
 const FishList = () => {
   const [status, setStatus] = useState(FetchStatus.NotStarted);
@@ -22,8 +24,14 @@ const FishList = () => {
   const [searchText, setSearchText] = useState("");
 
   const [aquaCheckboxes, setAquaCheckboxes] = useState<CheckboxData[]>([]);
+  const [speciesCheckboxes, setSpeciesCheckboxes] = useState<CheckboxData[]>(
+    []
+  );
 
-  useEffect(() => {
+  const { id } = useParams();
+
+  const clearAllFilter = () => {
+    setSearchText("");
     setAquaCheckboxes(
       fishList.map((item) => {
         return {
@@ -32,16 +40,76 @@ const FishList = () => {
         };
       })
     );
-  }, [fishList]);
+
+    setSpeciesCheckboxes(
+      species.map((item) => {
+        return {
+          id: item.id,
+          value: false,
+        };
+      })
+    );
+  };
+
+  useEffect(() => {
+    setAquaCheckboxes(
+      fishList.map((item) => {
+        return {
+          id: item.aquariumID,
+          value: id === item.aquariumID,
+        };
+      })
+    );
+
+    setSpeciesCheckboxes(
+      species.map((item) => {
+        return {
+          id: item.id,
+          value: false,
+        };
+      })
+    );
+  }, [fishList, id, species]);
 
   useEffect(() => {
     const newList: FishListData[] = [];
 
+    let allAquaCheckboxIsNone = true;
+    let allSpeciesCheckboxIsNone = true;
+
+    for (let item of aquaCheckboxes) {
+      if (item.value) {
+        allAquaCheckboxIsNone = false;
+      }
+    }
+
+    for (let item of speciesCheckboxes) {
+      if (item.value) {
+        allSpeciesCheckboxIsNone = false;
+      }
+    }
+
     for (let item of fishList) {
       const newFishList: FishData[] = [];
 
+      if (!allAquaCheckboxIsNone) {
+        const shouldRenderAqua = aquaCheckboxes.find(
+          (checkbox) => checkbox.id === item.aquariumID
+        )?.value;
+
+        if (!shouldRenderAqua) continue;
+      }
+
       for (let fish of item.fish) {
         if (fish.name.toLowerCase().includes(searchText.toLowerCase())) {
+          const shouldRenderFish = speciesCheckboxes.find(
+            (species) => species.id === fish.speciesID
+          )?.value;
+
+          if (!allSpeciesCheckboxIsNone) {
+            if (!shouldRenderFish) continue;
+          }
+
           newFishList.push(fish);
         }
       }
@@ -52,7 +120,7 @@ const FishList = () => {
     }
 
     setFilteredFish(newList);
-  }, [fishList, searchText, species]);
+  }, [fishList, searchText, species, aquaCheckboxes, speciesCheckboxes]);
 
   useEffect(() => {
     const fetchFishData = async () => {
@@ -135,7 +203,7 @@ const FishList = () => {
     <Loader status={status}>
       <div className="flex justify-center pt-5">
         <div className="w-9/12 rounded bg-white shadow">
-          <div className="w-full p-5 text-center text-xl">
+          <div className="w-full p-5 text-center text-2xl">
             Wyszukiwarka
             <div className="mt-5 flex justify-center">
               <div className="w-9/12">
@@ -147,20 +215,36 @@ const FishList = () => {
                   onChange={(value) => setSearchText(value)}
                 />
                 <div className="mt-5 flex flex-row justify-around">
+                  {fishList.length > 1 && (
+                    <div className="relative">
+                      <CheckboxList
+                        options={fishList.map((item) => {
+                          return {
+                            name: item.aquariumName,
+                            id: item.aquariumID,
+                          };
+                        })}
+                        values={aquaCheckboxes}
+                        onChange={(value) => setAquaCheckboxes(value)}
+                        title="Filtruj akwaria"
+                      />
+                    </div>
+                  )}
                   <div className="relative">
                     <CheckboxList
-                      options={fishList.map((item) => {
+                      options={species.map((item) => {
                         return {
-                          name: item.aquariumName,
-                          id: item.aquariumID,
+                          name: item.name,
+                          id: item.id,
                         };
                       })}
-                      values={aquaCheckboxes}
-                      onChange={(value) => setAquaCheckboxes(value)}
-                      title="Filtruj akwaria"
+                      values={speciesCheckboxes}
+                      onChange={(value) => setSpeciesCheckboxes(value)}
+                      title="Filtruj gatunki"
                     />
                   </div>
-                  <div>Filtruj gatunki</div>
+
+                  <Button text="Wyczyść filtrowanie" onClick={clearAllFilter} />
                 </div>
               </div>
             </div>
