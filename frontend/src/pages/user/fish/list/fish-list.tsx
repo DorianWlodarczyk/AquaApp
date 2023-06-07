@@ -10,6 +10,9 @@ import {
   FishListData,
 } from "../../../../utils/models/fish/fish-data";
 import InputText from "../../../../components/input-text/input-text";
+import CheckboxList, {
+  CheckboxData,
+} from "../../../../components/checkbox-list/checkbox-list";
 
 const FishList = () => {
   const [status, setStatus] = useState(FetchStatus.NotStarted);
@@ -17,6 +20,19 @@ const FishList = () => {
   const [fishList, setFishList] = useState<FishListData[]>([]);
   const [filteredFish, setFilteredFish] = useState<FishListData[]>([]);
   const [searchText, setSearchText] = useState("");
+
+  const [aquaCheckboxes, setAquaCheckboxes] = useState<CheckboxData[]>([]);
+
+  useEffect(() => {
+    setAquaCheckboxes(
+      fishList.map((item) => {
+        return {
+          id: item.aquariumID,
+          value: false,
+        };
+      })
+    );
+  }, [fishList]);
 
   useEffect(() => {
     const newList: FishListData[] = [];
@@ -27,14 +43,6 @@ const FishList = () => {
       for (let fish of item.fish) {
         if (fish.name.toLowerCase().includes(searchText.toLowerCase())) {
           newFishList.push(fish);
-        } else {
-          const speciesName = species.find(
-            (item) => item.id === fish.speciesID
-          )?.name;
-
-          if (speciesName?.toLowerCase().includes(searchText.toLowerCase())) {
-            newFishList.push(fish);
-          }
         }
       }
 
@@ -94,10 +102,8 @@ const FishList = () => {
               <div className="flex items-center">
                 <div className="h-[2px] w-[100%] bg-gradient-to-r from-[#F2F3F4] to-gray-300 sm:ml-[50px] sm:mr-[10px]"></div>
                 <span className="w-[500px] text-center text-2xl text-gray-600">
-                  <div>
-                    {item.aquariumName}
-                    <div className="text-sm italic ">{info(item)}</div>
-                  </div>
+                  {item.aquariumName}
+                  <div className="text-sm italic ">{info(item)}</div>
                 </span>
                 <div className="h-[2px] w-[100%] bg-gradient-to-l from-[#F2F3F4] to-gray-300 sm:ml-[10px] sm:mr-[50px]"></div>
               </div>
@@ -140,6 +146,22 @@ const FishList = () => {
                   value={searchText}
                   onChange={(value) => setSearchText(value)}
                 />
+                <div className="mt-5 flex flex-row justify-around">
+                  <div className="relative">
+                    <CheckboxList
+                      options={fishList.map((item) => {
+                        return {
+                          name: item.aquariumName,
+                          id: item.aquariumID,
+                        };
+                      })}
+                      values={aquaCheckboxes}
+                      onChange={(value) => setAquaCheckboxes(value)}
+                      title="Filtruj akwaria"
+                    />
+                  </div>
+                  <div>Filtruj gatunki</div>
+                </div>
               </div>
             </div>
           </div>
