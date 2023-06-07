@@ -3,16 +3,16 @@ import React from "react";
 
 interface props {
   text?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   icon?: React.ReactElement<SvgIconProps>;
   enabled?: boolean;
 }
 
 const Button = ({ text, onClick, icon, enabled = true }: props) => {
-  const onClickHandler = () => {
+  const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (enabled) {
       if (onClick) {
-        onClick();
+        onClick(event);
       }
     }
   };
