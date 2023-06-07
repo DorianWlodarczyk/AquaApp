@@ -72,6 +72,20 @@ const FishList = () => {
   }, []);
 
   const renderFish = () => {
+    const info = (fishData: FishListData) => {
+      const fishCount = fishList.find(
+        (item) => fishData.aquariumID === item.aquariumID
+      )?.fish.length;
+
+      const filteredFishCount = fishData.fish.length;
+
+      if (fishCount) {
+        if (fishCount !== filteredFishCount) {
+          return <div>(Ukryto {fishCount - filteredFishCount})</div>;
+        }
+      }
+    };
+
     return (
       <>
         {filteredFish.map((item, index) => {
@@ -80,7 +94,10 @@ const FishList = () => {
               <div className="flex items-center">
                 <div className="h-[2px] w-[100%] bg-gradient-to-r from-[#F2F3F4] to-gray-300 sm:ml-[50px] sm:mr-[10px]"></div>
                 <span className="w-[500px] text-center text-2xl text-gray-600">
-                  {item.aquariumName}
+                  <div>
+                    {item.aquariumName}
+                    <div className="text-sm italic ">{info(item)}</div>
+                  </div>
                 </span>
                 <div className="h-[2px] w-[100%] bg-gradient-to-l from-[#F2F3F4] to-gray-300 sm:ml-[10px] sm:mr-[50px]"></div>
               </div>
