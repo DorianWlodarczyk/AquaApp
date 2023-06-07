@@ -7,7 +7,7 @@ import { SpeciesData } from "../../../../utils/models/fish/species-data";
 
 class FishListApi extends ApiService {
   static async getSpecies(): Promise<SpeciesData[]> {
-    await new Promise((r) => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 500));
 
     return [
       {
@@ -34,7 +34,7 @@ class FishListApi extends ApiService {
   }
 
   static async getFishList(): Promise<FishListData[]> {
-    await new Promise((r) => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 500));
 
     const mockName = [
       "Andrzej",
@@ -46,6 +46,9 @@ class FishListApi extends ApiService {
       "Natalia",
       "Julia",
       "Adolf",
+      "Ambroży",
+      "Włodzimierz",
+      "Wacław",
     ];
 
     const output: FishListData[] = [];
