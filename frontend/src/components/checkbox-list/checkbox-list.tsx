@@ -75,13 +75,13 @@ const CheckboxList = ({ options, values, onChange, title = "list" }: props) => {
       <>
         <div
           ref={boxRef}
-          className="absolute left-1/2 top-[40px] z-20 max-h-[200px] min-w-[200px] -translate-x-1/2 overflow-y-auto rounded border-2 border-solid bg-neutral-50"
+          className="absolute left-1/2 top-[60px] z-20 max-h-[200px] min-w-[300px] -translate-x-1/2 overflow-y-auto rounded border-2 border-solid shadow-sm"
         >
           {options?.map((item, index) => {
             return (
               <div
                 key={index}
-                className="z-30 flex cursor-pointer flex-row justify-between py-2 pl-3 hover:bg-neutral-200"
+                className="z-30 flex cursor-pointer flex-row justify-between bg-neutral-50 py-2 pl-3 odd:bg-neutral-100 hover:bg-neutral-200"
               >
                 <div className="select-none text-left text-base text-neutral-500">
                   {item.name.length < 32
