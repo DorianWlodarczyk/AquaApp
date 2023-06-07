@@ -7,7 +7,7 @@ import { SpeciesData } from "../../../../utils/models/fish/species-data";
 
 class FishListApi extends ApiService {
   static async getSpecies(): Promise<SpeciesData[]> {
-    await new Promise((r) => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 100));
 
     return [
       {
@@ -34,7 +34,7 @@ class FishListApi extends ApiService {
   }
 
   static async getFishList(): Promise<FishListData[]> {
-    await new Promise((r) => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 100));
 
     const mockName = [
       "Andrzej",
@@ -56,7 +56,7 @@ class FishListApi extends ApiService {
     for (let i = 0; i < Math.floor(Math.random() * 10 + 1); i++) {
       const fishList: FishData[] = [];
 
-      for (let j = 0; j < Math.floor(Math.random() * 10 + 2); j++) {
+      for (let j = 0; j < Math.floor(Math.random() * 20 + 5); j++) {
         fishList.push({
           name: `${mockName[Math.floor(Math.random() * mockName.length)]}`,
           id: `${j}`,
