@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Button from "../button/button";
 
 interface props {
   options?: CheckboxOption[];
@@ -20,6 +21,7 @@ export interface CheckboxData {
 const CheckboxList = ({ options, values, onChange, title = "list" }: props) => {
   const [checkboxValue, setCheckboxValue] = useState<CheckboxData[]>([]);
   const [isOpen, setOpen] = useState(false);
+  const [counter, setCounter] = useState(0);
   const boxRef = useRef<HTMLDivElement>(null);
 
   const onChangeHandler = (id: string) => {
@@ -32,9 +34,18 @@ const CheckboxList = ({ options, values, onChange, title = "list" }: props) => {
     }
 
     setCheckboxValue(newValues);
-
     if (onChange) onChange(newValues);
   };
+
+  useEffect(() => {
+    let newCounter = 0;
+
+    for (let item of checkboxValue) {
+      if (item.value) newCounter++;
+    }
+
+    setCounter(newCounter);
+  }, [checkboxValue]);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -103,7 +114,10 @@ const CheckboxList = ({ options, values, onChange, title = "list" }: props) => {
 
   return (
     <div>
-      <button onClick={handleButtonClick}>{title}</button>
+      <Button
+        text={`${title} ${counter > 0 ? `(${counter})` : ""}`}
+        onClick={handleButtonClick}
+      />
       {isOpen ? renderCheckboxList() : <></>}
     </div>
   );
