@@ -79,6 +79,7 @@ const CheckboxList = ({ options, values, onChange, title = "list" }: props) => {
         {options?.map((item, index) => {
           return (
             <div
+              onClick={() => onChangeHandler(item.id)}
               key={index}
               className="z-30 flex cursor-pointer flex-row justify-between bg-neutral-50 py-2 pl-3 odd:bg-neutral-100 hover:bg-neutral-200"
             >
