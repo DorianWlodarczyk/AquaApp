@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l5_^r9k09w*38_oqs+v0hrd0s!b4a@im)9#_2+*q-w^j6v@zi-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app','aqua-app-backend.onrender.com',]
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'aqua_app',
 ]
 
 MIDDLEWARE = [
