@@ -124,27 +124,29 @@ const FishList = () => {
 
   useEffect(() => {
     const fetchFishData = async () => {
-      setStatus(FetchStatus.Loading);
-
       try {
         const data = await FishListApi.getFishList();
         setFishList(data);
         setFilteredFish(data);
-        setStatus(FetchStatus.Loaded);
       } catch {}
     };
 
     const fetchSpeciesData = async () => {
-      setStatus(FetchStatus.Loading);
       try {
         const data = await FishListApi.getSpecies();
         setSpecies(data);
-        setStatus(FetchStatus.Loaded);
       } catch {}
     };
 
-    fetchFishData();
-    fetchSpeciesData();
+    const fetch = async () => {
+      setStatus(FetchStatus.Loading);
+
+      await Promise.all([fetchFishData(), fetchSpeciesData()]);
+
+      setStatus(FetchStatus.Loaded);
+    };
+
+    fetch();
   }, []);
 
   const renderFish = () => {
@@ -185,7 +187,10 @@ const FishList = () => {
                         species.find((item) => item.id === fish.speciesID)
                           ?.name ?? "Brak danych"
                       }
+                      speciesList={species}
+                      conflicts={fish.conflicts}
                       aquaImg={item.aquariumImg}
+                      fishID={fish.id}
                     />
                   );
                 })}
@@ -202,7 +207,7 @@ const FishList = () => {
   return (
     <Loader status={status}>
       <div className="flex justify-center pt-5">
-        <div className="w-9/12 rounded bg-white shadow">
+        <div className="w-11/12 rounded bg-white shadow md:w-9/12">
           <div className="w-full p-5 text-center text-2xl">
             Wyszukiwarka
             <div className="mt-5 flex justify-center">

@@ -9,4 +9,5 @@ export interface FishData {
   id: string;
   name: string;
   speciesID: string;
+  conflicts: string[];
 }
