@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Loader from "../../../../components/loader/loader";
+import { useParams } from "react-router-dom";
 import { FetchStatus } from "../../../../utils/models/fetch-status";
-import FishButton from "./components/fish-button";
-import FishListApi from "./fish-list-api.service";
-import NewFishButton from "./components/new-fish-button";
 import { SpeciesData } from "../../../../utils/models/fish/species-data";
+import Loader from "../../../../components/loader/loader";
+import FishButton from "./components/fish-button";
+import NewFishButton from "./components/new-fish-button";
+import InputText from "../../../../components/input-text/input-text";
+import Button from "../../../../components/button/button";
+import FishApi from "../../../../utils/api/fish/fish-api.service";
 import {
   FishData,
   FishListData,
 } from "../../../../utils/models/fish/fish-data";
-import InputText from "../../../../components/input-text/input-text";
 import CheckboxList, {
   CheckboxData,
 } from "../../../../components/checkbox-list/checkbox-list";
-import { useParams } from "react-router-dom";
-import Button from "../../../../components/button/button";
 
 const FishList = () => {
   const [status, setStatus] = useState(FetchStatus.NotStarted);
