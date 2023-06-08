@@ -97,7 +97,7 @@ const CheckboxList = ({ options, values, onChange, title = "list" }: props) => {
                     checkboxValue.find((val) => val.id === item.id)?.value ??
                     false
                   }
-                  onChange={() => onChangeHandler(item.id)}
+                  onChange={() => {}}
                 />
               </div>
             </div>
