@@ -125,7 +125,7 @@ const FishList = () => {
   useEffect(() => {
     const fetchFishData = async () => {
       try {
-        const data = await FishListApi.getFishList();
+        const data = await FishApi.getAquariumsWithFish();
         setFishList(data);
         setFilteredFish(data);
       } catch {}
@@ -133,7 +133,7 @@ const FishList = () => {
 
     const fetchSpeciesData = async () => {
       try {
-        const data = await FishListApi.getSpecies();
+        const data = await FishApi.getSpecies();
         setSpecies(data);
       } catch {}
     };
