@@ -1,9 +1,40 @@
+import { ConflictsData } from "../models/fish/conflicts-data";
 import { FishData, FishListData } from "../models/fish/fish-data";
 import { SpeciesData } from "../models/fish/species-data";
 import ApiService from "./api.service";
 
 class FishApi extends ApiService {
-  static async getFishSpecies(): Promise<any> {}
+  static async getConflicts(): Promise<ConflictsData[]> {
+    return [
+      {
+        speciesID: "0",
+        conflicts: ["1", "3"],
+      },
+      {
+        speciesID: "1",
+        conflicts: ["0"],
+      },
+      {
+        speciesID: "2",
+        conflicts: ["3", "0"],
+      },
+      {
+        speciesID: "3",
+        conflicts: ["2"],
+      },
+    ];
+  }
+
+  static async getFishSpeciesFromAquarium(aquaID: string): Promise<string[]> {
+    const result = [];
+
+    result.push("0");
+    result.push("1");
+    result.push("2");
+    result.push("3");
+
+    return result;
+  }
 
   static async getSpecies(): Promise<SpeciesData[]> {
     await new Promise((r) => setTimeout(r, 80));

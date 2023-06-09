@@ -22,6 +22,20 @@ const NewFishPage = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    const fetchConflicts = async () => {
+      try {
+        const data = await FishApi.getConflicts();
+        setConflictsList(data);
+      } catch {}
+    };
+
+    const fetchFishSpeciesFromAquarium = async () => {
+      try {
+        const data = await FishApi.getFishSpeciesFromAquarium(id || "");
+        setSpeciesInAqua(data);
+      } catch {}
+    };
+
     const fetchSpecies = async () => {
       try {
         const data = await FishApi.getSpecies();
@@ -38,9 +52,12 @@ const NewFishPage = () => {
 
     const fetch = async () => {
       setStatus(FetchStatus.Loading);
-
-      await Promise.all([fetchSpecies(), fetchAquaNameAndImg()]);
-
+      await Promise.all([
+        fetchSpecies(),
+        fetchAquaNameAndImg(),
+        fetchFishSpeciesFromAquarium(),
+        fetchConflicts(),
+      ]);
       setStatus(FetchStatus.Loaded);
     };
 
