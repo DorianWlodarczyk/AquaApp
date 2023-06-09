@@ -12,12 +12,23 @@ import Loader from "../../../../components/loader/loader";
 import AquariumApi from "../../../../utils/api/aquarium-api.service";
 import { AquariumNameAndImg } from "../../../../utils/models/aquarium/aquarium-name-and-img";
 import { useParams } from "react-router-dom";
+import ReportIcon from "@mui/icons-material/Report";
+import CheckCircleOutlineTwoToneIcon from "@mui/icons-material/CheckCircleOutlineTwoTone";
+import { ConflictsData } from "../../../../utils/models/fish/conflicts-data";
+import Button from "../../../../components/button/button";
+import { maxNameLength } from "../../../../utils/regex/text-input.regex";
 
 const NewFishPage = () => {
   const [fishName, setFishName] = useState("");
+  const [fishSpecies, setFishSpecies] = useState("");
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.NotStarted);
   const [species, setSpecies] = useState<SpeciesData[]>([]);
+  const [speciesInAqua, setSpeciesInAqua] = useState<string[]>([]);
+  const [conflictsList, setConflictsList] = useState<ConflictsData[]>([]);
+  const [conflictsListName, setConflictsListName] = useState<string[]>([]);
   const [aqua, setAqua] = useState<AquariumNameAndImg>({ name: "", imgID: "" });
+  const [nameOk, setNameOk] = useState(false);
+  const [speciesOk, setSpeciesOk] = useState(false);
 
   const { id } = useParams();
 
@@ -64,43 +75,132 @@ const NewFishPage = () => {
     fetch();
   }, [id]);
 
+  useEffect(() => {
+    const list = conflictsList.find(
+      (item) => item.speciesID === fishSpecies
+    )?.conflicts;
+
+    if (!list) {
+      setConflictsListName([]);
+      return;
+    }
+
+    const newConflictsListName: string[] = [];
+
+    for (let myConflicts of list) {
+      for (let speciesInAquarium of speciesInAqua) {
+        if (myConflicts === speciesInAquarium) {
+          newConflictsListName.push(
+            `${species.find((item) => item.id === myConflicts)?.name}`
+          );
+        }
+      }
+    }
+    setConflictsListName(newConflictsListName);
+  }, [conflictsList, fishSpecies, species, speciesInAqua]);
+
+  useEffect(() => {
+    setSpeciesOk(fishSpecies !== "");
+    setNameOk(maxNameLength.test(fishName));
+  }, [fishName, fishSpecies]);
+
+  const AquaInfo = () => {
+    return (
+      <div className=" flex h-full w-full flex-col items-center justify-center">
+        <img
+          className="h-[200px] w-[200px]"
+          src={getAquariumImg(aqua.imgID)}
+          alt=""
+        />
+        <div className="mt-5 text-2xl">{aqua.name}</div>
+      </div>
+    );
+  };
+
+  const Inputs = () => {
+    return (
+      <div className="flex w-full justify-center">
+        <div className="flex w-9/12 flex-col items-center gap-10">
+          <InputText
+            label="Nazwa"
+            value={fishName}
+            onChange={(value) => setFishName(value)}
+            clearIcon
+            helperText="Od 3 do 32 znaków"
+            error={!nameOk}
+          />
+          <DropDownList
+            label="Gatunek"
+            options={species.map((item) => {
+              return {
+                name: item.name,
+                value: item.id,
+              };
+            })}
+            value={fishSpecies}
+            onChange={(speciesID) => setFishSpecies(speciesID)}
+            error={!speciesOk}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const Hints = () => {
+    return (
+      <div className="flex h-full w-full justify-center">
+        {conflictsListName.length > 0 && (
+          <div className="w-9/12 rounded-2xl border-4 border-solid border-red-500 bg-red-50 px-5 py-2 font-semibold text-red-700">
+            <div className="w-full text-center">
+              <ReportIcon className="" style={{ fontSize: "50px" }} />
+            </div>
+            <div>
+              Wybrany gatunek (
+              {species.find((item) => item.id === fishSpecies)?.name}) nie
+              powinien być w jednym akwarium wraz z:
+              <ul className="ml-5 list-disc">
+                {conflictsListName.map((item, index) => {
+                  return <li key={index}>{item}</li>;
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {conflictsListName.length === 0 && (
+          <div className="w-9/12 rounded-2xl border-4 border-solid border-green-500 bg-green-50 px-5 py-2 font-semibold text-green-700">
+            <div className="w-full text-center">
+              <CheckCircleOutlineTwoToneIcon
+                className=""
+                style={{ fontSize: "50px" }}
+              />
+            </div>
+            <div className="text-center">Wszystko w porządku</div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Loader status={status}>
       <div className="w-full p-5 py-10">
         <WidgetBox
           className=""
-          title="Nowa ryba"
+          title="Dodaj nową rybę"
           color={Color.BLUE}
           icon={<SailingIcon />}
         >
           <div className="my-5 flex w-full flex-row justify-between">
-            <div className=" flex h-full w-full flex-col items-center justify-center">
-              <img
-                className="h-[200px] w-[200px]"
-                src={getAquariumImg(aqua.imgID)}
-                alt=""
-              />
-              <div className="mt-5 text-2xl">{aqua.name}</div>
+            <AquaInfo />
+            {Inputs()}
+            <Hints />
+          </div>
+
+          <div className="flex w-full justify-center">
+            <div className="w-[200px]">
+              <Button enabled={nameOk && speciesOk} text="Dodaj rybę" />
             </div>
-            <div className="flex w-full justify-center">
-              <div className="flex w-9/12 flex-col items-center gap-10">
-                <InputText
-                  label="Nazwa"
-                  value={fishName}
-                  onChange={(value) => setFishName(value)}
-                />
-                <DropDownList
-                  label="Gatunek"
-                  options={species.map((item) => {
-                    return {
-                      name: item.name,
-                      value: item.id,
-                    };
-                  })}
-                />
-              </div>
-            </div>
-            <div className="w-full">c</div>
           </div>
         </WidgetBox>
       </div>
