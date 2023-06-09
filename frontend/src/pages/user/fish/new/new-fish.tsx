@@ -6,10 +6,10 @@ import getAquariumImg from "../../../../utils/images/aquarium-image";
 import DropDownList from "../../../../components/drop-down-list/drop-down-list";
 import InputText from "../../../../components/input-text/input-text";
 import { SpeciesData } from "../../../../utils/models/fish/species-data";
-import FishApi from "../../../../utils/api/fish/fish-api.service";
+import FishApi from "../../../../utils/api/fish-api.service";
 import { FetchStatus } from "../../../../utils/models/fetch-status";
 import Loader from "../../../../components/loader/loader";
-import AquariumApi from "../../../../utils/api/aquarium/aquarium-api.service";
+import AquariumApi from "../../../../utils/api/aquarium-api.service";
 import { AquariumNameAndImg } from "../../../../utils/models/aquarium/aquarium-name-and-img";
 import { useParams } from "react-router-dom";
 

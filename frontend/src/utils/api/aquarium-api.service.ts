@@ -1,5 +1,5 @@
-import { AquariumNameAndImg } from "../../models/aquarium/aquarium-name-and-img";
-import ApiService from "../api.service";
+import { AquariumNameAndImg } from "../models/aquarium/aquarium-name-and-img";
+import ApiService from "./api.service";
 
 class AquariumApi extends ApiService {
   static async getNameAndImg(aquaID: string): Promise<AquariumNameAndImg> {

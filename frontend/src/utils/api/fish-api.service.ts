@@ -1,6 +1,6 @@
-import { FishData, FishListData } from "../../models/fish/fish-data";
-import { SpeciesData } from "../../models/fish/species-data";
-import ApiService from "../api.service";
+import { FishData, FishListData } from "../models/fish/fish-data";
+import { SpeciesData } from "../models/fish/species-data";
+import ApiService from "./api.service";
 
 class FishApi extends ApiService {
   static async getFishSpecies(): Promise<any> {}

@@ -7,7 +7,7 @@ import FishButton from "./components/fish-button";
 import NewFishButton from "./components/new-fish-button";
 import InputText from "../../../../components/input-text/input-text";
 import Button from "../../../../components/button/button";
-import FishApi from "../../../../utils/api/fish/fish-api.service";
+import FishApi from "../../../../utils/api/fish-api.service";
 import {
   FishData,
   FishListData,
