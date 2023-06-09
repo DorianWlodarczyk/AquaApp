@@ -20,7 +20,6 @@ const FishButton = ({
   speciesList,
   conflicts,
 }: props) => {
-  console.log(conflicts);
   return (
     <div className="relative">
       {conflicts.length > 0 && (
