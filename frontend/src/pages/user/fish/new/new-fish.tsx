@@ -11,12 +11,13 @@ import { FetchStatus } from "../../../../utils/models/fetch-status";
 import Loader from "../../../../components/loader/loader";
 import AquariumApi from "../../../../utils/api/aquarium-api.service";
 import { AquariumNameAndImg } from "../../../../utils/models/aquarium/aquarium-name-and-img";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReportIcon from "@mui/icons-material/Report";
 import CheckCircleOutlineTwoToneIcon from "@mui/icons-material/CheckCircleOutlineTwoTone";
 import { ConflictsData } from "../../../../utils/models/fish/conflicts-data";
 import Button from "../../../../components/button/button";
 import { maxNameLength } from "../../../../utils/regex/text-input.regex";
+import NewFishApi from "./new-fish-api.service";
 
 const NewFishPage = () => {
   const [fishName, setFishName] = useState("");
@@ -31,6 +32,8 @@ const NewFishPage = () => {
   const [speciesOk, setSpeciesOk] = useState(false);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchConflicts = async () => {
@@ -103,6 +106,14 @@ const NewFishPage = () => {
     setSpeciesOk(fishSpecies !== "");
     setNameOk(maxNameLength.test(fishName));
   }, [fishName, fishSpecies]);
+
+  const saveNewFish = async () => {
+    try {
+      await NewFishApi.saveNewFish(fishName, fishSpecies);
+    } catch {}
+
+    navigate(`/aqua/${id}/fish`);
+  };
 
   const AquaInfo = () => {
     return (
@@ -199,7 +210,11 @@ const NewFishPage = () => {
 
           <div className="flex w-full justify-center">
             <div className="w-[200px]">
-              <Button enabled={nameOk && speciesOk} text="Dodaj rybę" />
+              <Button
+                enabled={nameOk && speciesOk}
+                text="Dodaj rybę"
+                onClick={saveNewFish}
+              />
             </div>
           </div>
         </WidgetBox>
