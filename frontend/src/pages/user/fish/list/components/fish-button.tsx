@@ -34,9 +34,9 @@ const FishButton = ({
           <div className="absolute right-[-15px] hidden w-[200px] rounded-md border-2 border-neutral-400 bg-neutral-50 p-2 shadow-xl group-hover:block">
             <div className="text-lg font-semibold">Konflikt z gatunkami:</div>
             <ul className="ml-[25px] list-disc">
-              {conflicts.map((item) => {
+              {conflicts.map((item, index) => {
                 return (
-                  <li>
+                  <li key={index}>
                     {speciesList.find((element) => element.id === item)?.name}
                   </li>
                 );
