@@ -14,6 +14,7 @@ import { AquariumNameAndImg } from "../../../../utils/models/aquarium/aquarium-n
 import { useNavigate, useParams } from "react-router-dom";
 import ReportIcon from "@mui/icons-material/Report";
 import CheckCircleOutlineTwoToneIcon from "@mui/icons-material/CheckCircleOutlineTwoTone";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { ConflictsData } from "../../../../utils/models/fish/conflicts-data";
 import Button from "../../../../components/button/button";
 import { maxNameLength } from "../../../../utils/regex/text-input.regex";
@@ -123,7 +124,7 @@ const NewFishPage = () => {
           src={getAquariumImg(aqua.imgID)}
           alt=""
         />
-        <div className="mt-5 text-2xl">{aqua.name}</div>
+        <div className="mt-3 text-xl italic">({aqua.name})</div>
       </div>
     );
   };
@@ -178,7 +179,7 @@ const NewFishPage = () => {
           </div>
         )}
 
-        {conflictsListName.length === 0 && (
+        {conflictsListName.length === 0 && fishSpecies && (
           <div className="w-9/12 rounded-2xl border-4 border-solid border-green-500 bg-green-50 px-5 py-2 font-semibold text-green-700">
             <div className="w-full text-center">
               <CheckCircleOutlineTwoToneIcon
@@ -187,6 +188,15 @@ const NewFishPage = () => {
               />
             </div>
             <div className="text-center">Wszystko w porządku</div>
+          </div>
+        )}
+
+        {conflictsListName.length === 0 && !fishSpecies && (
+          <div className="w-9/12 rounded-2xl border-4 border-solid border-sky-500 bg-sky-50 px-5 py-2 font-semibold text-sky-700">
+            <div className="w-full text-center">
+              <QuestionMarkIcon className="" style={{ fontSize: "50px" }} />
+            </div>
+            <div className="text-center">Podaj gatunek</div>
           </div>
         )}
       </div>
