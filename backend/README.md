@@ -165,3 +165,38 @@ Example response
     aquariumID: "69"
 }
 ```
+
+#### Get Aquariums with fish
+
+```
+  GET /api/aqua/aquariums-and-fish
+```
+
+In the "conflicts" list, conflicts between a particular fish and others in the aquarium are listed.
+
+Example response
+
+```
+[
+  {
+    "aquariumName": "Aquarium #1",
+    "aquariumID": "1",
+    "aquariumImg": "5",
+    "fish": [
+      {
+        "name": "My Fish #1",
+        "id": "1",
+        "speciesID": "2",
+        "conflicts": [
+          "1",
+          "2",
+          "3"
+          //...
+        ]
+      }
+      //...
+    ]
+  }
+  //...
+]
+```
