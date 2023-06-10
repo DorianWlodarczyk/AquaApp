@@ -56,6 +56,25 @@ Example response
 ]
 ```
 
+#### Get aquarium name and imgID
+
+```
+  GET /api/aquariums/{aquariumID}/name
+```
+
+
+
+Retrieve aquarium name and image ID
+
+Example response
+
+```
+{
+    "name": "Aquarium #0",
+    "imgID": "5"
+}
+```
+
 #### Get accessories list
 
 ```
