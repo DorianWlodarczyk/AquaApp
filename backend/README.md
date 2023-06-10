@@ -200,3 +200,61 @@ Example response
   //...
 ]
 ```
+
+#### Get species in aquarium
+
+```
+  GET /api/aqua/{aquariumID}/species
+```
+
+Retrieve list of species in particular aquarium
+
+Example response
+
+```
+[
+  "1",
+  "2",
+  "3"
+]
+```
+
+#### Get species
+
+```
+  GET /api/fish/species
+```
+
+Example response
+
+```
+[
+  {
+    "id": "0",
+    "name": "Gupik"
+  }
+  //...
+]
+```
+
+#### Get conflicts list
+
+```
+  GET /api/fish/conflicts
+```
+
+Example response
+
+```
+[
+  {
+    "speciesID": "0",
+    "conflicts": [
+      "1",
+      "2",
+      //...
+    ]
+  },
+  //...
+]
+```
