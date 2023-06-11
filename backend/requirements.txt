@@ -1,3 +1,4 @@
 django
 firebase_admin
 python-decouple
+djangorestframework
