@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from datetime import datetime
 from django.http import HttpResponse
+from aqua.models import AquaHistory
 # Create your views here.
+def log(user_id, message):
+  message_log = AquaHistory(id_aqua_account= user_id, log_info= message)
+  message_log.save()
 
 def index(request):
     now = datetime.now()
