@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'aqua_app',
     'firebase_admin',
-    'AQUA_APP',
+    
 ]
 
 MIDDLEWARE = [
