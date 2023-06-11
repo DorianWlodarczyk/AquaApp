@@ -1,5 +1,5 @@
 import firebase_admin
-from firebase_admin import credentials
+from firebase_admin import credentials, auth
 from decouple import config
 
 FIREBASE_CONFIG = {
@@ -17,4 +17,15 @@ FIREBASE_CONFIG = {
 }
 
 cred = credentials.Certificate(FIREBASE_CONFIG)
-firebase_admin.initialize_app_(cred)
+firebase_admin.initialize_app(cred)
+
+def get_user_id(token):
+    try:
+        decoded_token = auth.verify_id_token(token)
+        uid = decoded_token['uid']
+        email = decoded_token['email']
+        return uid, email
+
+    except ValueError:
+        # Token is invalid
+        return "Unauthorized: Invalid token"
