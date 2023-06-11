@@ -56,6 +56,25 @@ Example response
 ]
 ```
 
+#### Get aquarium name and imgID
+
+```
+  GET /api/aquariums/{aquariumID}/name
+```
+
+
+
+Retrieve aquarium name and image ID
+
+Example response
+
+```
+{
+    "name": "Aquarium #0",
+    "imgID": "5"
+}
+```
+
 #### Get accessories list
 
 ```
@@ -145,4 +164,97 @@ Example response
     status: "ok"
     aquariumID: "69"
 }
+```
+
+#### Get Aquariums with fish
+
+```
+  GET /api/aqua/aquariums-and-fish
+```
+
+In the "conflicts" list, conflicts between a particular fish and others in the aquarium are listed.
+
+Example response
+
+```
+[
+  {
+    "aquariumName": "Aquarium #1",
+    "aquariumID": "1",
+    "aquariumImg": "5",
+    "fish": [
+      {
+        "name": "My Fish #1",
+        "id": "1",
+        "speciesID": "2",
+        "conflicts": [
+          "1",
+          "2",
+          "3"
+          //...
+        ]
+      }
+      //...
+    ]
+  }
+  //...
+]
+```
+
+#### Get species in aquarium
+
+```
+  GET /api/aqua/{aquariumID}/species
+```
+
+Retrieve list of species in particular aquarium
+
+Example response
+
+```
+[
+  "1",
+  "2",
+  "3"
+]
+```
+
+#### Get species
+
+```
+  GET /api/fish/species
+```
+
+Example response
+
+```
+[
+  {
+    "id": "0",
+    "name": "Gupik"
+  }
+  //...
+]
+```
+
+#### Get conflicts list
+
+```
+  GET /api/fish/conflicts
+```
+
+Example response
+
+```
+[
+  {
+    "speciesID": "0",
+    "conflicts": [
+      "1",
+      "2",
+      //...
+    ]
+  },
+  //...
+]
 ```
