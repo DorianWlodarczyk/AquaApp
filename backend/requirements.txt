@@ -1,1 +1,2 @@
 django
+firebase_admin
