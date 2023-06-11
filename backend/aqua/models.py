@@ -17,6 +17,9 @@ class AquaAccount(models.Model):
     class Meta:
         managed = True
         db_table = 'aqua_account'
+        
+    def __str__(self):
+        return self.user_token
 
 
 class AquaDecorator(models.Model):
