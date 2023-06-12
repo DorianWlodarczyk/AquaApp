@@ -23,6 +23,7 @@ import NewFishApi from "./new-fish-api.service";
 const NewFishPage = () => {
   const [fishName, setFishName] = useState("");
   const [fishSpecies, setFishSpecies] = useState("");
+  const [fishState, setFishState] = useState("");
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.NotStarted);
   const [species, setSpecies] = useState<SpeciesData[]>([]);
   const [speciesInAqua, setSpeciesInAqua] = useState<string[]>([]);
@@ -31,7 +32,7 @@ const NewFishPage = () => {
   const [aqua, setAqua] = useState<AquariumNameAndImg>({ name: "", imgID: "" });
   const [nameOk, setNameOk] = useState(false);
   const [speciesOk, setSpeciesOk] = useState(false);
-
+  const [stateOk, setStateOk] = useState(false);
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -106,11 +107,12 @@ const NewFishPage = () => {
   useEffect(() => {
     setSpeciesOk(fishSpecies !== "");
     setNameOk(maxNameLength.test(fishName));
-  }, [fishName, fishSpecies]);
+    setStateOk(fishState !== "");
+  }, [fishName, fishSpecies, fishState]);
 
   const saveNewFish = async () => {
     try {
-      await NewFishApi.saveNewFish(fishName, fishSpecies);
+      await NewFishApi.saveNewFish(fishName, fishSpecies, fishState);
     } catch {}
 
     navigate(`/aqua/${id}/fish`);
@@ -152,6 +154,26 @@ const NewFishPage = () => {
             value={fishSpecies}
             onChange={(speciesID) => setFishSpecies(speciesID)}
             error={!speciesOk}
+          />
+          <DropDownList
+            label="Stan zdrowia"
+            options={[
+              {
+                name: "Zdrowa",
+                value: "0",
+              },
+              {
+                name: "Ranna",
+                value: "1",
+              },
+              {
+                name: "Chora",
+                value: "2",
+              },
+            ]}
+            value={fishState}
+            onChange={(stateID) => setFishState(stateID)}
+            error={!stateOk}
           />
         </div>
       </div>
@@ -221,7 +243,7 @@ const NewFishPage = () => {
           <div className="flex w-full justify-center">
             <div className="w-[200px]">
               <Button
-                enabled={nameOk && speciesOk}
+                enabled={nameOk && speciesOk && stateOk}
                 text="Dodaj rybę"
                 onClick={saveNewFish}
               />
