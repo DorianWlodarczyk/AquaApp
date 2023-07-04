@@ -11,7 +11,7 @@ from django.db import models
 class AquaAccount(models.Model):
     id_aqua_account = models.BigAutoField(primary_key=True)
     user_mail = models.CharField(max_length=60)
-    user_token = models.CharField(max_length=256, blank=True, null=True)
+    user_id = models.CharField(max_length=256, blank=True, null=True)
     is_admin = models.BooleanField(blank=True, null=True)
 
     class Meta:
@@ -19,7 +19,7 @@ class AquaAccount(models.Model):
         db_table = 'aqua_account'
         
     def __str__(self):
-        return self.user_token
+        return self.user_id
 
 
 class AquaDecorator(models.Model):
@@ -71,7 +71,7 @@ class AquariumTank(models.Model):
     id_aquarium_tank = models.BigAutoField(primary_key=True)
     size_width = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     size_height = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    size_lenght = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    size_length = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
 
     class Meta:
         managed = True
