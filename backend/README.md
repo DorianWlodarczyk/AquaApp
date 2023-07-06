@@ -258,3 +258,51 @@ Example response
   //...
 ]
 ```
+
+#### Get fish data
+
+```
+  GET /api/fish/{fishID}
+```
+
+Example response
+
+```
+{
+    name: "Alfonsa",
+    species: "0",
+    state: "0"
+}
+```
+
+#### Create new fish 
+
+```
+  POST /api/fish
+```
+
+Example body
+
+```
+{
+    name: "Alfonsa",
+    species: "0",
+    state: "0"
+}
+```
+
+#### Edit fish
+
+```
+  PUT /api/fish/${fishID}
+```
+
+Example body
+
+```
+{
+    name: "Alfonsa",
+    species: "0",
+    state: "0"
+}
+```
