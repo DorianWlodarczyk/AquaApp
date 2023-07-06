@@ -124,7 +124,7 @@ const EditFishPage = () => {
 
   const saveEditFish = async () => {
     try {
-      // await NewFishApi.saveNewFish(fishName, fishSpecies, fishState);
+      await EditFishApi.saveEditFish(`${id}`, fishName, fishSpecies, fishState);
     } catch {}
 
     navigate(`/aqua/${id}/fish`);
