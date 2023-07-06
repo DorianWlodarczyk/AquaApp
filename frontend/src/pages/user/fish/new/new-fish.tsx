@@ -201,13 +201,11 @@ const NewFishPage = () => {
           </div>
         )}
 
+
         {conflictsListName.length === 0 && fishSpecies && (
           <div className="w-9/12 rounded-2xl border-4 border-solid border-green-500 bg-green-50 px-5 py-2 font-semibold text-green-700">
             <div className="w-full text-center">
-              <CheckCircleOutlineTwoToneIcon
-                className=""
-                style={{ fontSize: "50px" }}
-              />
+              <CheckCircleOutlineTwoToneIcon className="" style={{ fontSize: "50px" }}/>
             </div>
             <div className="text-center">Wszystko w porządku</div>
           </div>
