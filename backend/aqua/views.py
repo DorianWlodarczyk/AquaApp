@@ -55,7 +55,6 @@ def aquariums_list(request):
     return JsonResponse(result, safe=False)
 
 
-@csrf_exempt
 @require_http_methods(["POST", "GET"])
 def add_aquarium(request):
 
@@ -106,5 +105,51 @@ def add_aquarium(request):
             "status": "Something went wrong, can't add new aquarium",
             "aquariumID": None
         }
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def aquariums_and_fish(request):
+
+    token = simulate_login("dupa@mail.com", "Dupa123")
+    user_id, _ = get_user_id(token=token)
+    if user_id is None:
+        raise ValueError("Can't get user id from token")
+
+    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+
+    aquariums = get_list_or_404(TankObject, id_aqua_account=id_aqua_account)
+
+    result = []
+    for item in aquariums:
+        print(item)
+        aqua_life_list = AquaLife.objects.filter(
+            id_tank_object=item.id_tank_object)
+        print("aq list:", aqua_life_list)
+        for aqua_life in aqua_life_list:
+            # print("aqua life in aq list", aqua_life.id_fish.id_fish)
+            fish = Fish.objects.filter(id_fish=aqua_life.id_fish.id_fish)
+            # for f in fish:
+            #     print(f.id_fish)
+            fish_conflict = FishConflict.objects.filter(
+                id_first_fish=aqua_life.id_fish.id_fish)
+
+            print(fish_conflict)
+
+        break
+        # value = {
+        #     "id": item.id_tank_object,
+        #     "name": item.tank_name,
+        #     "imgID": item.id_tank_picture,
+        #     # "fish": [
+        #     #     "name"
+        #     #     "id"
+        #     #     "speciesID" #fishID z tabeli fish
+        #     #     "conflict":[
+        #     #     ]
+        #     # ]
+        # }
+        result.append(value)
 
     return JsonResponse(result, safe=False)
