@@ -112,7 +112,7 @@ def add_aquarium(request):
 @require_http_methods(["GET"])
 def aquariums_and_fish(request):
 
-    token = simulate_login("dupa@mail.com", "Dupa123")
+    token = request.headers.get('token')
     user_id, _ = get_user_id(token=token)
     if user_id is None:
         raise ValueError("Can't get user id from token")
@@ -123,33 +123,30 @@ def aquariums_and_fish(request):
 
     result = []
     for item in aquariums:
-        print(item)
         aqua_life_list = AquaLife.objects.filter(
             id_tank_object=item.id_tank_object)
         print("aq list:", aqua_life_list)
+        fish_list = []
         for aqua_life in aqua_life_list:
-            # print("aqua life in aq list", aqua_life.id_fish.id_fish)
-            fish = Fish.objects.filter(id_fish=aqua_life.id_fish.id_fish)
-            # for f in fish:
-            #     print(f.id_fish)
-            fish_conflict = FishConflict.objects.filter(
-                id_first_fish=aqua_life.id_fish.id_fish)
-
-            print(fish_conflict)
-
-        break
-        # value = {
-        #     "id": item.id_tank_object,
-        #     "name": item.tank_name,
-        #     "imgID": item.id_tank_picture,
-        #     # "fish": [
-        #     #     "name"
-        #     #     "id"
-        #     #     "speciesID" #fishID z tabeli fish
-        #     #     "conflict":[
-        #     #     ]
-        #     # ]
-        # }
+            fishes = Fish.objects.filter(id_fish=aqua_life.id_fish.id_fish)
+            for fish in fishes:
+                fish_conflict = FishConflict.objects.filter(
+                    id_first_fish=aqua_life.id_fish.id_fish)
+                fish_conflict_list = []
+                for co in fish_conflict:
+                    fish_conflict_list.append(co.id_second_fish)
+                fish_value = {
+                    "name": fish.fish_name,
+                    "id": fish.id_fish,
+                    "conflict": fish_conflict_list
+                }
+                fish_list.append(fish_value)
+        value = {
+            "aquariumID": item.id_tank_object,
+            "aquariumName": item.tank_name,
+            "aquariumImg": item.id_tank_picture,
+            "fish": fish_list
+        }
         result.append(value)
 
     return JsonResponse(result, safe=False)
