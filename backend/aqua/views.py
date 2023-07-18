@@ -150,3 +150,13 @@ def aquariums_and_fish(request):
         result.append(value)
 
     return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def species(request, aquariumID):
+    result = []
+    aqua_life_list = get_list_or_404(AquaLife, id_tank_object=aquariumID)
+    for fish in aqua_life_list:
+        result.append(fish.id_fish.id_fish)
+
+    return JsonResponse(result, safe=False)
