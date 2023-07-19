@@ -9,6 +9,7 @@ urlpatterns = [
     path("aquariums-and-fish", views.aquariums_and_fish, name="aquariums_and_fish"),
     path("<aquariumID>/species", views.species_in_aquarium,
          name="species_in_aquarium"),
+    path("fish/fish_conflict", views.fish_conflict, name="fish_conflict"),
 
 
 ]

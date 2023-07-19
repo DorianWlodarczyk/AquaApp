@@ -165,3 +165,22 @@ def species_in_aquarium(request, aquariumID):
             result.append(fish.id_fish.id_fish)
 
     return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def fish_conflict(request):
+    result = []
+    fishes = get_list_or_404(Fish)
+    for fish in fishes:
+        fish_conflict = FishConflict.objects.filter(
+            id_first_fish=fish.id_fish)
+        fish_conflict_list = []
+        for co in fish_conflict:
+            fish_conflict_list.append(co.id_second_fish)
+        fish_value = {
+            "id": fish.id_fish,
+            "conflict": fish_conflict_list
+        }
+        result.append(fish_value)
+
+    return JsonResponse(result, safe=False)
