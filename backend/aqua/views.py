@@ -187,15 +187,34 @@ def fish_conflict(request):
     return JsonResponse(result, safe=False)
 
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "PUT"])
 def fish_data(request, fishID):
+    result = {}
+    if request.method == "GET":
+        fish = get_object_or_404(AquaLife, id_aqua_life_fish=fishID)
+        result = {
+            "name": fish.fish_nickname,
+            "species": fish.id_fish.id_fish,
+            "state": fish.fish_life_status
+        }
+    elif request.method == "PUT":
+        input = json.loads(request.body)
+        token = request.headers.get('token')
+        user_id, _ = get_user_id(token=token)
+        if user_id is None:
+            raise ValueError("Can't get user id from token")
 
-    fish = get_object_or_404(AquaLife, id_fish=fishID)
-    result = {
-        "name": fish.fish_nickname,
-        "species": fish.id_fish.id_fish,
-        "state": fish.fish_life_status
-    }
+        id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+
+        AquaLife.objects.filter(id_aqua_life_fish=fishID).update(
+            fish_life_status=input["state"],
+            fish_nickname=input["name"]
+        )
+        result = {
+            "status": "Update success"
+        }
+        log(user_id=id_aqua_account,
+            message=f"Update data about fish named {input['name']}")
 
     return JsonResponse(result, safe=False)
 
@@ -210,7 +229,6 @@ def create_fish(request):
         raise ValueError("Can't get user id from token")
 
     id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
-    print("data: ", input)
     print("data: ", input)
     try:
         fish = get_object_or_404(Fish, id_fish=input["species"])
