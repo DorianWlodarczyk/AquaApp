@@ -184,3 +184,16 @@ def fish_conflict(request):
         result.append(fish_value)
 
     return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def fish_data(request, fishID):
+
+    fish = get_object_or_404(AquaLife, id_fish=fishID)
+    result = {
+        "name": fish.fish_nickname,
+        "species": fish.id_fish.id_fish,
+        "state": fish.fish_life_status
+    }
+
+    return JsonResponse(result, safe=False)
