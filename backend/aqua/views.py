@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from aqua.logs import log
 from aqua_app.firebase import get_user_id, simulate_login
 import json
+from datetime import date
 # Create your views here.
 
 
@@ -195,5 +196,42 @@ def fish_data(request, fishID):
         "species": fish.id_fish.id_fish,
         "state": fish.fish_life_status
     }
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["POST"])
+def create_fish(request):
+
+    input = json.loads(request.body)
+    token = request.headers.get('token')
+    user_id, _ = get_user_id(token=token)
+    if user_id is None:
+        raise ValueError("Can't get user id from token")
+
+    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    print("data: ", input)
+    print("data: ", input)
+    try:
+        fish = get_object_or_404(Fish, id_fish=input["species"])
+        tank = get_object_or_404(TankObject, id_tank_object=input["aquaID"])
+        aqua_life = AquaLife.objects.create(
+            id_fish=fish,
+            id_fish_life_time=date.today(),
+            fish_life_status=input["state"],
+            id_tank_object=tank,
+            fish_nickname=input["name"]
+        )
+        aqua_life.save()
+        result = {
+            "status": "ok",
+        }
+        log(user_id=id_aqua_account,
+            message=f"Add new fish named {input['name']}")
+    except ValueError as error:
+        print(error)
+        result = {
+            "status": "Something went wrong, can't add new fish",
+        }
 
     return JsonResponse(result, safe=False)

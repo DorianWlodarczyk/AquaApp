@@ -11,5 +11,6 @@ urlpatterns = [
          name="species_in_aquarium"),
     path("fish/fish_conflict", views.fish_conflict, name="fish_conflict"),
     path("fish/<fishID>", views.fish_data, name="fish_data"),
+    path("fish", views.create_fish, name="create_fish"),
 
 ]
