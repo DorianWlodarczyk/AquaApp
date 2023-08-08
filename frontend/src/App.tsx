@@ -18,7 +18,7 @@ function App() {
         setStatus("UNAUTHORIZED");
       }
     });
-
+    console.log(process.env);
     return () => unsubscribe();
   }, [navigate]);
 
