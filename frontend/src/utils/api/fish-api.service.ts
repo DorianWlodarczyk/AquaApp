@@ -8,7 +8,7 @@ class FishApi extends ApiService {
     return [
       {
         speciesID: "0",
-        conflicts: ["1", "3"],
+        conflicts: ["1", "3", "2"],
       },
       {
         speciesID: "1",
@@ -20,7 +20,7 @@ class FishApi extends ApiService {
       },
       {
         speciesID: "3",
-        conflicts: ["2"],
+        conflicts: ["2", "0"],
       },
     ];
   }
@@ -37,7 +37,7 @@ class FishApi extends ApiService {
   }
 
   static async getSpecies(): Promise<SpeciesData[]> {
-    await new Promise((r) => setTimeout(r, 80));
+    await new Promise((r) => setTimeout(r, 0));
 
     return [
       {

@@ -7,7 +7,7 @@ const Navbar = () => {
   const uiContext = useContext(UIContext);
 
   return (
-    <div className="flex h-[50px] w-full flex-row items-center justify-between bg-neutral-800 drop-shadow lg:bg-white">
+    <div className="relative z-50 flex h-[50px] w-full flex-row items-center justify-between bg-neutral-800 drop-shadow lg:bg-white">
       <div>
         <button
           className="ml-5 lg:hidden"

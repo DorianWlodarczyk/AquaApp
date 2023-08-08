@@ -3,25 +3,50 @@ import Sidebar, { Category } from "../components/sidebar/sidebar";
 import Navbar from "../components/navbar/navbar";
 import { UIContext } from "../contexts/ui-context";
 import style from "./layout.module.scss";
-import UserRoutes from "../routes/user-routes";
+import AdminRoutes from "../routes/admin-routes";
 
 const categories: Category[] = [
   {
-    headerName: "Panel",
+    headerName: "Ryby",
     buttons: [
-      {
-        name: "Akwaria",
-        to: "/aqua",
-      },
       {
         name: "Ryby",
         to: "/fish",
       },
     ],
   },
+  {
+    headerName: "Akwaria",
+    buttons: [
+      {
+        name: "Grzałki",
+        to: "/heater",
+      },
+      {
+        name: "Oświetlenie",
+        to: "/lamp",
+      },
+      {
+        name: "Rośliny",
+        to: "/plant",
+      },
+      {
+        name: "Pompy",
+        to: "/pump",
+      },
+      {
+        name: "Dodatki",
+        to: "/asset",
+      },
+      {
+        name: "Podłoże",
+        to: "/ground",
+      },
+    ],
+  },
 ];
 
-const UserLayout = () => {
+const AdminLayout = () => {
   const uiContext = useContext(UIContext);
 
   const getExpandedStyle = (): string => {
@@ -42,11 +67,11 @@ const UserLayout = () => {
       </div>
       <div className={`${style.body}`}>
         <div className={style.bodyContent}>
-          <UserRoutes />
+          <AdminRoutes />
         </div>
       </div>
     </div>
   );
 };
 
-export default UserLayout;
+export default AdminLayout;

@@ -1,8 +1,16 @@
 import React, { FocusEvent, useState } from "react";
 import NavbarButton from "../navbar-button/navbar-button";
+import { signOutAccount } from "../../../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const UserMenu = () => {
   const [isOpen, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const signOut = () => {
+    navigate("/");
+    signOutAccount();
+  };
 
   const onBlur = (e: FocusEvent<HTMLInputElement>) => {
     setTimeout(() => setOpen(false), 100);
@@ -29,10 +37,10 @@ const UserMenu = () => {
       </div>
 
       {isOpen && (
-        <div className="absolute right-[15px] top-[60px] min-w-[150px] rounded-lg bg-neutral-800">
+        <div className="absolute right-[15px] top-[60px] z-50 min-w-[150px] rounded-lg bg-neutral-800">
           <NavbarButton text="Konto" to="account" />
 
-          <NavbarButton text="Wyloguj" onClick={() => console.log("Wyloguj")} />
+          <NavbarButton text="Wyloguj" onClick={signOut} />
         </div>
       )}
     </>

@@ -24,7 +24,7 @@ class NewAquariumApi extends ApiService {
   }
 
   static async fetchAccessoriesData() {
-    await new Promise((r) => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 0));
 
     const output: AccessoriesData = {
       heaters: [
