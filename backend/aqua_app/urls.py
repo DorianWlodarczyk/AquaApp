@@ -15,10 +15,9 @@ Including another URLconf
 """
 #123
 from django.contrib import admin
-from django.urls import path
-from .views import index
+from django.urls import path, include
 
 urlpatterns = [
+    path('aqua/', include("aqua.urls")),
     path('admin/', admin.site.urls),
-    path('index/', index),
 ]
