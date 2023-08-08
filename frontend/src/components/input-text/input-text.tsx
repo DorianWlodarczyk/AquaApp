@@ -55,7 +55,7 @@ const InputText = ({
   }, [error, value]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         className={`${style.inputText} ${localError ? style.errorText : ""} ${
           searchIcon ? style.withSearchIcon : ""

@@ -7,33 +7,15 @@ import UserRoutes from "../routes/user-routes";
 
 const categories: Category[] = [
   {
-    headerName: "Kategoria 1",
+    headerName: "Panel",
     buttons: [
       {
         name: "Akwaria",
         to: "/aqua",
       },
       {
-        name: "Dwa",
-      },
-      {
-        name: "Trzy",
-      },
-    ],
-  },
-  {
-    headerName: "Kategoria 2",
-    buttons: [
-      {
-        name: "Jeden",
-      },
-      {
-        name: "Page not found",
-        to: "404",
-      },
-      {
-        name: "Test1",
-        to: "/test1",
+        name: "Ryby",
+        to: "/fish",
       },
     ],
   },

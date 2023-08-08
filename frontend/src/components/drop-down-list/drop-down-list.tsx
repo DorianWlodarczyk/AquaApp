@@ -36,7 +36,7 @@ const DropDownList = ({
         <div
           key={index}
           className="flex h-[40px] cursor-pointer items-center truncate bg-white pl-2 even:bg-neutral-50 hover:bg-neutral-100"
-          onClick={() => onClickHandler(item)}
+          onMouseDown={(e) => onClickHandler(e, item)}
         >
           {item.name}
         </div>
@@ -44,26 +44,32 @@ const DropDownList = ({
     });
   };
 
-  const onClickHandler = (newValue: DropDownOption) => {
+  const onClickHandler = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    newValue: DropDownOption
+  ) => {
     setText(newValue.name);
     setOpen(false);
-    if (onChange)
+    if (onChange) {
       onChange(
         `${optionsList.find((item) => item.name === newValue.name)?.value}`
       );
+    }
   };
 
-  const onBlurHandler = () => {
-    if (optionsList.length > 0 && text !== "") {
-      setText(optionsList[0].name);
+  const onBlurHandler = async () => {
+    if (isOpen) {
+      if (optionsList.length > 0 && text !== "") {
+        setText(optionsList[0].name);
 
-      if (onChange) onChange(optionsList[0].value);
-    } else {
-      setText(value ?? "");
-      if (onChange) onChange("");
+        if (onChange) onChange(optionsList[0].value);
+      } else {
+        setText(value ?? "");
+        if (onChange) onChange("");
+      }
     }
 
-    setTimeout(() => setOpen(false), 100);
+    setOpen(false);
   };
 
   const onChangeHandler = (value: string) => {
@@ -77,6 +83,12 @@ const DropDownList = ({
     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
 
     return 0;
+  };
+
+  const onFocus = () => {
+    setOpen(true);
+    if (sort) setOptionsList(options?.sort(compareOptions) || []);
+    else setOptionsList(options || []);
   };
 
   useEffect(() => {
@@ -116,7 +128,7 @@ const DropDownList = ({
     <div className="relative w-full">
       <InputText
         label={label}
-        onFocus={() => setOpen(true)}
+        onFocus={onFocus}
         onBlur={onBlurHandler}
         onChange={onChangeHandler}
         value={text}

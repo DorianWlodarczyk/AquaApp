@@ -1,27 +1,36 @@
 import { SvgIconProps } from "@mui/material";
 import React from "react";
 import style from "./icon-box.module.css";
+
+export enum Color {
+  GREEN,
+  BLUE,
+  RED,
+  ORANGE,
+  PURPLE,
+}
+
 interface props {
-  color?: "GREEN" | "BLUE" | "RED" | "ORANGE" | "PURPLE";
+  color?: Color;
   icon?: React.ReactElement<SvgIconProps>;
 }
 
 const IconBox = ({ color, icon }: props) => {
   const getColor = (): string => {
     switch (color) {
-      case "GREEN":
+      case Color.GREEN:
         return style.green;
 
-      case "BLUE":
+      case Color.BLUE:
         return style.blue;
 
-      case "RED":
+      case Color.RED:
         return style.red;
 
-      case "ORANGE":
+      case Color.ORANGE:
         return style.orange;
 
-      case "PURPLE":
+      case Color.PURPLE:
         return style.purple;
 
       default:
