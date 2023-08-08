@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from aqua.logs import log
 from aqua_app.firebase import get_user_id, simulate_login
 import json
+from datetime import date
 # Create your views here.
 
 
@@ -55,7 +56,6 @@ def aquariums_list(request):
     return JsonResponse(result, safe=False)
 
 
-@csrf_exempt
 @require_http_methods(["POST", "GET"])
 def add_aquarium(request):
 
@@ -105,6 +105,151 @@ def add_aquarium(request):
         result = result = {
             "status": "Something went wrong, can't add new aquarium",
             "aquariumID": None
+        }
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def aquariums_and_fish(request):
+
+    token = request.headers.get('token')
+    user_id, _ = get_user_id(token=token)
+    if user_id is None:
+        raise ValueError("Can't get user id from token")
+
+    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+
+    aquariums = get_list_or_404(TankObject, id_aqua_account=id_aqua_account)
+
+    result = []
+    for item in aquariums:
+        aqua_life_list = AquaLife.objects.filter(
+            id_tank_object=item.id_tank_object)
+        print("aq list:", aqua_life_list)
+        fish_list = []
+        for aqua_life in aqua_life_list:
+            fishes = Fish.objects.filter(id_fish=aqua_life.id_fish.id_fish)
+            for fish in fishes:
+                fish_conflict = FishConflict.objects.filter(
+                    id_first_fish=aqua_life.id_fish.id_fish)
+                fish_conflict_list = []
+                for co in fish_conflict:
+                    fish_conflict_list.append(co.id_second_fish)
+                fish_value = {
+                    "name": fish.fish_name,
+                    "id": fish.id_fish,
+                    "conflict": fish_conflict_list
+                }
+                fish_list.append(fish_value)
+        value = {
+            "aquariumID": item.id_tank_object,
+            "aquariumName": item.tank_name,
+            "aquariumImg": item.id_tank_picture,
+            "fish": fish_list
+        }
+        result.append(value)
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def species_in_aquarium(request, aquariumID):
+    result = []
+    if aquariumID == "fish":
+        fish_list = get_list_or_404(Fish)
+        for fish in fish_list:
+            result.append(fish.id_fish)
+    else:
+        aqua_life_list = get_list_or_404(AquaLife, id_tank_object=aquariumID)
+        for fish in aqua_life_list:
+            result.append(fish.id_fish.id_fish)
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET"])
+def fish_conflict(request):
+    result = []
+    fishes = get_list_or_404(Fish)
+    for fish in fishes:
+        fish_conflict = FishConflict.objects.filter(
+            id_first_fish=fish.id_fish)
+        fish_conflict_list = []
+        for co in fish_conflict:
+            fish_conflict_list.append(co.id_second_fish)
+        fish_value = {
+            "id": fish.id_fish,
+            "conflict": fish_conflict_list
+        }
+        result.append(fish_value)
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["GET", "PUT"])
+def fish_data(request, fishID):
+    result = {}
+    if request.method == "GET":
+        fish = get_object_or_404(AquaLife, id_aqua_life_fish=fishID)
+        result = {
+            "name": fish.fish_nickname,
+            "species": fish.id_fish.id_fish,
+            "state": fish.fish_life_status
+        }
+    elif request.method == "PUT":
+        input = json.loads(request.body)
+        token = request.headers.get('token')
+        user_id, _ = get_user_id(token=token)
+        if user_id is None:
+            raise ValueError("Can't get user id from token")
+
+        id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+
+        AquaLife.objects.filter(id_aqua_life_fish=fishID).update(
+            fish_life_status=input["state"],
+            fish_nickname=input["name"]
+        )
+        result = {
+            "status": "Update success"
+        }
+        log(user_id=id_aqua_account,
+            message=f"Update data about fish named {input['name']}")
+
+    return JsonResponse(result, safe=False)
+
+
+@require_http_methods(["POST"])
+def create_fish(request):
+
+    input = json.loads(request.body)
+    token = request.headers.get('token')
+    user_id, _ = get_user_id(token=token)
+    if user_id is None:
+        raise ValueError("Can't get user id from token")
+
+    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    print("data: ", input)
+    try:
+        fish = get_object_or_404(Fish, id_fish=input["species"])
+        tank = get_object_or_404(TankObject, id_tank_object=input["aquaID"])
+        aqua_life = AquaLife.objects.create(
+            id_fish=fish,
+            id_fish_life_time=date.today(),
+            fish_life_status=input["state"],
+            id_tank_object=tank,
+            fish_nickname=input["name"]
+        )
+        aqua_life.save()
+        result = {
+            "status": "ok",
+        }
+        log(user_id=id_aqua_account,
+            message=f"Add new fish named {input['name']}")
+    except ValueError as error:
+        print(error)
+        result = {
+            "status": "Something went wrong, can't add new fish",
         }
 
     return JsonResponse(result, safe=False)
