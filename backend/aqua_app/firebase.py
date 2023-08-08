@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, auth
 from decouple import config
+import requests
 
 FIREBASE_CONFIG = {
     "type": config("TYPE"),
@@ -28,4 +29,27 @@ def get_user_id(token):
 
     except ValueError:
         # Token is invalid
-        return "Unauthorized: Invalid token"
+        print("shitty token")
+        return None, None
+
+
+def simulate_login(email, password):
+    if not email or not password:
+        raise ValueError("Both email and password are required")
+
+    
+    firebase_auth_url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCWv2sZP1PPfYljB8_sEWy5mYSOYoIOQOI"
+    data = {
+        "email": email,
+        "password": password,
+        "returnSecureToken": True
+    }
+
+    r = requests.post(firebase_auth_url, data=data)
+
+    if r.status_code != 200:
+        raise ValueError("Unauthorized: Invalid email or password")
+
+    token = r.json().get('idToken')
+
+    return token

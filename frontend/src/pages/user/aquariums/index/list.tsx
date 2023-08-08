@@ -3,10 +3,10 @@ import Aquarium from "./components/aquarium";
 import EmptyAquariumsList from "./components/empty-list";
 import AddIcon from "@mui/icons-material/Add";
 import { AquariumData } from "./models/aquarium.interface";
-import AquariumListApi from "./aquarium-list-api.service";
 import Loader from "../../../../components/loader/loader";
 import { FetchStatus } from "../../../../utils/models/fetch-status";
 import { Link } from "react-router-dom";
+import AquariumApi from "../../../../utils/api/aquarium-api.service";
 
 const AquariumsList = () => {
   const [aquaData, setAquaData] = useState<AquariumData[]>([]);
@@ -17,7 +17,7 @@ const AquariumsList = () => {
       setStatus(FetchStatus.Loading);
 
       try {
-        const data = await AquariumListApi.getAquariumList();
+        const data = await AquariumApi.getAquariumsList();
         setAquaData(data);
         setStatus(FetchStatus.Loaded);
       } catch {}
@@ -33,13 +33,14 @@ const AquariumsList = () => {
       <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
         {aquaData.map((item, index) => {
           return (
-            <Aquarium
-              imgID={item.imgID}
-              id={item.id}
-              name={item.name}
-              fishNumber={item.fishNumber}
-              key={index}
-            />
+            <Link key={index} to={`${item.id}`}>
+              <Aquarium
+                imgID={item.imgID}
+                id={item.id}
+                name={item.name}
+                fishNumber={item.fishNumber}
+              />
+            </Link>
           );
         })}
 
