@@ -13,5 +13,5 @@ urlpatterns = [
     path("fish/<fishID>", views.fish_data, name="fish_data"),
     path("fish", views.create_fish, name="create_fish"),
     path("<aquariumID/name",views.aquarium_name_and_imgID,name="aquarium_name_and_imgID"),
-
+    path("<aquariumID/",views.aquarium_info,name="aquarium_info"),
 ]
