@@ -253,3 +253,14 @@ def create_fish(request):
         }
 
     return JsonResponse(result, safe=False)
+
+@require_http_methods(["GET"])
+def aquarium_name_and_imgID(request, aquariumID):
+    aquarium = get_object_or_404(TankObject, id_tank_object=aquariumID)
+    
+    response_data = {
+        "name": aquarium.tank_name,
+        "imgID": aquarium.id_tank_picture
+    }
+    
+    return JsonResponse(response_data, safe=False)
