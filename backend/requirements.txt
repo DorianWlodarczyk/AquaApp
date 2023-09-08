@@ -3,3 +3,4 @@ firebase_admin
 python-decouple
 djangorestframework
 django-environ
+psycopg2
