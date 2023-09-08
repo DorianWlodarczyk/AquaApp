@@ -2,4 +2,4 @@ django
 firebase_admin
 python-decouple
 djangorestframework
-environ
+django-environ
