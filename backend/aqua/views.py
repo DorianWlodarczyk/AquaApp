@@ -253,3 +253,58 @@ def create_fish(request):
         }
 
     return JsonResponse(result, safe=False)
+
+@require_http_methods(["GET"])
+def aquarium_name_and_imgID(request, aquariumID):
+    aquarium = get_object_or_404(TankObject, id_tank_object=aquariumID)
+    
+    response_data = {
+        "name": aquarium.tank_name,
+        "imgID": aquarium.id_tank_picture
+    }
+    
+    return JsonResponse(response_data, safe=False)
+
+@require_http_methods(["GET"])
+def aquarium_info(request, aquariumID):
+    
+    tank_object = get_object_or_404(TankObject, id_tank_object=aquariumID)
+    aqua_maker = get_object_or_404(AquaMaker, id_aqua_maker=tank_object.id_aqua_maker_id)
+    aquarium_tank = get_object_or_404(AquariumTank, id_aquarium_tank=aqua_maker.id_aquarium_tank_id)
+    heater = get_object_or_404(Heater, id_heater=aqua_maker.id_heater_id)
+    lamp = get_object_or_404(Lamp, id_lamp=aqua_maker.id_lamp_id)
+    pump = get_object_or_404(Pump, id_pump=aqua_maker.id_pump_id)
+    asset = get_object_or_404(Asset, id_asset=get_object_or_404(AquaDecorator, id_aqua_decorator=tank_object.id_aqua_decorator_id).id_asset_id)
+    plant = get_object_or_404(Plant, id_plant=get_object_or_404(AquaDecorator, id_aqua_decorator=tank_object.id_aqua_decorator_id).id_plant_id)
+    ground = get_object_or_404(Ground, id_ground=get_object_or_404(AquaDecorator, id_aqua_decorator=tank_object.id_aqua_decorator_id).id_ground_id)
+    
+    # Get all history entries related to this aquarium
+    history_objects = AquaHistory.objects.filter(id_aqua_account=tank_object.id_aqua_account_id)
+    history = [
+        {
+            "id": history_obj.id_aqua_history,
+            "time": str(history_obj.log_info),
+            "text": history_obj.log_info
+        } 
+        for history_obj in history_objects
+    ]
+    
+    # Prepare the response data
+    response_data = {
+        "fishNumber": AquaLife.objects.filter(id_tank_object=aquariumID).count(),
+        "width": str(aquarium_tank.size_width),
+        "height": str(aquarium_tank.size_height),
+        "length": str(aquarium_tank.size_length),
+        "aquaName": tank_object.tank_name,
+        "aquaImg": tank_object.id_tank_picture,
+        "heaterName": heater.heater_name,
+        "lampName": lamp.lamp_name,
+        "pumpName": pump.pump_name,
+        "assetName": asset.asset_name,
+        "plantName": plant.plant_name,
+        "groundName": ground.ground_name,
+        "history": history,
+    }
+    
+    return JsonResponse(response_data, safe=False)
+    
