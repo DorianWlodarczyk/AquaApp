@@ -31,7 +31,7 @@ def index(request):
 
 @require_http_methods(["GET"])
 def aquariums_list(request):
-    token = request.GET.get('token')
+    token = request.headers.get('token')
 
     user_id, _ = get_user_id(token=token)
     if user_id is None:
