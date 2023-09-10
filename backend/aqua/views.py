@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from aqua.models import *
 # AquaHistory, AquaAccount, TankObject, AquaLife, AquariumTank
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from aqua.logs import log
 from aqua_app.firebase import get_user_id, simulate_login
@@ -13,20 +14,9 @@ from datetime import date
 
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST","GET"])
 def index(request):
-    user_id = json.loads(request.body)
-    # user_id = "hwdp2137BDSM420jp2w13lk1_p0l@k69"
-    # id_aqua_account = AquaAccount.objects.get(user_id=user_id)
-
-    if not user_id:
-        print("podaj user id")
-        print(user_id)
-        return HttpResponse("chujowy use id")
-    else:
-        print(user_id)
-        # log(user_id=id_aqua_account, message="jan pawel 2 kradl dzieciom szlugi")
-        return HttpResponse("user id ok")
+    return HttpResponse("Hello, world! This is a test.")
 
 
 @require_http_methods(["GET"])
@@ -256,8 +246,18 @@ def create_fish(request):
 
 @require_http_methods(["GET"])
 def aquarium_name_and_imgID(request, aquariumID):
-    aquarium = get_object_or_404(TankObject, id_tank_object=aquariumID)
     
+   
+    
+    input = json.loads(request.body)
+    token = request.headers.get('token')
+    user_id, _ = get_user_id(token=token)
+    if user_id is None:
+        raise ValueError("Can't get user id from token")
+
+    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    aquarium = get_object_or_404(TankObject, id_tank_object=aquariumID, id_aqua_account=id_aqua_account)
+
     response_data = {
         "name": aquarium.tank_name,
         "imgID": aquarium.id_tank_picture
@@ -308,3 +308,5 @@ def aquarium_info(request, aquariumID):
     
     return JsonResponse(response_data, safe=False)
     
+
+

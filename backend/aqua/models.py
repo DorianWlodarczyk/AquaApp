@@ -194,7 +194,7 @@ class TankObject(models.Model):
     id_aqua_account = models.ForeignKey(
         AquaAccount, models.CASCADE, db_column='id_aqua_account')
     tank_name = models.CharField(max_length=80, blank=True, null=True)
-    id_tank_picture = models.CharField(max_length=80, blank=True, null=True)
+    id_tank_picture = models.IntegerField(blank=True, null=True)
     is_favourite_tank = models.IntegerField(blank=True, null=True)
 
     class Meta:
