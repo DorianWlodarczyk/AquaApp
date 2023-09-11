@@ -476,7 +476,7 @@ def edit_species(request, id):
 
         fish.save()
 
-        return JsonResponse({"message": f"Species with id {id} updated successfully"}, status=200)
+        return JsonResponse({"name": fish.fish_name}, status=200)
     except Fish.DoesNotExist:
         return JsonResponse({"error": "Species not found"}, status=404)
     except Exception as e:
