@@ -11,18 +11,25 @@ class AquariumApi extends ApiService {
   }
 
   static async getAquariumsList(): Promise<AquariumData[]> {
-    await new Promise((r) => setTimeout(r, 2000));
+    const response = await ApiService.get<AquariumData[]>("aquariums");
+    console.log(
+      "🚀 ~ file: aquarium-api.service.ts:15 ~ AquariumApi ~ getAquariumsList ~ response:",
+      response
+    );
 
-    const output: AquariumData[] = [];
-    for (let i = 0; i < Math.floor(Math.random() * 1000); i++) {
-      output.push({
-        id: `${i}`,
-        name: `Akwarium #${i}`,
-        imgID: `${Math.floor(Math.random() * 12)}`,
-        fishNumber: Math.floor(Math.random() * 100),
-      });
-    }
-    return output;
+    // await new Promise((r) => setTimeout(r, 2000));
+
+    // const output: AquariumData[] = [];
+    // for (let i = 0; i < Math.floor(Math.random() * 1000); i++) {
+    //   output.push({
+    //     id: `${i}`,
+    //     name: `Akwarium #${i}`,
+    //     imgID: `${Math.floor(Math.random() * 12)}`,
+    //     fishNumber: Math.floor(Math.random() * 100),
+    //   });
+    // }
+    if (response) return response;
+    else return [];
   }
 }
 
