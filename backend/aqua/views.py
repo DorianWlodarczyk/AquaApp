@@ -268,6 +268,20 @@ def aquarium_name_and_imgID(request, aquariumID):
 @require_http_methods(["GET"])
 def aquarium_info(request, aquariumID):
     
+    user = "user1@wp.pl"
+    password = 123456
+    token = simulate_login(user,password)
+
+    #token = request.headers.get('token')
+
+    user_id, _ = get_user_id(token=token)
+    if user_id is None:
+        return JsonResponse({"error": "Can't get user id from token"}, status=400)
+
+    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    aquariumID = aqua_account.id_aqua_account  
+
+    
     tank_object = get_object_or_404(TankObject, id_tank_object=aquariumID)
     aqua_maker = get_object_or_404(AquaMaker, id_aqua_maker=tank_object.id_aqua_maker_id)
     aquarium_tank = get_object_or_404(AquariumTank, id_aquarium_tank=aqua_maker.id_aquarium_tank_id)
