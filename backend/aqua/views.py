@@ -391,3 +391,32 @@ def remove_fish_conflict(request):
 
     return JsonResponse({"message": "Fish conflict removed successfully"}, status=200)
 
+@require_http_methods(["POST"])
+def add_species(request):
+
+    token = request.headers.get('token')
+
+   
+    user_id, _ = get_user_id(token=token)  
+
+   
+    if user_id is None:
+        return JsonResponse({"error": "Can't get user id from token"}, status=400)
+
+  
+    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    if not aqua_account.is_admin:
+        return JsonResponse({"error": "User is not an admin"}, status=403)
+
+    
+    input_data = json.loads(request.body)
+    
+    species_name = input_data.get("fish_name")
+    
+    if not species_name:
+        return JsonResponse({"error": "Invalid input data"}, status=400)
+
+    new_fish = Fish(fish_name=species_name)
+    new_fish.save()
+
+    return JsonResponse({"name": species_name}, status=201)

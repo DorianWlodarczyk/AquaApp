@@ -16,5 +16,5 @@ urlpatterns = [
     path("<aquariumID>/",views.aquarium_info,name="aquarium_info"),
     path("admin/conflict",views.add_fish_conflict,name="add_fish_conflict"),
     path("admin/conflicts",views.remove_fish_conflict,name="remove_fish_conflic"),
-
+    path("admin/speciess", views.add_species, name="add_species"),
 ]

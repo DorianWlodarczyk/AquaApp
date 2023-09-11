@@ -101,14 +101,10 @@ class Fish(models.Model):
     id_fish = models.BigAutoField(primary_key=True)
     fish_name = models.CharField(max_length=45, blank=True, null=True)
     fish_size = models.IntegerField(blank=True, null=True)
-    min_ph = models.DecimalField(
-        max_digits=65535, decimal_places=65535, blank=True, null=True)
-    max_ph = models.DecimalField(
-        max_digits=65535, decimal_places=65535, blank=True, null=True)
-    min_degree = models.DecimalField(
-        max_digits=65535, decimal_places=65535, blank=True, null=True)
-    max_degree = models.DecimalField(
-        max_digits=65535, decimal_places=65535, blank=True, null=True)
+    min_ph = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    max_ph = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    min_degree = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    max_degree = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     fish_character = models.CharField(max_length=45, blank=True, null=True)
     info = models.CharField(max_length=250, blank=True, null=True)
 
