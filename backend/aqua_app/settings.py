@@ -32,6 +32,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app','aqua-app-backend.onrender.com', 'aqua-app-backend-develop.onrender.com']
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOWED_HEADERS = ['Content-Type', 'token']
+
 
 # Application definition
 
@@ -58,11 +64,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
 
-CORS_ALLOWED_HEADERS = ['Content-Type', 'token']
 
 ROOT_URLCONF = 'aqua_app.urls'
 
