@@ -424,13 +424,8 @@ def add_species(request):
 
 @require_http_methods(["DELETE"])
 def delete_species(request, id):  
-
-    user = "user1@wp.pl"
-    password = 123456
-    
-    token = simulate_login(user, password)
-   
-    # token = request.headers.get('token')
+     
+    token = request.headers.get('token')
 
     user_id, _ = get_user_id(token=token)
 
