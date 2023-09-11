@@ -481,3 +481,28 @@ def edit_species(request, id):
         return JsonResponse({"error": "Species not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)   
+    
+    
+@require_http_methods(["GET"])
+def accessories(request):
+    try:
+        heaters = list(Heater.objects.values('id_heater', 'heater_name', 'max_capacity'))
+        lamps = list(Lamp.objects.values('id_lamp', 'lamp_name'))
+        pumps = list(Pump.objects.values('id_pump', 'pump_name', 'pump_capacity'))
+        assets = list(Asset.objects.values('id_asset', 'asset_name'))
+        plants = list(Plant.objects.values('id_plant', 'plant_name'))
+        grounds = list(Ground.objects.values('id_ground', 'ground_name'))
+    
+        response_data = {
+            "heaters": heaters,
+            "lamps": lamps,
+            "pumps": pumps,
+            "assets": assets,
+            "plants": plants,
+            "grounds": grounds,
+        }
+    
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+    
+    return JsonResponse(response_data)

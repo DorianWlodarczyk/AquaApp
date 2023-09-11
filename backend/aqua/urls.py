@@ -19,4 +19,5 @@ urlpatterns = [
     path("admin/speciess", views.add_species, name="add_species"),
     path("admin/remove_species/<int:id>", views.delete_species, name="delete_species"),
     path("admin/edit_species/<int:id>", views.edit_species, name="edit_species"),
+    path("accessories",views.accessories,name="accessories"),
 ]
