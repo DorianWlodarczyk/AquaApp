@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/edit_species/<int:id>", views.edit_species, name="edit_species"),
     path("accessories",views.accessories,name="accessories"),
     path('admin/delete_accessory/<str:type>/<int:id>', views.delete_accessory, name='delete_accessory'),
+    path('admin/add_accessory/<str:type>', views.add_accessory, name='add_accessory'),
 ]

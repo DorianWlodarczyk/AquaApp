@@ -562,3 +562,53 @@ def delete_accessory(request, type, id):
         return JsonResponse({"error": "Accessory not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
+    
+@require_http_methods(["POST"])
+def add_accessory(request, type):
+    
+
+    token = request.headers.get('token')
+    
+    user_id, _ = get_user_id(token=token)
+
+    if user_id is None:
+        return JsonResponse({"error": "Can't get user id from token"}, status=400)
+
+    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    if not aqua_account.is_admin:
+        return JsonResponse({"error": "User is not an admin"}, status=403)
+
+    try:
+        
+        model_class = None
+        id_field = None
+        data = json.loads(request.body)
+
+        if type == 'heater':
+            model_class = Heater
+            id_field = 'id_heater'
+        elif type == 'lamp':
+            model_class = Lamp
+            id_field = 'id_lamp'
+        elif type == 'plant':
+            model_class = Plant
+            id_field = 'id_plant'
+        elif type == 'pump':
+            model_class = Pump
+            id_field = 'id_pump'
+        elif type == 'ground':
+            model_class = Ground
+            id_field = 'id_ground'
+        elif type == 'asset':
+            model_class = Asset
+            id_field = 'id_asset'
+        else:
+            return JsonResponse({"error": "Invalid type parameter"}, status=400)
+
+        new_accessory = model_class.objects.create(**data)
+
+        return JsonResponse({"message": f"Accessory of type '{type}' added successfully with ID {getattr(new_accessory, id_field)}"}, status=201)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
