@@ -450,3 +450,34 @@ def delete_species(request, id):
         return JsonResponse({"error": "Species not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
+    
+@require_http_methods(["PUT"])
+def edit_species(request, id):
+    
+    token = request.headers.get('token')
+
+    user_id, _ = get_user_id(token=token)
+
+    if user_id is None:
+        return JsonResponse({"error": "Can't get user id from token"}, status=400)
+
+    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    if not aqua_account.is_admin:
+        return JsonResponse({"error": "User is not an admin"}, status=403)
+
+    try:
+        fish = Fish.objects.get(id_fish=id)
+        input_data = json.loads(request.body)
+
+        for key, value in input_data.items():
+            if hasattr(fish, key):
+                setattr(fish, key, value)
+
+        fish.save()
+
+        return JsonResponse({"message": f"Species with id {id} updated successfully"}, status=200)
+    except Fish.DoesNotExist:
+        return JsonResponse({"error": "Species not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)   
