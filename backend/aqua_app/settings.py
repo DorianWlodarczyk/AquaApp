@@ -36,7 +36,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
 
-CORS_ALLOWED_HEADERS = ['Content-Type', 'token']
+CORS_ALLOW_HEADERS = ['*']
 
 
 # Application definition
