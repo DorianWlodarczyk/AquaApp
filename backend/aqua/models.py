@@ -25,9 +25,9 @@ class AquaAccount(models.Model):
 class AquaDecorator(models.Model):
     id_aqua_decorator = models.BigAutoField(primary_key=True)
     id_ground = models.ForeignKey(
-        'Ground', models.PROTECT, db_column='id_ground')
-    id_plant = models.ForeignKey('Plant', models.PROTECT, db_column='id_plant')
-    id_asset = models.ForeignKey('Asset', models.PROTECT, db_column='id_asset')
+        'Ground', models.CASCADE, db_column='id_ground')
+    id_plant = models.ForeignKey('Plant', models.CASCADE, db_column='id_plant')
+    id_asset = models.ForeignKey('Asset', models.CASCADE, db_column='id_asset')
 
     class Meta:
         managed = True
@@ -64,7 +64,8 @@ class AquaMaker(models.Model):
     id_aquarium_tank = models.ForeignKey(
         'AquariumTank', models.CASCADE, db_column='id_aquarium_tank')
     id_heater = models.ForeignKey(
-        'Heater', models.PROTECT, db_column='id_heater')
+        'Heater', models.CASCADE, db_column='id_heater'
+)
     id_pump = models.ForeignKey('Pump', models.PROTECT, db_column='id_pump')
     id_lamp = models.ForeignKey('Lamp', models.PROTECT, db_column='id_lamp')
 
@@ -187,7 +188,7 @@ class TankObject(models.Model):
     id_aqua_decorator = models.ForeignKey(
         AquaDecorator, models.PROTECT, db_column='id_aqua_decorator')
     id_aqua_maker = models.ForeignKey(
-        AquaMaker, models.PROTECT, db_column='id_aqua_maker')
+        AquaMaker, models.CASCADE, db_column='id_aqua_maker')
     id_aqua_account = models.ForeignKey(
         AquaAccount, models.CASCADE, db_column='id_aqua_account')
     tank_name = models.CharField(max_length=80, blank=True, null=True)

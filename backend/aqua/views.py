@@ -506,3 +506,59 @@ def accessories(request):
         return JsonResponse({"error": str(e)}, status=500)
     
     return JsonResponse(response_data)
+
+@require_http_methods(["DELETE"])
+def delete_accessory(request, type, id):
+    
+    token = request.headers.get('token')
+
+    user_id, _ = get_user_id(token=token)
+
+    if user_id is None:
+        return JsonResponse({"error": "Can't get user id from token"}, status=400)
+
+    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    if not aqua_account.is_admin:
+        return JsonResponse({"error": "User is not an admin"}, status=403)
+
+    try:
+        model_class = None
+        id_field = None
+
+        if type == 'heater':
+            model_class = Heater
+            id_field = 'id_heater'
+
+            # Adding extra deletion steps for heaters
+            aqua_maker_entries = AquaMaker.objects.filter(id_heater=id)
+            for entry in aqua_maker_entries:
+                TankObject.objects.filter(id_aqua_maker=entry.id_aqua_maker).delete()
+            aqua_maker_entries.delete()
+        elif type == 'lamp':
+            model_class = Lamp
+            id_field = 'id_lamp'
+        elif type == 'plant':
+            model_class = Plant
+            id_field = 'id_plant'
+        elif type == 'pump':
+            model_class = Pump
+            id_field = 'id_pump'
+        elif type == 'ground':
+            model_class = Ground
+            id_field = 'id_ground'
+        elif type == 'asset':
+            model_class = Asset
+            id_field = 'id_asset'
+        else:
+            return JsonResponse({"error": "Invalid type parameter"}, status=400)
+
+        filter_kwargs = {id_field: id}
+        accessory = get_object_or_404(model_class, **filter_kwargs)
+        accessory.delete()
+
+        return JsonResponse({"message": f"Accessory of type '{type}' with id {id} deleted successfully"}, status=200)
+    
+    except model_class.DoesNotExist:
+        return JsonResponse({"error": "Accessory not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
