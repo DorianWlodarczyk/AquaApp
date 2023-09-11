@@ -420,3 +420,38 @@ def add_species(request):
     new_fish.save()
 
     return JsonResponse({"name": species_name}, status=201)
+
+
+@require_http_methods(["DELETE"])
+def delete_species(request, id):  
+
+    user = "user1@wp.pl"
+    password = 123456
+    
+    token = simulate_login(user, password)
+   
+    # token = request.headers.get('token')
+
+    user_id, _ = get_user_id(token=token)
+
+    if user_id is None:
+        return JsonResponse({"error": "Can't get user id from token"}, status=400)
+
+    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+    if not aqua_account.is_admin:
+        return JsonResponse({"error": "User is not an admin"}, status=403)
+
+    try:
+        fish = Fish.objects.get(id_fish=id)
+        
+        
+        FishConflict.objects.filter(id_first_fish=id).delete()
+        
+        
+        fish.delete()
+        
+        return JsonResponse({"message": f"Species with id {id} deleted successfully along with related conflict records"}, status=200)
+    except Fish.DoesNotExist:
+        return JsonResponse({"error": "Species not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

@@ -17,4 +17,5 @@ urlpatterns = [
     path("admin/conflict",views.add_fish_conflict,name="add_fish_conflict"),
     path("admin/conflicts",views.remove_fish_conflict,name="remove_fish_conflic"),
     path("admin/speciess", views.add_species, name="add_species"),
+    path("admin/remove_species/<int:id>", views.delete_species, name="delete_species"),
 ]

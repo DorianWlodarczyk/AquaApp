@@ -116,8 +116,9 @@ class Fish(models.Model):
 class FishConflict(models.Model):
     id_fish_conflict = models.BigAutoField(primary_key=True)
     id_first_fish = models.ForeignKey(
-        Fish, models.PROTECT, db_column='id_first_fish', blank=True, null=True)
-    id_second_fish = models.IntegerField(blank=True, null=True)
+        Fish, models.CASCADE, db_column='id_first_fish', blank=True, null=True, related_name='fish_conflict_first_fish')
+    id_second_fish = models.ForeignKey(
+        Fish, models.CASCADE, db_column='id_second_fish', blank=True, null=True, related_name='fish_conflict_second_fish')
 
     class Meta:
         managed = True
