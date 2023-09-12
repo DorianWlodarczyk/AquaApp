@@ -249,7 +249,7 @@ def aquarium_name_and_imgID(request, aquariumID):
     
    
     
-    input = json.loads(request.body)
+
     token = request.headers.get('token')
     user_id, _ = get_user_id(token=token)
     if user_id is None:
