@@ -266,7 +266,6 @@ def aquarium_name_and_imgID(request, aquariumID):
 @require_http_methods(["GET"])
 def aquarium_info(request, aquariumID):
     
-    
     token = request.headers.get('token')
     user_id, _ = get_user_id(token=token)
 
