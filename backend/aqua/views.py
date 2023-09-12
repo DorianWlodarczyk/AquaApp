@@ -249,7 +249,7 @@ def aquarium_name_and_imgID(request, aquariumID):
     
    
     
-    input = json.loads(request.body)
+
     token = request.headers.get('token')
     user_id, _ = get_user_id(token=token)
     if user_id is None:
@@ -268,18 +268,6 @@ def aquarium_name_and_imgID(request, aquariumID):
 @require_http_methods(["GET"])
 def aquarium_info(request, aquariumID):
     
-
-
-    token = request.headers.get('token')
-
-    user_id, _ = get_user_id(token=token)
-    if user_id is None:
-        return JsonResponse({"error": "Can't get user id from token"}, status=400)
-
-    aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
-    aquariumID = aqua_account.id_aqua_account  
-
-    
     tank_object = get_object_or_404(TankObject, id_tank_object=aquariumID)
     aqua_maker = get_object_or_404(AquaMaker, id_aqua_maker=tank_object.id_aqua_maker_id)
     aquarium_tank = get_object_or_404(AquariumTank, id_aquarium_tank=aqua_maker.id_aquarium_tank_id)
@@ -290,7 +278,7 @@ def aquarium_info(request, aquariumID):
     plant = get_object_or_404(Plant, id_plant=get_object_or_404(AquaDecorator, id_aqua_decorator=tank_object.id_aqua_decorator_id).id_plant_id)
     ground = get_object_or_404(Ground, id_ground=get_object_or_404(AquaDecorator, id_aqua_decorator=tank_object.id_aqua_decorator_id).id_ground_id)
     
-    # Get all history entries related to this aquarium
+    
     history_objects = AquaHistory.objects.filter(id_aqua_account=tank_object.id_aqua_account_id)
     history = [
         {
@@ -301,7 +289,7 @@ def aquarium_info(request, aquariumID):
         for history_obj in history_objects
     ]
     
-    # Prepare the response data
+  
     response_data = {
         "fishNumber": AquaLife.objects.filter(id_tank_object=aquariumID).count(),
         "width": str(aquarium_tank.size_width),
