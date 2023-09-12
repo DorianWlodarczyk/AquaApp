@@ -704,9 +704,9 @@ def check_if_admin(request):
         aqua_account = AquaAccount.objects.get(user_id=user_id)
         
         if aqua_account.is_admin:
-            return JsonResponse({"is_admin": True})
+            return JsonResponse({"isAdmin": True})
         else:
-            return JsonResponse({"is_admin": False})
+            return JsonResponse({"isAdmin": False})
     
     except AquaAccount.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
