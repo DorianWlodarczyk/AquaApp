@@ -295,6 +295,7 @@ def aquarium_info(request, aquariumID):
     history = [
         {
             "id": history_obj.id_aqua_history,
+            "time": history_obj.date,
             "text": history_obj.log_info
         } 
         for history_obj in history_objects

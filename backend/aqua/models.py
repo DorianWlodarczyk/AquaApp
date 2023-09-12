@@ -39,6 +39,7 @@ class AquaHistory(models.Model):
     id_aqua_account = models.ForeignKey(
         AquaAccount, models.CASCADE, db_column='id_aqua_account', blank=True, null=True)
     log_info = models.CharField(max_length=500, blank=True, null=True)
+    date = models.DateField(auto_now_add=True, null=True, blank=True)  
 
     class Meta:
         managed = True
