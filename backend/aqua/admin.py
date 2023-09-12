@@ -83,4 +83,4 @@ class LampAdmin(admin.ModelAdmin):
 @admin.register(Pump)
 class PumpAdmin(admin.ModelAdmin):
     list_display = ('id_pump', 'pump_name', 'power',
-                    'pump_capacity', 'water_gauge')
+                    'max_capacity', 'water_gauge')
