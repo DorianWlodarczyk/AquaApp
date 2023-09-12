@@ -322,86 +322,70 @@ def aquarium_info(request, aquariumID):
     
 @require_http_methods(["POST"])
 def add_fish_conflict(request):
-    
 
-    
     input_data = json.loads(request.body)
-
    
     token = request.headers.get('token')
 
-    
     user_id, _ = get_user_id(token=token)
 
     if user_id is None:
         return JsonResponse({"error": "Can't get user id from token"}, status=400)
 
-    
     aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
     if not aqua_account.is_admin:
         return JsonResponse({"error": "User is not an admin"}, status=403)
 
-    
     first_id = input_data.get("firstID")
     second_id = input_data.get("secondID")
 
     if not first_id or not second_id:
         return JsonResponse({"error": "Invalid input data"}, status=400)
 
-    
     first_fish = get_object_or_404(Fish, id_fish=first_id)
     second_fish = get_object_or_404(Fish, id_fish=second_id)
 
-    # Dodaj nowy rekord konfliktu ryb
+   
     fish_conflict = FishConflict(
         id_first_fish=first_fish,
-        id_second_fish=second_fish.id_fish
+        id_second_fish=second_fish
     )
     fish_conflict.save()
 
-    return JsonResponse({"message": "Fish conflict added successfully"}, status=201)
+    return JsonResponse({"firstID": first_id, "secondID": second_id}, status=201)
 
 
 @require_http_methods(["DELETE"])
 def remove_fish_conflict(request):
     
-    
     input_data = json.loads(request.body)
 
-   
     token = request.headers.get('token')
 
-   
     user_id, _ = get_user_id(token=token)
 
-   
     if user_id is None:
         return JsonResponse({"error": "Can't get user id from token"}, status=400)
 
-   
     aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
     if not aqua_account.is_admin:
         return JsonResponse({"error": "User is not an admin"}, status=403)
 
-   
     first_id = input_data.get("firstID")
     second_id = input_data.get("secondID")
 
-    
     if not first_id or not second_id:
         return JsonResponse({"error": "Invalid input data"}, status=400)
 
-    
     first_fish = get_object_or_404(Fish, id_fish=first_id)
-
-   
+    
     try:
         fish_conflict = get_object_or_404(FishConflict, id_first_fish=first_fish, id_second_fish=second_id)
         fish_conflict.delete()
     except Http404:
         return JsonResponse({"error": "Fish conflict not found"}, status=404)
 
-    return JsonResponse({"message": "Fish conflict removed successfully"}, status=200)
+    return JsonResponse({"firstID": first_id, "secondID": second_id}, status=200)
 
 @require_http_methods(["POST"])
 def add_species(request):
