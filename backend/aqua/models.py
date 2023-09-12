@@ -174,7 +174,7 @@ class Pump(models.Model):
     id_pump = models.BigAutoField(primary_key=True)
     pump_name = models.CharField(max_length=60, blank=True, null=True)
     power = models.IntegerField(blank=True, null=True)
-    pump_capacity = models.IntegerField(blank=True, null=True)
+    max_capacity = models.IntegerField(blank=True, null=True)
     water_gauge = models.DecimalField(
         max_digits=65535, decimal_places=65535, blank=True, null=True)
 
