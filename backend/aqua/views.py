@@ -579,7 +579,6 @@ def delete_accessory(request, type, id):
 @require_http_methods(["POST"])
 def add_accessory(request, type):
     
-
     token = request.headers.get('token')
     
     user_id, _ = get_user_id(token=token)
@@ -619,8 +618,14 @@ def add_accessory(request, type):
             return JsonResponse({"error": "Invalid type parameter"}, status=400)
 
         new_accessory = model_class.objects.create(**data)
+        response_data = {
+            "name": getattr(new_accessory, f"{type}_name"),
+        }
+        
+        if type in ['heater', 'pump']:
+            response_data["maxCapacity"] = getattr(new_accessory, "max_capacity", None)
 
-        return JsonResponse({"message": f"Accessory of type '{type}' added successfully with ID {getattr(new_accessory, id_field)}"}, status=201)
+        return JsonResponse(response_data, status=201)
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -674,7 +679,14 @@ def edit_accessory(request, type, id):
         
         accessory.save()
 
-        return JsonResponse({"message": f"Accessory of type '{type}' with ID {id} updated successfully"}, status=200)
+        response_data = {
+            "name": getattr(accessory, f"{type}_name"),
+        }
+
+        if type in ['heater', 'pump']:
+            response_data["maxCapacity"] = getattr(accessory, "max_capacity", None)
+
+        return JsonResponse(response_data, status=200)
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
