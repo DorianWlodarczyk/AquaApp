@@ -17,17 +17,21 @@ import os
 env = environ.Env()
 environ.Env.read_env()
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-l5_^r9k09w*38_oqs+v0hrd0s!b4a@im)9#_2+*q-w^j6v@zi-'
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app','aqua-app-backend.onrender.com', 'aqua-app-backend-develop.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', 'aqua-app-backend.onrender.com', 'aqua-app-backend-develop.onrender.com']
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_METHODS = [
     'GET',
@@ -52,6 +56,12 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_REDIRECTS = False
+
+APPEND_SLASH = False
+
+# Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -61,10 +71,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'aqua_app',
     'aqua',
-    'corsheaders',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,7 +83,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'aqua_app.urls'
@@ -95,6 +105,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'aqua_app.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': env('DB_ENGINE'),
@@ -105,6 +118,9 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
+
+# Password validation
+# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -121,10 +137,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/4.0/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+
 STATIC_URL = 'static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
