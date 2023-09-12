@@ -321,89 +321,75 @@ def aquarium_info(request, aquariumID):
     
 @require_http_methods(["POST"])
 def add_fish_conflict(request):
-    
 
-    
     input_data = json.loads(request.body)
-
    
     token = request.headers.get('token')
 
-    
     user_id, _ = get_user_id(token=token)
 
     if user_id is None:
         return JsonResponse({"error": "Can't get user id from token"}, status=400)
 
-    
     aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
     if not aqua_account.is_admin:
         return JsonResponse({"error": "User is not an admin"}, status=403)
 
-    
     first_id = input_data.get("firstID")
     second_id = input_data.get("secondID")
 
     if not first_id or not second_id:
         return JsonResponse({"error": "Invalid input data"}, status=400)
 
-    
     first_fish = get_object_or_404(Fish, id_fish=first_id)
     second_fish = get_object_or_404(Fish, id_fish=second_id)
 
-    # Dodaj nowy rekord konfliktu ryb
+   
     fish_conflict = FishConflict(
         id_first_fish=first_fish,
-        id_second_fish=second_fish.id_fish
+        id_second_fish=second_fish
     )
     fish_conflict.save()
 
-    return JsonResponse({"message": "Fish conflict added successfully"}, status=201)
+    return JsonResponse({"firstID": first_id, "secondID": second_id}, status=201)
 
 
 @require_http_methods(["DELETE"])
 def remove_fish_conflict(request):
     
-    
     input_data = json.loads(request.body)
 
-   
     token = request.headers.get('token')
 
-   
     user_id, _ = get_user_id(token=token)
 
-   
     if user_id is None:
         return JsonResponse({"error": "Can't get user id from token"}, status=400)
 
-   
     aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
     if not aqua_account.is_admin:
         return JsonResponse({"error": "User is not an admin"}, status=403)
 
-   
     first_id = input_data.get("firstID")
     second_id = input_data.get("secondID")
 
-    
     if not first_id or not second_id:
         return JsonResponse({"error": "Invalid input data"}, status=400)
 
-    
     first_fish = get_object_or_404(Fish, id_fish=first_id)
-
-   
+    
     try:
         fish_conflict = get_object_or_404(FishConflict, id_first_fish=first_fish, id_second_fish=second_id)
         fish_conflict.delete()
     except Http404:
         return JsonResponse({"error": "Fish conflict not found"}, status=404)
 
-    return JsonResponse({"message": "Fish conflict removed successfully"}, status=200)
+    return JsonResponse({"firstID": first_id, "secondID": second_id}, status=200)
 
 @require_http_methods(["POST"])
 def add_species(request):
+    
+   
 
     token = request.headers.get('token')
 
@@ -466,6 +452,8 @@ def delete_species(request, id):
 @require_http_methods(["PUT"])
 def edit_species(request, id):
     
+   
+    
     token = request.headers.get('token')
 
     user_id, _ = get_user_id(token=token)
@@ -499,7 +487,7 @@ def accessories(request):
     try:
         heaters = list(Heater.objects.values('id_heater', 'heater_name', 'max_capacity'))
         lamps = list(Lamp.objects.values('id_lamp', 'lamp_name'))
-        pumps = list(Pump.objects.values('id_pump', 'pump_name', 'pump_capacity'))
+        pumps = list(Pump.objects.values('id_pump', 'pump_name', 'max_capacity'))
         assets = list(Asset.objects.values('id_asset', 'asset_name'))
         plants = list(Plant.objects.values('id_plant', 'plant_name'))
         grounds = list(Ground.objects.values('id_ground', 'ground_name'))
@@ -507,7 +495,7 @@ def accessories(request):
         response_data = {
             "heaters": [{"id": str(item['id_heater']), "name": item['heater_name'], "maxCapacity": item['max_capacity']} for item in heaters],
             "lamps": [{"id": str(item['id_lamp']), "name": item['lamp_name']} for item in lamps],
-            "pumps": [{"id": str(item['id_pump']), "name": item['pump_name'], "maxCapacity": item['pump_capacity']} for item in pumps],
+            "pumps": [{"id": str(item['id_pump']), "name": item['pump_name'], "maxCapacity": item['max_capacity']} for item in pumps],
             "assets": [{"id": str(item['id_asset']), "name": item['asset_name']} for item in assets],
             "plants": [{"id": str(item['id_plant']), "name": item['plant_name']} for item in plants],
             "grounds": [{"id": str(item['id_ground']), "name": item['ground_name']} for item in grounds],
