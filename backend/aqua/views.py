@@ -105,10 +105,8 @@ def add_aquarium(request):
 def aquariums_and_fish(request):
     try:
         
-        user = "user1@wp.pl"
-        password = 123456
-        token = simulate_login(user,password)
-        #token = request.headers.get('token')
+       
+        token = request.headers.get('token')
         user_id, _ = get_user_id(token=token)
         if user_id is None:
             raise ValueError("Can't get user id from token")
@@ -693,3 +691,24 @@ def get_all_fish(request):
         result.append({"id": str(fish.id_fish), "name": fish.fish_name})
     
     return JsonResponse(result, safe=False)
+
+@require_http_methods(["GET"])
+def check_if_admin(request):
+    try:
+        token = request.headers.get('token')
+        user_id, _ = get_user_id(token=token)
+        
+        if user_id is None:
+            raise ValueError("Can't get user id from token")
+        
+        aqua_account = AquaAccount.objects.get(user_id=user_id)
+        
+        if aqua_account.is_admin:
+            return JsonResponse({"is_admin": True})
+        else:
+            return JsonResponse({"is_admin": False})
+    
+    except AquaAccount.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
