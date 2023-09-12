@@ -503,16 +503,16 @@ def accessories(request):
         assets = list(Asset.objects.values('id_asset', 'asset_name'))
         plants = list(Plant.objects.values('id_plant', 'plant_name'))
         grounds = list(Ground.objects.values('id_ground', 'ground_name'))
-    
+        
         response_data = {
-            "heaters": heaters,
-            "lamps": lamps,
-            "pumps": pumps,
-            "assets": assets,
-            "plants": plants,
-            "grounds": grounds,
+            "heaters": [{"id": str(item['id_heater']), "name": item['heater_name'], "maxCapacity": item['max_capacity']} for item in heaters],
+            "lamps": [{"id": str(item['id_lamp']), "name": item['lamp_name']} for item in lamps],
+            "pumps": [{"id": str(item['id_pump']), "name": item['pump_name'], "maxCapacity": item['pump_capacity']} for item in pumps],
+            "assets": [{"id": str(item['id_asset']), "name": item['asset_name']} for item in assets],
+            "plants": [{"id": str(item['id_plant']), "name": item['plant_name']} for item in plants],
+            "grounds": [{"id": str(item['id_ground']), "name": item['ground_name']} for item in grounds],
         }
-    
+
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
