@@ -103,10 +103,8 @@ def add_aquarium(request):
 @require_http_methods(["GET"])
 def aquariums_and_fish(request):
     
-    user = "user1@wp.pl"
-    password = 123456
-    token = simulate_login(user,password)
-
+  
+    token = request.headers.get('token')
     user_id, _ = get_user_id(token=token)
     if user_id is None:
         raise ValueError("Can't get user id from token")
