@@ -695,7 +695,11 @@ def get_all_fish(request):
 @require_http_methods(["GET"])
 def check_if_admin(request):
     try:
-        token = request.headers.get('token')
+        
+        user = "user1@wp.pl"
+        password = 123456
+        token = simulate_login(user,password)
+        #token = request.headers.get('token')
         user_id, _ = get_user_id(token=token)
         
         if user_id is None:
