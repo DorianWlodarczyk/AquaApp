@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from datetime import datetime
 from django.http import HttpResponse, JsonResponse, Http404
 from aqua.models import *
+from django.db.models import Q
 # AquaHistory, AquaAccount, TankObject, AquaLife, AquariumTank
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.http import require_POST
@@ -102,43 +103,56 @@ def add_aquarium(request):
 
 @require_http_methods(["GET"])
 def aquariums_and_fish(request):
-    
-  
-    token = request.headers.get('token')
-    user_id, _ = get_user_id(token=token)
-    if user_id is None:
-        raise ValueError("Can't get user id from token")
-
-    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
-
-    aquariums = get_list_or_404(TankObject, id_aqua_account=id_aqua_account)
-
-    result = []
-    for item in aquariums:
-        aqua_life_list = AquaLife.objects.filter(id_tank_object=item.id_tank_object).select_related('id_fish')
+    try:
         
-        fish_list = []
-        for aqua_life in aqua_life_list:
-            fish_conflicts = FishConflict.objects.filter(id_first_fish=aqua_life.id_fish).select_related('id_second_fish')
-            fish_conflict_list = [co.id_second_fish.id_fish for co in fish_conflicts]
+        user = "user1@wp.pl"
+        password = 123456
+        token = simulate_login(user,password)
+        #token = request.headers.get('token')
+        user_id, _ = get_user_id(token=token)
+        if user_id is None:
+            raise ValueError("Can't get user id from token")
 
-            fish_value = {
-                "name": aqua_life.id_fish.fish_name,
-                "id": aqua_life.id_fish.id_fish,
-                "speciesID": aqua_life.id_fish.id_fish,
-                "conflicts": fish_conflict_list
+        id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+        aquariums = get_list_or_404(TankObject, id_aqua_account=id_aqua_account)
+
+        result = []
+        for item in aquariums:
+            aqua_life_list = AquaLife.objects.filter(id_tank_object=item.id_tank_object).select_related('id_fish')
+            
+            fish_ids_in_aquarium = set(aqua_life.id_fish.id_fish for aqua_life in aqua_life_list)
+            
+            fish_list = []
+            for aqua_life in aqua_life_list:
+                fish_conflicts = FishConflict.objects.filter(
+                    Q(id_first_fish=aqua_life.id_fish) & Q(id_second_fish__id_fish__in=fish_ids_in_aquarium) | 
+                    Q(id_second_fish=aqua_life.id_fish) & Q(id_first_fish__id_fish__in=fish_ids_in_aquarium)
+                ).distinct().select_related('id_first_fish', 'id_second_fish')
+
+                fish_conflict_list = [
+                    co.id_second_fish.id_fish if co.id_first_fish == aqua_life.id_fish else co.id_first_fish.id_fish 
+                    for co in fish_conflicts
+                ]
+
+                fish_value = {
+                    "name": aqua_life.id_fish.fish_name,
+                    "id": aqua_life.id_fish.id_fish,
+                    "speciesID": aqua_life.id_fish.id_fish,  
+                    "conflicts": fish_conflict_list
+                }
+                fish_list.append(fish_value)
+            
+            value = {
+                "aquariumName": item.tank_name,
+                "aquariumID": item.id_tank_object,
+                "aquariumImg": item.id_tank_picture,  
+                "fish": fish_list
             }
-            fish_list.append(fish_value)
-        
-        value = {
-            "aquariumName": item.tank_name,
-            "aquariumID": item.id_tank_object,
-            "aquariumImg": item.id_tank_picture,  # Ensure this field exists and has the correct value
-            "fish": fish_list
-        }
-        result.append(value)
+            result.append(value)
 
-    return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 @require_http_methods(["GET"])
@@ -476,15 +490,16 @@ def edit_species(request, id):
     
 @require_http_methods(["GET"])
 def accessories(request):
-    try:
-        heaters = list(Heater.objects.values('id_heater', 'heater_name', 'max_capacity'))
-        lamps = list(Lamp.objects.values('id_lamp', 'lamp_name'))
-        pumps = list(Pump.objects.values('id_pump', 'pump_name', 'max_capacity'))
-        assets = list(Asset.objects.values('id_asset', 'asset_name'))
-        plants = list(Plant.objects.values('id_plant', 'plant_name'))
-        grounds = list(Ground.objects.values('id_ground', 'ground_name'))
+    
+    
+    heaters = list(Heater.objects.values('id_heater', 'heater_name', 'max_capacity'))
+    lamps = list(Lamp.objects.values('id_lamp', 'lamp_name'))
+    pumps = list(Pump.objects.values('id_pump', 'pump_name', 'max_capacity'))
+    assets = list(Asset.objects.values('id_asset', 'asset_name'))
+    plants = list(Plant.objects.values('id_plant', 'plant_name'))
+    grounds = list(Ground.objects.values('id_ground', 'ground_name'))
         
-        response_data = {
+    response_data = {
             "heaters": [{"id": str(item['id_heater']), "name": item['heater_name'], "maxCapacity": item['max_capacity']} for item in heaters],
             "lamps": [{"id": str(item['id_lamp']), "name": item['lamp_name']} for item in lamps],
             "pumps": [{"id": str(item['id_pump']), "name": item['pump_name'], "maxCapacity": item['max_capacity']} for item in pumps],
@@ -493,8 +508,7 @@ def accessories(request):
             "grounds": [{"id": str(item['id_ground']), "name": item['ground_name']} for item in grounds],
         }
 
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+
     
     return JsonResponse(response_data)
 
