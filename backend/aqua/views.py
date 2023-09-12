@@ -161,14 +161,11 @@ def fish_conflict(request):
     result = []
     fishes = get_list_or_404(Fish)
     for fish in fishes:
-        fish_conflict = FishConflict.objects.filter(
-            id_first_fish=fish.id_fish)
-        fish_conflict_list = []
-        for co in fish_conflict:
-            fish_conflict_list.append(co.id_second_fish)
+        fish_conflict = FishConflict.objects.filter(id_first_fish=fish.id_fish)
+        fish_conflict_list = [str(co.id_second_fish.id_fish) for co in fish_conflict]  
         fish_value = {
-            "id": fish.id_fish,
-            "conflict": fish_conflict_list
+            "speciesID": str(fish.id_fish),  
+            "conflicts": fish_conflict_list  
         }
         result.append(fish_value)
 
@@ -672,3 +669,13 @@ def edit_accessory(request, type, id):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+@require_http_methods(["GET"])
+def get_all_fish(request):
+    fish_list = get_list_or_404(Fish)
+    result = []
+    for fish in fish_list:
+        result.append({"id": str(fish.id_fish), "name": fish.fish_name})
+    
+    return JsonResponse(result, safe=False)
