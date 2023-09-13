@@ -366,7 +366,7 @@ def add_fish_conflict(request):
 
 @csrf_exempt
 @require_http_methods(["DELETE"])
-def remove_fish_conflict(request):
+def remove_fish_conflict(request, firstID, secondID):
     
     input_data = json.loads(request.body)
 
@@ -381,25 +381,22 @@ def remove_fish_conflict(request):
     if not aqua_account.is_admin:
         return JsonResponse({"error": "User is not an admin"}, status=403)
 
-    first_id = input_data.get("firstID")
-    second_id = input_data.get("secondID")
-
-    if not first_id or not second_id:
+    if not firstID or not secondID:
         return JsonResponse({"error": "Invalid input data"}, status=400)
 
-    first_fish = get_object_or_404(Fish, id_fish=first_id)
+    first_fish = get_object_or_404(Fish, id_fish=firstID)
     
     try:
-        fish_conflict = get_object_or_404(FishConflict, id_first_fish=first_fish, id_second_fish=second_id)
+        fish_conflict = get_object_or_404(FishConflict, id_first_fish=first_fish, id_second_fish=secondID)
         fish_conflict.delete()
     except Http404:
         return JsonResponse({"error": "Fish conflict not found"}, status=404)
 
     
     log(user_id=aqua_account, 
-        message=f"Removed a conflict between fish ID: {first_id} and fish ID: {second_id}")
+        message=f"Removed a conflict between fish ID: {firstID} and fish ID: {secondID}")
 
-    return JsonResponse({"firstID": first_id, "secondID": second_id}, status=200)
+    return JsonResponse({"firstID": firstID, "secondID": secondID}, status=200)
 
 @csrf_exempt
 @require_http_methods(["POST"])
