@@ -19,7 +19,7 @@ from datetime import date
 def index(request):
     return HttpResponse("Hello, world! This is a test.")
 
-
+@csrf_exempt
 @require_http_methods(["GET"])
 def aquariums_list(request):
     token = request.headers.get('token')
@@ -46,7 +46,7 @@ def aquariums_list(request):
 
     return JsonResponse(result, safe=False)
 
-
+@csrf_exempt
 @require_http_methods(["POST", "GET"])
 def add_aquarium(request):
 
@@ -100,7 +100,7 @@ def add_aquarium(request):
 
     return JsonResponse(result, safe=False)
 
-
+@csrf_exempt
 @require_http_methods(["GET"])
 def aquariums_and_fish(request):
     try:
@@ -152,7 +152,7 @@ def aquariums_and_fish(request):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
-
+@csrf_exempt
 @require_http_methods(["GET"])
 def species_in_aquarium(request, aquariumID):
     result = set()
@@ -167,7 +167,7 @@ def species_in_aquarium(request, aquariumID):
 
     return JsonResponse(list(result), safe=False)
 
-
+@csrf_exempt
 @require_http_methods(["GET"])
 def fish_conflict(request):
     result = []
@@ -183,7 +183,7 @@ def fish_conflict(request):
 
     return JsonResponse(result, safe=False)
 
-
+@csrf_exempt
 @require_http_methods(["GET", "PUT"])
 def fish_data(request, fishID):
     result = {}
@@ -216,7 +216,7 @@ def fish_data(request, fishID):
 
     return JsonResponse(result, safe=False)
 
-
+@csrf_exempt
 @require_http_methods(["POST"])
 def create_fish(request):
 
@@ -252,6 +252,7 @@ def create_fish(request):
 
     return JsonResponse(result, safe=False)
 
+@csrf_exempt
 @require_http_methods(["GET"])
 def aquarium_name_and_imgID(request, aquariumID):
     
@@ -273,6 +274,7 @@ def aquarium_name_and_imgID(request, aquariumID):
     
     return JsonResponse(response_data, safe=False)
 
+@csrf_exempt
 @require_http_methods(["GET"])
 def aquarium_info(request, aquariumID):
     
@@ -323,6 +325,7 @@ def aquarium_info(request, aquariumID):
     }
     
     return JsonResponse(response_data, safe=False)
+
     
 @require_http_methods(["POST"])
 def add_fish_conflict(request):
@@ -496,7 +499,7 @@ def edit_species(request, id):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
-    
+@csrf_exempt
 @require_http_methods(["GET"])
 def accessories(request):
     
@@ -702,7 +705,7 @@ def edit_accessory(request, type, id):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
-
+@csrf_exempt
 @require_http_methods(["GET"])
 def get_all_fish(request):
     fish_list = get_list_or_404(Fish)
@@ -712,6 +715,7 @@ def get_all_fish(request):
     
     return JsonResponse(result, safe=False)
 
+@csrf_exempt
 @require_http_methods(["GET"])
 def check_if_admin(request):
     try:
