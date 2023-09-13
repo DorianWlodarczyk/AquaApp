@@ -33,7 +33,7 @@ const AquariumsList = () => {
       <div className="m-5 grid grid-cols-1 gap-7 pb-5 md:grid-cols-2 2xl:grid-cols-4">
         {aquaData.map((item, index) => {
           return (
-            <Link key={index} to={`${item.id}`}>
+            <Link key={index} to={`/aqua/${item.id}`}>
               <Aquarium
                 imgID={item.imgID}
                 id={item.id}

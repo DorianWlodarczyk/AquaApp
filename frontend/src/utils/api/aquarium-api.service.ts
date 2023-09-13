@@ -4,32 +4,26 @@ import ApiService from "./api.service";
 
 class AquariumApi extends ApiService {
   static async getNameAndImg(aquaID: string): Promise<AquariumNameAndImg> {
-    return {
-      name: `akwarium ${aquaID}`,
-      imgID: `${Math.floor(Math.random() * 10)}`,
-    };
+    try {
+      const response = await ApiService.get<AquariumNameAndImg>(
+        `aqua/${aquaID}/name`,
+        {}
+      );
+      if (response) return response;
+    } catch (e) {
+      return { name: "a", imgID: "1" };
+    }
+    return { name: "a", imgID: "1" };
   }
 
   static async getAquariumsList(): Promise<AquariumData[]> {
-    const response = await ApiService.get<AquariumData[]>("aquariums");
-    console.log(
-      "🚀 ~ file: aquarium-api.service.ts:15 ~ AquariumApi ~ getAquariumsList ~ response:",
-      response
-    );
-
-    // await new Promise((r) => setTimeout(r, 2000));
-
-    // const output: AquariumData[] = [];
-    // for (let i = 0; i < Math.floor(Math.random() * 1000); i++) {
-    //   output.push({
-    //     id: `${i}`,
-    //     name: `Akwarium #${i}`,
-    //     imgID: `${Math.floor(Math.random() * 12)}`,
-    //     fishNumber: Math.floor(Math.random() * 100),
-    //   });
-    // }
-    if (response) return response;
-    else return [];
+    try {
+      const response = await ApiService.get<AquariumData[]>("aqua/aquariums");
+      if (response) return response;
+    } catch (e) {
+      return [];
+    }
+    return [];
   }
 }
 

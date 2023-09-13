@@ -24,7 +24,7 @@ import EditFishApi from "./edit-fish-api.service";
 const EditFishPage = () => {
   const [fishName, setFishName] = useState("");
   const [fishSpecies, setFishSpecies] = useState("");
-  const [fishState, setFishState] = useState("");
+  const [fishState, setFishState] = useState(false);
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.NotStarted);
   const [species, setSpecies] = useState<SpeciesData[]>([]);
   const [speciesInAqua, setSpeciesInAqua] = useState<string[]>([]);
@@ -34,7 +34,7 @@ const EditFishPage = () => {
   const [nameOk, setNameOk] = useState(false);
   const [speciesOk, setSpeciesOk] = useState(false);
   const [stateOk, setStateOk] = useState(false);
-  const { id } = useParams();
+  const { id, fishID } = useParams();
 
   const navigate = useNavigate();
 
@@ -69,11 +69,13 @@ const EditFishPage = () => {
 
     const fetchFishData = async () => {
       try {
-        const data = await EditFishApi.getFishData(id || "");
+        const data = await EditFishApi.getFishData(fishID || "")!;
 
-        setFishName(data.name);
-        setFishSpecies(data.species);
-        setFishState(data.species);
+        if (data) {
+          setFishName(data?.name);
+          setFishSpecies(data?.species.toString());
+          setFishState(data?.state);
+        }
       } catch {}
     };
 
@@ -90,11 +92,11 @@ const EditFishPage = () => {
     };
 
     fetch();
-  }, [id]);
+  }, [fishID, id]);
 
   useEffect(() => {
     const list = conflictsList.find(
-      (item) => item.speciesID === fishSpecies
+      (item) => item.speciesID?.toString() === fishSpecies?.toString()
     )?.conflicts;
 
     if (!list) {
@@ -106,9 +108,13 @@ const EditFishPage = () => {
 
     for (let myConflicts of list) {
       for (let speciesInAquarium of speciesInAqua) {
-        if (myConflicts === speciesInAquarium) {
+        if (myConflicts.toString() === speciesInAquarium.toString()) {
           newConflictsListName.push(
-            `${species.find((item) => item.id === myConflicts)?.name}`
+            `${
+              species.find(
+                (item) => item.id.toString() === myConflicts.toString()
+              )?.name
+            }`
           );
         }
       }
@@ -119,12 +125,11 @@ const EditFishPage = () => {
   useEffect(() => {
     setSpeciesOk(fishSpecies !== "");
     setNameOk(maxNameLength.test(fishName));
-    setStateOk(fishState !== "");
   }, [fishName, fishSpecies, fishState]);
 
   const saveEditFish = async () => {
     try {
-      await EditFishApi.saveEditFish(`${id}`, fishName, fishSpecies, fishState);
+      await EditFishApi.saveEditFish(fishID!, fishName, fishSpecies, fishState);
     } catch {}
 
     navigate(`/aqua/${id}/fish`);
@@ -175,16 +180,12 @@ const EditFishPage = () => {
                 value: "0",
               },
               {
-                name: "Ranna",
+                name: "Chora",
                 value: "1",
               },
-              {
-                name: "Chora",
-                value: "2",
-              },
             ]}
-            value={fishState}
-            onChange={(stateID) => setFishState(stateID)}
+            value={fishState ? "0" : "1"}
+            onChange={(stateID) => setFishState(stateID === "0")}
             error={!stateOk}
           />
         </div>
@@ -255,7 +256,7 @@ const EditFishPage = () => {
           <div className="flex w-full justify-center">
             <div className="w-[200px]">
               <Button
-                enabled={nameOk && speciesOk && stateOk}
+                enabled={nameOk && speciesOk}
                 text="Edytuj rybę"
                 onClick={saveEditFish}
               />

@@ -23,7 +23,7 @@ import NewFishApi from "./new-fish-api.service";
 const NewFishPage = () => {
   const [fishName, setFishName] = useState("");
   const [fishSpecies, setFishSpecies] = useState("");
-  const [fishState, setFishState] = useState("");
+  const [fishState, setFishState] = useState(true);
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.NotStarted);
   const [species, setSpecies] = useState<SpeciesData[]>([]);
   const [speciesInAqua, setSpeciesInAqua] = useState<string[]>([]);
@@ -41,6 +41,7 @@ const NewFishPage = () => {
     const fetchConflicts = async () => {
       try {
         const data = await FishApi.getConflicts();
+
         setConflictsList(data);
       } catch {}
     };
@@ -82,7 +83,7 @@ const NewFishPage = () => {
 
   useEffect(() => {
     const list = conflictsList.find(
-      (item) => item.speciesID === fishSpecies
+      (item) => item.speciesID.toString() === fishSpecies.toString()
     )?.conflicts;
 
     if (!list) {
@@ -94,9 +95,13 @@ const NewFishPage = () => {
 
     for (let myConflicts of list) {
       for (let speciesInAquarium of speciesInAqua) {
-        if (myConflicts === speciesInAquarium) {
+        if (myConflicts.toString() === speciesInAquarium.toString()) {
           newConflictsListName.push(
-            `${species.find((item) => item.id === myConflicts)?.name}`
+            `${
+              species.find(
+                (item) => item.id.toString() === myConflicts.toString()
+              )?.name
+            }`
           );
         }
       }
@@ -107,12 +112,11 @@ const NewFishPage = () => {
   useEffect(() => {
     setSpeciesOk(fishSpecies !== "");
     setNameOk(maxNameLength.test(fishName));
-    setStateOk(fishState !== "");
   }, [fishName, fishSpecies, fishState]);
 
   const saveNewFish = async () => {
     try {
-      await NewFishApi.saveNewFish(fishName, fishSpecies, fishState);
+      await NewFishApi.saveNewFish(fishName, fishSpecies, fishState, id!);
     } catch {}
 
     navigate(`/aqua/${id}/fish`);
@@ -163,16 +167,12 @@ const NewFishPage = () => {
                 value: "0",
               },
               {
-                name: "Ranna",
+                name: "Chora",
                 value: "1",
               },
-              {
-                name: "Chora",
-                value: "2",
-              },
             ]}
-            value={fishState}
-            onChange={(stateID) => setFishState(stateID)}
+            value={fishState ? "0" : "1"}
+            onChange={(stateID) => setFishState(stateID === "0")}
             error={!stateOk}
           />
         </div>
@@ -201,11 +201,13 @@ const NewFishPage = () => {
           </div>
         )}
 
-
         {conflictsListName.length === 0 && fishSpecies && (
           <div className="w-9/12 rounded-2xl border-4 border-solid border-green-500 bg-green-50 px-5 py-2 font-semibold text-green-700">
             <div className="w-full text-center">
-              <CheckCircleOutlineTwoToneIcon className="" style={{ fontSize: "50px" }}/>
+              <CheckCircleOutlineTwoToneIcon
+                className=""
+                style={{ fontSize: "50px" }}
+              />
             </div>
             <div className="text-center">Wszystko w porządku</div>
           </div>

@@ -44,10 +44,6 @@ export const signInWithGoogle = async () => {
 export const getToken = async () => {
   const auth = getAuth();
   const { currentUser } = auth;
-  console.log(
-    "🚀 ~ file: firebase.ts:47 ~ getToken ~ currentUser:",
-    currentUser
-  );
   if (!currentUser) return "";
   const token = await getIdToken(currentUser!, true);
 
