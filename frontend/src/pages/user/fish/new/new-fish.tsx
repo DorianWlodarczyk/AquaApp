@@ -243,7 +243,7 @@ const NewFishPage = () => {
           <div className="flex w-full justify-center">
             <div className="w-[200px]">
               <Button
-                enabled={nameOk && speciesOk && stateOk}
+                enabled={nameOk && speciesOk}
                 text="Dodaj rybę"
                 onClick={saveNewFish}
               />
