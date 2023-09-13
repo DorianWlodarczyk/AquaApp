@@ -133,7 +133,7 @@ def aquariums_and_fish(request):
                 ]
 
                 fish_value = {
-                    "name": aqua_life.fish_nickname, 
+                    "name": aqua_life.fish_nickname,
                     "id": aqua_life.id_aqua_life_fish,  
                     "species": aqua_life.id_fish.id_fish,  
                     "conflicts": fish_conflict_list
@@ -155,17 +155,17 @@ def aquariums_and_fish(request):
 
 @require_http_methods(["GET"])
 def species_in_aquarium(request, aquariumID):
-    result = []
+    result = set()
     if aquariumID == "fish":
         fish_list = get_list_or_404(Fish)
         for fish in fish_list:
-            result.append(fish.id_fish)
+            result.add(fish.id_fish)
     else:
         aqua_life_list = get_list_or_404(AquaLife, id_tank_object=aquariumID)
         for fish in aqua_life_list:
-            result.append(fish.id_fish.id_fish)
+            result.add(fish.id_fish.id_fish)
 
-    return JsonResponse(result, safe=False)
+    return JsonResponse(list(result), safe=False)
 
 
 @require_http_methods(["GET"])
@@ -205,7 +205,8 @@ def fish_data(request, fishID):
 
         AquaLife.objects.filter(id_aqua_life_fish=fishID).update(
             fish_life_status=input["state"],
-            fish_nickname=input["name"]
+            fish_nickname=input["name"],
+            id_fish=input["id"]
         )
         result = {
             "status": "Update success"
