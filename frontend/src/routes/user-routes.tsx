@@ -8,6 +8,7 @@ import AquaPage from "../pages/user/aquariums/aqua/aqua";
 import FishList from "../pages/user/fish/list/fish-list";
 import NewFishPage from "../pages/user/fish/new/new-fish";
 import EditFishPage from "../pages/user/fish/edit/edit-fish";
+import EditAquariumPage from "../pages/user/aquariums/edit/edit-aquarium-page";
 const UserRoutes = () => {
   return (
     <Routes>
@@ -17,10 +18,10 @@ const UserRoutes = () => {
         <Route path="aqua">
           <Route index element={<AquariumsList />} />
           <Route path="new" element={<NewAquariumPage />} />
-
           <Route path=":id">
             <Route index element={<AquaPage />} />
 
+            <Route path="edit" element={<EditAquariumPage />} />
             <Route path="fish">
               <Route index element={<FishList />} />
               <Route path="new" element={<NewFishPage />} />
