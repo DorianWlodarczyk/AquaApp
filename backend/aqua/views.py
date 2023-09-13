@@ -205,7 +205,8 @@ def fish_data(request, fishID):
 
         AquaLife.objects.filter(id_aqua_life_fish=fishID).update(
             fish_life_status=input["state"],
-            fish_nickname=input["name"]
+            fish_nickname=input["name"],
+            id_fish=input["id"],
         )
         result = {
             "status": "Update success"
