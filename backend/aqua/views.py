@@ -326,7 +326,7 @@ def aquarium_info(request, aquariumID):
     
     return JsonResponse(response_data, safe=False)
 
-    
+@csrf_exempt    
 @require_http_methods(["POST"])
 def add_fish_conflict(request):
 
@@ -364,7 +364,7 @@ def add_fish_conflict(request):
 
     return JsonResponse({"firstID": first_id, "secondID": second_id}, status=201)
 
-
+@csrf_exempt
 @require_http_methods(["DELETE"])
 def remove_fish_conflict(request):
     
@@ -401,6 +401,7 @@ def remove_fish_conflict(request):
 
     return JsonResponse({"firstID": first_id, "secondID": second_id}, status=200)
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def add_species(request):
     token = request.headers.get('token')
@@ -429,7 +430,7 @@ def add_species(request):
 
     return JsonResponse({"name": species_name}, status=201)
 
-
+@csrf_exempt
 @require_http_methods(["DELETE"])
 def delete_species(request, id):  
      
@@ -462,7 +463,7 @@ def delete_species(request, id):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
-    
+@csrf_exempt    
 @require_http_methods(["PUT"])
 def edit_species(request, id):
     
@@ -524,6 +525,7 @@ def accessories(request):
     
     return JsonResponse(response_data)
 
+@csrf_exempt
 @require_http_methods(["DELETE"])
 def delete_accessory(request, type, id):
     
@@ -583,7 +585,7 @@ def delete_accessory(request, type, id):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
-
+@csrf_exempt
 @require_http_methods(["POST"])
 def add_accessory(request, type):
     
@@ -641,7 +643,7 @@ def add_accessory(request, type):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
-    
+@csrf_exempt    
 @require_http_methods(["PUT"])
 def edit_accessory(request, type, id):
     
