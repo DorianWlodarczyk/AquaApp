@@ -208,6 +208,10 @@ const AdminHeaterPage = () => {
 
       try {
         const data = await NewAquariumApi.fetchAccessoriesData();
+        console.log(
+          "🚀 ~ file: admin-heater-page.tsx:211 ~ fetchData ~ data:",
+          data
+        );
         setAccessories(data!);
         setStatus(FetchStatus.Loaded);
       } catch {}
