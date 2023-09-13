@@ -4,7 +4,7 @@ import { getToken } from "../firebase";
 class Api {
   private static API_ROOT =
     process.env.REACT_APP_API_ROOT ||
-    "https://aqua-app-backend-develop.onrender.com";
+    "https://aqua-app-backend-develop.onrender.com/";
 
   private static token = "";
 
