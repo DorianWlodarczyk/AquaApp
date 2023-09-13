@@ -135,7 +135,7 @@ def aquariums_and_fish(request):
                 fish_value = {
                     "name": aqua_life.id_fish.fish_name,
                     "id": aqua_life.id_aqua_life_fish,  
-                    "speciesID": aqua_life.id_fish.id_fish,  
+                    "species": aqua_life.id_fish.id_fish,  
                     "conflicts": fish_conflict_list
 }
                 fish_list.append(fish_value)
