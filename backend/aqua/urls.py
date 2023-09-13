@@ -25,5 +25,7 @@ urlpatterns = [
     path("admin/edit_accessory/<str:type>/<int:id>", views.edit_accessory, name='edit_accessory'),
     path("fishes/all_species",views.get_all_fish,name="get_all_fish"),
     path("check/admin", views.check_if_admin, name='check_if_admin'),
+    path("aquarium_edit", views.edit_aquarium, name="edit_aquarium"),
+    
 ]
 

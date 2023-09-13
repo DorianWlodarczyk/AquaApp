@@ -743,3 +743,58 @@ def check_if_admin(request):
     
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
+@csrf_exempt
+@require_http_methods(["PUT"])
+def edit_aquarium(request, aquariumID):
+    input = json.loads(request.body)
+    token = request.headers.get('token')
+    user_id, _ = get_user_id(token=token)
+
+    if user_id is None:
+        raise ValueError("Can't get user id from token")
+
+    id_aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
+
+    try:
+        tank_object = get_object_or_404(TankObject, pk=aquariumID)
+
+        if 'width' in input:
+            tank_object.id_aqua_maker.id_aquarium_tank.size_width = input['width']
+        if 'height' in input:
+            tank_object.id_aqua_maker.id_aquarium_tank.size_height = input['height']
+        if 'length' in input:
+            tank_object.id_aqua_maker.id_aquarium_tank.size_length = input['length']
+        if 'name' in input:
+            tank_object.tank_name = input['name']
+        if 'imgID' in input:
+            tank_object.id_tank_picture = input['imgID']
+        if 'heaterID' in input:
+            tank_object.id_aqua_maker.id_heater = Heater.objects.get(id_heater=input['heaterID'])
+        if 'pumpID' in input:
+            tank_object.id_aqua_maker.id_pump = Pump.objects.get(id_pump=input['pumpID'])
+        if 'lampID' in input:
+            tank_object.id_aqua_maker.id_lamp = Lamp.objects.get(id_lamp=input['lampID'])
+        if 'groundID' in input:
+            tank_object.id_aqua_decorator.id_ground = Ground.objects.get(id_ground=input['groundID'])
+        if 'plantID' in input:
+            tank_object.id_aqua_decorator.id_plant = Plant.objects.get(id_plant=input['plantID'])
+        if 'assetID' in input:
+            tank_object.id_aqua_decorator.id_asset = Asset.objects.get(id_asset=input['assetID'])
+        
+        tank_object.save()
+        
+        log(user_id=id_aqua_account, message=f"Edited aquarium with ID {tank_object.id_tank_object} named {tank_object.tank_name}")
+        
+        result = {
+            "status": "ok",
+            "aquariumID": tank_object.id_tank_object
+        }
+
+    except Exception as e:
+        result = {
+            "status": "error",
+            "message": str(e)
+        }
+
+    return JsonResponse(result, safe=False)
