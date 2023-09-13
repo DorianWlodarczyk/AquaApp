@@ -368,7 +368,7 @@ def add_fish_conflict(request):
 @require_http_methods(["DELETE"])
 def remove_fish_conflict(request, firstID, secondID):
     
-    input_data = json.loads(request.body)
+
 
     token = request.headers.get('token')
 
