@@ -133,7 +133,7 @@ def aquariums_and_fish(request):
                 ]
 
                 fish_value = {
-                    "name": aqua_life.id_fish.fish_name,
+                    "name": aqua_life.fish_nickname, 
                     "id": aqua_life.id_aqua_life_fish,  
                     "species": aqua_life.id_fish.id_fish,  
                     "conflicts": fish_conflict_list
@@ -696,10 +696,8 @@ def get_all_fish(request):
 def check_if_admin(request):
     try:
         
-        user = "user4@wp.pl"
-        password = 123456
-        token = simulate_login(user,password)
-        #token = request.headers.get('token')
+        
+        token = request.headers.get('token')
         user_id, _ = get_user_id(token=token)
         
         if user_id is None:
