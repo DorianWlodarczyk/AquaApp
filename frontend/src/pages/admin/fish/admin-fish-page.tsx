@@ -173,15 +173,15 @@ const AdminFishPage = () => {
     );
   };
 
-  const deleteRow = (id: string) => {
-    AdminFishApi.deleteSpecies(id);
+  const deleteRow = async (id: string) => {
+    await AdminFishApi.deleteSpecies(id);
     const newSpeciesList = speciesName.filter((item) => item.id !== id);
     setSpeciesName(newSpeciesList);
     setActiveID("");
   };
 
-  const editRow = (id: string) => {
-    AdminFishApi.editSpecies(id, newName);
+  const editRow = async (id: string) => {
+    await AdminFishApi.editSpecies(id, newName);
     const newSpeciesList = [...speciesName];
     for (let item of newSpeciesList) {
       if (item.id === id) {
@@ -192,8 +192,8 @@ const AdminFishPage = () => {
     setSpeciesName(newSpeciesList);
   };
 
-  const addConflict = () => {
-    //TODO Dodaj do API
+  const addConflict = async () => {
+    await AdminFishApi.addConflict(activeID, newConflictID);
 
     const newConflictList = [...conflicts];
 
@@ -221,8 +221,8 @@ const AdminFishPage = () => {
     setConflicts(newConflictList);
   };
 
-  const deleteConflict = (id: string) => {
-    //TODO Dodaj do API
+  const deleteConflict = async (id: string) => {
+    const data = await AdminFishApi.deleteConflict(activeID, id);
     const newConflictList = [...conflicts];
 
     const temp1 = newConflictList.find((item) => item.speciesID === activeID);
@@ -236,9 +236,8 @@ const AdminFishPage = () => {
     setConflicts(newConflictList);
   };
 
-  const addSpecies = () => {
-    //TODO Dodaj do api
-
+  const addSpecies = async () => {
+    const data = await AdminFishApi.addSpecies(newName);
     const newSpeciesName = [...speciesName];
     newSpeciesName.push({
       id: `${new Date().getTime()}`,

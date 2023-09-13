@@ -45,7 +45,7 @@ const Widgets = ({ aquaInfo, conflicts }: props) => {
         title="Ostatnia zmiana"
       >
         <div className="px-8 py-2 text-lg font-semibold text-gray-800">
-          {aquaInfo.history[0]?.text || ""}
+          {aquaInfo.history[aquaInfo.history.length - 1]?.text || ""}
         </div>
       </WidgetBox>
 
