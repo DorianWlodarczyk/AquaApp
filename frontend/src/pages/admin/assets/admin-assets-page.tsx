@@ -212,7 +212,7 @@ const AdminAssetsPage = () => {
 
       try {
         const data = await NewAquariumApi.fetchAccessoriesData();
-        setAccessories(data);
+        setAccessories(data!);
         setStatus(FetchStatus.Loaded);
       } catch {}
     };

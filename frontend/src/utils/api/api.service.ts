@@ -4,7 +4,7 @@ import { getToken } from "../firebase";
 class Api {
   private static API_ROOT =
     process.env.REACT_APP_API_ROOT ||
-    "https://aqua-app-backend-develop.onrender.com/aqua";
+    "https://aqua-app-backend-develop.onrender.com";
 
   private static token = "";
 
@@ -33,18 +33,9 @@ class Api {
       token: `${await this.getTokenID()}`,
     };
 
-    if (this.debugMode) {
-      await new Promise((r) => setTimeout(r, this.getDelay()));
-
-      console.log(`GET - Link -> ${this.API_ROOT}/${link}`, `headers ->`, {
-        headers: newHeaders,
-      });
-      return;
-    }
-
     try {
       const res: AxiosResponse<T, any> = await axios.get<T>(
-        `${this.API_ROOT}/${link}`,
+        `${this.API_ROOT}${link}`,
         {
           headers: newHeaders,
         }
@@ -81,7 +72,7 @@ class Api {
 
     try {
       const res: AxiosResponse<T, any> = await axios.post(
-        `${this.API_ROOT}/${link}`,
+        `${this.API_ROOT}${link}`,
         body,
         { headers: newHeaders }
       );
@@ -117,7 +108,7 @@ class Api {
 
     try {
       const res: AxiosResponse<T, any> = await axios.put(
-        `${this.API_ROOT}/${link}`,
+        `${this.API_ROOT}${link}`,
         body,
         { headers: newHeaders }
       );
@@ -147,7 +138,7 @@ class Api {
     }
     try {
       const res: AxiosResponse<T, any> = await axios.delete(
-        `${this.API_ROOT}/${link}`,
+        `${this.API_ROOT}${link}`,
         { headers: newHeaders }
       );
 

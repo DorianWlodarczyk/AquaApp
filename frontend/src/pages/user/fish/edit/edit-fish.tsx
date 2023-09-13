@@ -69,11 +69,17 @@ const EditFishPage = () => {
 
     const fetchFishData = async () => {
       try {
-        const data = await EditFishApi.getFishData(id || "");
+        const data = await EditFishApi.getFishData(id || "")!;
+        console.log(
+          "🚀 ~ file: edit-fish.tsx:73 ~ fetchFishData ~ data:",
+          data
+        );
 
-        setFishName(data.name);
-        setFishSpecies(data.species);
-        setFishState(data.species);
+        if (data) {
+          setFishName(data?.name);
+          setFishSpecies(data?.speciesID);
+          setFishState(data?.speciesID);
+        }
       } catch {}
     };
 
@@ -94,7 +100,7 @@ const EditFishPage = () => {
 
   useEffect(() => {
     const list = conflictsList.find(
-      (item) => item.speciesID === fishSpecies
+      (item) => item.speciesID?.toString() === fishSpecies?.toString()
     )?.conflicts;
 
     if (!list) {
@@ -108,7 +114,11 @@ const EditFishPage = () => {
       for (let speciesInAquarium of speciesInAqua) {
         if (myConflicts === speciesInAquarium) {
           newConflictsListName.push(
-            `${species.find((item) => item.id === myConflicts)?.name}`
+            `${
+              species.find(
+                (item) => item.id.toString() === myConflicts.toString()
+              )?.name
+            }`
           );
         }
       }

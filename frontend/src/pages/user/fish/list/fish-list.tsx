@@ -114,9 +114,7 @@ const FishList = () => {
         }
       }
 
-      if (newFishList.length !== 0) {
-        newList.push({ ...item, fish: newFishList });
-      }
+      newList.push({ ...item, fish: newFishList });
     }
 
     setFilteredFish(newList);
@@ -184,8 +182,10 @@ const FishList = () => {
                       key={index}
                       name={fish.name}
                       species={
-                        species.find((item) => item.id === fish.speciesID)
-                          ?.name ?? "Brak danych"
+                        species.find(
+                          (item) =>
+                            item.id.toString() === fish.speciesID.toString()
+                        )?.name ?? "Brak danych"
                       }
                       speciesList={species}
                       conflicts={fish.conflicts}
