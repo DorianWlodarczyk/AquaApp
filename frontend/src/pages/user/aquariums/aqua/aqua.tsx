@@ -54,30 +54,6 @@ const AquaPage = () => {
       setStatus(FetchStatus.Loaded);
     };
 
-    // const fetchConflicts = async () => {
-    //   setStatus(FetchStatus.Loading);
-    //   const data = await FishApi.getConflicts();
-    //   const species = await FishApi.getSpecies();
-    //   // const species = await FishApi.getFishSpeciesFromAquarium(id!);
-    //   const newConflictsList: string[] = [];
-
-    //   for (let item of data) {
-    // let newConflict = `Konflikt między **${
-    //   species.find((i) => i.id === item.speciesID)?.name
-    // }** a gatunkami **(`;
-
-    //     for (let ee of item.conflicts) {
-    //       newConflict += `${species.find((i) => i.id === ee)?.name}, `;
-    //     }
-
-    //     newConflict = newConflict.slice(0, -2);
-    //     newConflict += `)**`;
-    //     newConflictsList.push(newConflict);
-    //   }
-    //   setConflictList(newConflictsList);
-    //   setStatus(FetchStatus.Loaded);
-    // };
-
     const fetchConflicts = async () => {
       setStatus(FetchStatus.Loading);
       const data = await FishApi.getAquariumsWithFish();
