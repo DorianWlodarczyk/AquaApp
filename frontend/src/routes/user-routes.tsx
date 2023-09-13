@@ -24,6 +24,7 @@ const UserRoutes = () => {
             <Route path="fish">
               <Route index element={<FishList />} />
               <Route path="new" element={<NewFishPage />} />
+              <Route path=":fishID" element={<EditFishPage />} />
             </Route>
           </Route>
         </Route>

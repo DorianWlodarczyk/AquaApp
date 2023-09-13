@@ -94,8 +94,7 @@ const AquaPage = () => {
         }
 
         let newConflict = `Konflikt między **${
-          species.find((i) => item.speciesID.toString() === i.id.toString())
-            ?.name
+          species.find((i) => item.species.toString() === i.id.toString())?.name
         }** a gatunkami **(`;
 
         for (let con of item.conflicts) {

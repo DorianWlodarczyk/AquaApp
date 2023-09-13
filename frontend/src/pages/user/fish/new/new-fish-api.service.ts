@@ -4,7 +4,7 @@ class NewFishApi extends ApiService {
   static async saveNewFish(
     name: string,
     species: string,
-    state: string,
+    state: boolean,
     aquaID: string
   ) {
     const body = {

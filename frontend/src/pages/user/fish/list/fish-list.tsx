@@ -103,7 +103,7 @@ const FishList = () => {
       for (let fish of item.fish) {
         if (fish.name.toLowerCase().includes(searchText.toLowerCase())) {
           const shouldRenderFish = speciesCheckboxes.find(
-            (species) => species.id === fish.speciesID
+            (species) => species.id === fish.species
           )?.value;
 
           if (!allSpeciesCheckboxIsNone) {
@@ -132,6 +132,10 @@ const FishList = () => {
     const fetchSpeciesData = async () => {
       try {
         const data = await FishApi.getSpecies();
+        console.log(
+          "🚀 ~ file: fish-list.tsx:135 ~ fetchSpeciesData ~ data:",
+          data
+        );
         setSpecies(data);
       } catch {}
     };
@@ -180,11 +184,12 @@ const FishList = () => {
                   return (
                     <FishButton
                       key={index}
+                      aquaID={item.aquariumID}
                       name={fish.name}
                       species={
                         species.find(
                           (item) =>
-                            item.id.toString() === fish.speciesID.toString()
+                            item.id.toString() === fish.species?.toString()
                         )?.name ?? "Brak danych"
                       }
                       speciesList={species}

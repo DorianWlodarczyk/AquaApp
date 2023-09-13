@@ -10,6 +10,7 @@ interface props {
   conflicts: string[];
   aquaImg: string;
   fishID: string;
+  aquaID: string;
 }
 
 const FishButton = ({
@@ -19,6 +20,7 @@ const FishButton = ({
   fishID,
   speciesList,
   conflicts,
+  aquaID,
 }: props) => {
   return (
     <div className="relative">
@@ -49,7 +51,7 @@ const FishButton = ({
           </div>
         </div>
       )}
-      <Link to={`/fish/${fishID}`}>
+      <Link to={`/aqua/${aquaID}/fish/${fishID}`}>
         <div className="group relative h-[135px] cursor-pointer overflow-hidden rounded bg-white shadow duration-500 hover:bg-neutral-50">
           <img
             className="absolute bottom-[-80px] right-[-50px] z-0 h-[250px] w-[250px] select-none opacity-[0.15] duration-500 

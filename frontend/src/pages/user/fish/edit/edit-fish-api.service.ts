@@ -6,10 +6,6 @@ class EditFishApi extends ApiService {
     try {
       const response = await ApiService.get<FishData>(`aqua/fish/${id}`);
       if (response) {
-        console.log(
-          "🚀 ~ file: fish-api.service.ts:60 ~ FishApi ~ getAquariumsWithFish ~ response:",
-          response
-        );
         return response;
       }
     } catch (e) {
@@ -23,22 +19,23 @@ class EditFishApi extends ApiService {
     id: string,
     name: string,
     species: string,
-    state: string
+    state: boolean
   ) {
-    console.log(
-      JSON.stringify(
-        { id: id, name: name, species: species, state: state },
-        null,
-        2
-      )
-    );
-    alert(
-      JSON.stringify(
-        { id: id, name: name, species: species, state: state },
-        null,
-        2
-      )
-    );
+    const body = {
+      name,
+      id: species,
+      state,
+    };
+
+    try {
+      const response = await ApiService.put<string>(`aqua/fish/${id}`, body);
+
+      if (response) return response;
+    } catch (e) {
+      return "";
+    }
+
+    return "69";
   }
 }
 

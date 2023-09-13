@@ -23,7 +23,7 @@ import NewFishApi from "./new-fish-api.service";
 const NewFishPage = () => {
   const [fishName, setFishName] = useState("");
   const [fishSpecies, setFishSpecies] = useState("");
-  const [fishState, setFishState] = useState("");
+  const [fishState, setFishState] = useState(true);
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.NotStarted);
   const [species, setSpecies] = useState<SpeciesData[]>([]);
   const [speciesInAqua, setSpeciesInAqua] = useState<string[]>([]);
@@ -107,7 +107,6 @@ const NewFishPage = () => {
   useEffect(() => {
     setSpeciesOk(fishSpecies !== "");
     setNameOk(maxNameLength.test(fishName));
-    setStateOk(fishState !== "");
   }, [fishName, fishSpecies, fishState]);
 
   const saveNewFish = async () => {
@@ -163,16 +162,12 @@ const NewFishPage = () => {
                 value: "0",
               },
               {
-                name: "Ranna",
+                name: "Chora",
                 value: "1",
               },
-              {
-                name: "Chora",
-                value: "2",
-              },
             ]}
-            value={fishState}
-            onChange={(stateID) => setFishState(stateID)}
+            value={fishState ? "0" : "1"}
+            onChange={(stateID) => setFishState(stateID === "0")}
             error={!stateOk}
           />
         </div>
