@@ -330,7 +330,6 @@ def add_fish_conflict(request):
     input_data = json.loads(request.body)
    
     token = request.headers.get('token')
-
     user_id, _ = get_user_id(token=token)
 
     if user_id is None:
@@ -355,6 +354,10 @@ def add_fish_conflict(request):
         id_second_fish=second_fish
     )
     fish_conflict.save()
+
+    
+    log(user_id=aqua_account, 
+        message=f"Added a conflict between fish ID: {first_id} and fish ID: {second_id}")
 
     return JsonResponse({"firstID": first_id, "secondID": second_id}, status=201)
 
@@ -389,28 +392,25 @@ def remove_fish_conflict(request):
     except Http404:
         return JsonResponse({"error": "Fish conflict not found"}, status=404)
 
+    
+    log(user_id=aqua_account, 
+        message=f"Removed a conflict between fish ID: {first_id} and fish ID: {second_id}")
+
     return JsonResponse({"firstID": first_id, "secondID": second_id}, status=200)
 
 @require_http_methods(["POST"])
 def add_species(request):
-    
-   
-
     token = request.headers.get('token')
-
    
     user_id, _ = get_user_id(token=token)  
 
-   
     if user_id is None:
         return JsonResponse({"error": "Can't get user id from token"}, status=400)
 
-  
     aqua_account = get_object_or_404(AquaAccount, user_id=user_id)
     if not aqua_account.is_admin:
         return JsonResponse({"error": "User is not an admin"}, status=403)
 
-    
     input_data = json.loads(request.body)
     
     species_name = input_data.get("fish_name")
@@ -420,6 +420,9 @@ def add_species(request):
 
     new_fish = Fish(fish_name=species_name)
     new_fish.save()
+
+    
+    log(user_id=aqua_account, message=f"Added a new species: {species_name}")
 
     return JsonResponse({"name": species_name}, status=201)
 
@@ -441,11 +444,14 @@ def delete_species(request, id):
     try:
         fish = Fish.objects.get(id_fish=id)
         
-        
+      
         FishConflict.objects.filter(id_first_fish=id).delete()
         
         
         fish.delete()
+        
+        
+        log(user_id=aqua_account, message=f"Deleted species with ID: {id} along with related conflict records")
         
         return JsonResponse({"message": f"Species with id {id} deleted successfully along with related conflict records"}, status=200)
     except Fish.DoesNotExist:
@@ -456,8 +462,6 @@ def delete_species(request, id):
     
 @require_http_methods(["PUT"])
 def edit_species(request, id):
-    
-   
     
     token = request.headers.get('token')
 
@@ -473,18 +477,24 @@ def edit_species(request, id):
     try:
         fish = Fish.objects.get(id_fish=id)
         input_data = json.loads(request.body)
-
+        
+        changes = []
         for key, value in input_data.items():
             if hasattr(fish, key):
+                old_value = getattr(fish, key)
                 setattr(fish, key, value)
+                changes.append(f"Changed {key} from {old_value} to {value}")
 
         fish.save()
+
+        # Logging the changes
+        log(user_id=aqua_account, message=f"Edited species with ID {id}. {'; '.join(changes)}")
 
         return JsonResponse({"name": fish.fish_name}, status=200)
     except Fish.DoesNotExist:
         return JsonResponse({"error": "Species not found"}, status=404)
     except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)   
+        return JsonResponse({"error": str(e)}, status=500)
     
     
 @require_http_methods(["GET"])
@@ -533,7 +543,7 @@ def delete_accessory(request, type, id):
             model_class = Heater
             id_field = 'id_heater'
 
-            # Adding extra deletion steps for heaters
+          
             aqua_maker_entries = AquaMaker.objects.filter(id_heater=id)
             for entry in aqua_maker_entries:
                 TankObject.objects.filter(id_aqua_maker=entry.id_aqua_maker).delete()
@@ -559,6 +569,9 @@ def delete_accessory(request, type, id):
         filter_kwargs = {id_field: id}
         accessory = get_object_or_404(model_class, **filter_kwargs)
         accessory.delete()
+
+       
+        log(user_id=aqua_account, message=f"Deleted accessory of type '{type}' with ID {id}")
 
         return JsonResponse({"message": f"Accessory of type '{type}' with id {id} deleted successfully"}, status=200)
     
@@ -616,6 +629,9 @@ def add_accessory(request, type):
         
         if type in ['heater', 'pump']:
             response_data["maxCapacity"] = getattr(new_accessory, "max_capacity", None)
+
+        
+        log(user_id=aqua_account, message=f"Added new accessory of type '{type}' with name '{response_data['name']}'")
 
         return JsonResponse(response_data, status=201)
 
@@ -678,6 +694,9 @@ def edit_accessory(request, type, id):
         if type in ['heater', 'pump']:
             response_data["maxCapacity"] = getattr(accessory, "max_capacity", None)
 
+        
+        log(user_id=aqua_account, message=f"Modified accessory of type '{type}' with ID {id}")
+
         return JsonResponse(response_data, status=200)
 
     except Exception as e:
@@ -697,21 +716,27 @@ def get_all_fish(request):
 def check_if_admin(request):
     try:
         
-        
         token = request.headers.get('token')
-        user_id, _ = get_user_id(token=token)
+        user_id, email = get_user_id(token=token)
         
         if user_id is None:
             raise ValueError("Can't get user id from token")
         
-        aqua_account = AquaAccount.objects.get(user_id=user_id)
-        
+        try:
+           
+            aqua_account = AquaAccount.objects.get(user_id=user_id)
+        except AquaAccount.DoesNotExist:
+            
+            aqua_account = AquaAccount.objects.create(
+                user_id=user_id,
+                user_mail=email if email else '',  
+                is_admin=False  
+            )
+
         if aqua_account.is_admin:
             return JsonResponse({"isAdmin": True})
         else:
             return JsonResponse({"isAdmin": False})
     
-    except AquaAccount.DoesNotExist:
-        return JsonResponse({"error": "User not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
