@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', 'aqua-app-backend.onre
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://aqua-app-backend-develop.onrender.com',
-    'aqua-app-git-develop-dorianwlodarczyk.vercel.app',
+    'https://aqua-app-git-develop-dorianwlodarczyk.vercel.app',
     
 ]
 
