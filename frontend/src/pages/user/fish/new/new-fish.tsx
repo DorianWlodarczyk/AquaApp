@@ -41,6 +41,7 @@ const NewFishPage = () => {
     const fetchConflicts = async () => {
       try {
         const data = await FishApi.getConflicts();
+
         setConflictsList(data);
       } catch {}
     };
@@ -82,7 +83,7 @@ const NewFishPage = () => {
 
   useEffect(() => {
     const list = conflictsList.find(
-      (item) => item.speciesID === fishSpecies
+      (item) => item.speciesID.toString() === fishSpecies.toString()
     )?.conflicts;
 
     if (!list) {
@@ -94,9 +95,13 @@ const NewFishPage = () => {
 
     for (let myConflicts of list) {
       for (let speciesInAquarium of speciesInAqua) {
-        if (myConflicts === speciesInAquarium) {
+        if (myConflicts.toString() === speciesInAquarium.toString()) {
           newConflictsListName.push(
-            `${species.find((item) => item.id === myConflicts)?.name}`
+            `${
+              species.find(
+                (item) => item.id.toString() === myConflicts.toString()
+              )?.name
+            }`
           );
         }
       }

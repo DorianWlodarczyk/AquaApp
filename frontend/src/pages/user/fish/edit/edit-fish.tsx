@@ -70,10 +70,6 @@ const EditFishPage = () => {
     const fetchFishData = async () => {
       try {
         const data = await EditFishApi.getFishData(fishID || "")!;
-        console.log(
-          "🚀 ~ file: edit-fish.tsx:73 ~ fetchFishData ~ data:",
-          data
-        );
 
         if (data) {
           setFishName(data?.name);
@@ -112,7 +108,7 @@ const EditFishPage = () => {
 
     for (let myConflicts of list) {
       for (let speciesInAquarium of speciesInAqua) {
-        if (myConflicts === speciesInAquarium) {
+        if (myConflicts.toString() === speciesInAquarium.toString()) {
           newConflictsListName.push(
             `${
               species.find(

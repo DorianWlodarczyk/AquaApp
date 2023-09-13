@@ -132,10 +132,7 @@ const FishList = () => {
     const fetchSpeciesData = async () => {
       try {
         const data = await FishApi.getSpecies();
-        console.log(
-          "🚀 ~ file: fish-list.tsx:135 ~ fetchSpeciesData ~ data:",
-          data
-        );
+
         setSpecies(data);
       } catch {}
     };
