@@ -103,7 +103,7 @@ const FishList = () => {
       for (let fish of item.fish) {
         if (fish.name.toLowerCase().includes(searchText.toLowerCase())) {
           const shouldRenderFish = speciesCheckboxes.find(
-            (species) => species.id === fish.speciesID
+            (species) => species.id === fish.species
           )?.value;
 
           if (!allSpeciesCheckboxIsNone) {
@@ -114,9 +114,7 @@ const FishList = () => {
         }
       }
 
-      if (newFishList.length !== 0) {
-        newList.push({ ...item, fish: newFishList });
-      }
+      newList.push({ ...item, fish: newFishList });
     }
 
     setFilteredFish(newList);
@@ -134,6 +132,7 @@ const FishList = () => {
     const fetchSpeciesData = async () => {
       try {
         const data = await FishApi.getSpecies();
+
         setSpecies(data);
       } catch {}
     };
@@ -182,10 +181,13 @@ const FishList = () => {
                   return (
                     <FishButton
                       key={index}
+                      aquaID={item.aquariumID}
                       name={fish.name}
                       species={
-                        species.find((item) => item.id === fish.speciesID)
-                          ?.name ?? "Brak danych"
+                        species.find(
+                          (item) =>
+                            item.id.toString() === fish.species?.toString()
+                        )?.name ?? "Brak danych"
                       }
                       speciesList={species}
                       conflicts={fish.conflicts}

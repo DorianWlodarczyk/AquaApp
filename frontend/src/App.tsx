@@ -4,21 +4,27 @@ import AuthorizedLayout from "./layout/authorized-layout";
 import { firebaseAuth, getToken } from "./utils/firebase";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "./layout/admin-layout";
+import UserApi from "./utils/api/user.service";
 
 function App() {
   const [status, setStatus] = useState("UNAUTHORIZED");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = firebaseAuth().onAuthStateChanged((user) => {
+    const unsubscribe = firebaseAuth().onAuthStateChanged(async (user) => {
+      const { isAdmin } = await UserApi.isAdmin();
+      console.log("🚀 ~ file: App.tsx:16 ~ unsubscribe ~ isAdmin:", isAdmin);
       if (user) {
-        setStatus("USER");
+        if (isAdmin) {
+          setStatus("ADMIN");
+        } else {
+          setStatus("USER");
+        }
         // navigate("/");
       } else {
         setStatus("UNAUTHORIZED");
       }
     });
-    console.log(process.env);
     return () => unsubscribe();
   }, [navigate]);
 

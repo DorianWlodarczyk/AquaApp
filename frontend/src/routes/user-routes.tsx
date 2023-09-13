@@ -12,7 +12,7 @@ const UserRoutes = () => {
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<></>} />
+        <Route index element={<AquariumsList />} />
 
         <Route path="aqua">
           <Route index element={<AquariumsList />} />
@@ -24,6 +24,7 @@ const UserRoutes = () => {
             <Route path="fish">
               <Route index element={<FishList />} />
               <Route path="new" element={<NewFishPage />} />
+              <Route path=":fishID" element={<EditFishPage />} />
             </Route>
           </Route>
         </Route>

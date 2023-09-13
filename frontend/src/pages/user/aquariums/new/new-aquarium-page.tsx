@@ -95,11 +95,8 @@ const NewAquariumPage = () => {
   };
 
   const saveAquarium = async () => {
-    await new Promise((r) => setTimeout(r, 1000));
-
     const id = await NewAquariumApi.saveAquarium(inputs);
-
-    navigate(`/aqua/${id}`);
+    if (id) navigate(`/aqua/${id.aquariumID}`);
   };
 
   useEffect(() => {
@@ -156,7 +153,7 @@ const NewAquariumPage = () => {
 
       try {
         const data = await NewAquariumApi.fetchAccessoriesData();
-        setAccessories(data);
+        setAccessories(data!);
         setStatus(FetchStatus.Loaded);
       } catch {}
     };

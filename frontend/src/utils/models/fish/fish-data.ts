@@ -8,6 +8,7 @@ export interface FishListData {
 export interface FishData {
   id: string;
   name: string;
-  speciesID: string;
+  species: string;
+  state: boolean;
   conflicts: string[];
 }

@@ -9,6 +9,7 @@ import AquaApi from "./aqua-api.service";
 import { AquaInfo } from "../../../../utils/models/aquarium/aqua-info";
 import FishApi from "../../../../utils/api/fish-api.service";
 import { AquaHistory } from "../../../../utils/models/aquarium/aqua-history";
+import { useParams } from "react-router-dom";
 
 const emptyState = {
   fishNumber: 0,
@@ -31,10 +32,16 @@ const AquaPage = () => {
   const [conflictList, setConflictList] = useState<string[]>([]);
   const [status, setStatus] = useState(FetchStatus.NotStarted);
   const [historyList, setHistoryList] = useState<AquaHistory[]>([]);
+  const { id } = useParams();
+
   useEffect(() => {
     const fetchAquaInfo = async () => {
       setStatus(FetchStatus.Loading);
-      const data = await AquaApi.getAquaInfo("1");
+      const data = await AquaApi.getAquaInfo(id!);
+      if (!data) {
+        return;
+      }
+      console.log("🚀 ~ file: aqua.tsx:41 ~ fetchAquaInfo ~ data:", data);
       setAquaInfo(data);
       const newHistory: AquaHistory[] = data.history.map((item, index) => {
         return {
@@ -47,24 +54,58 @@ const AquaPage = () => {
       setStatus(FetchStatus.Loaded);
     };
 
+    // const fetchConflicts = async () => {
+    //   setStatus(FetchStatus.Loading);
+    //   const data = await FishApi.getConflicts();
+    //   const species = await FishApi.getSpecies();
+    //   // const species = await FishApi.getFishSpeciesFromAquarium(id!);
+    //   const newConflictsList: string[] = [];
+
+    //   for (let item of data) {
+    // let newConflict = `Konflikt między **${
+    //   species.find((i) => i.id === item.speciesID)?.name
+    // }** a gatunkami **(`;
+
+    //     for (let ee of item.conflicts) {
+    //       newConflict += `${species.find((i) => i.id === ee)?.name}, `;
+    //     }
+
+    //     newConflict = newConflict.slice(0, -2);
+    //     newConflict += `)**`;
+    //     newConflictsList.push(newConflict);
+    //   }
+    //   setConflictList(newConflictsList);
+    //   setStatus(FetchStatus.Loaded);
+    // };
+
     const fetchConflicts = async () => {
       setStatus(FetchStatus.Loading);
-      const data = await FishApi.getConflicts();
+      const data = await FishApi.getAquariumsWithFish();
       const species = await FishApi.getSpecies();
+      const fish = data.find(
+        (item) => item.aquariumID.toString() === id?.toString()
+      )?.fish;
+      if (!fish) return;
+
       const newConflictsList: string[] = [];
-
-      for (let item of data) {
-        let newConflict = `Konflikt między **${
-          species.find((i) => i.id === item.speciesID)?.name
-        }** a gatunkami **(`;
-
-        for (let ee of item.conflicts) {
-          newConflict += `${species.find((i) => i.id === ee)?.name}, `;
+      for (let item of fish) {
+        if (!item.conflicts) {
+          continue;
         }
 
-        newConflict = newConflict.slice(0, -2);
-        newConflict += `)**`;
-        newConflictsList.push(newConflict);
+        let newConflict = `Konflikt między **${
+          species.find((i) => item.species.toString() === i.id.toString())?.name
+        }** a gatunkami **(`;
+
+        for (let con of item.conflicts) {
+          newConflict += `${
+            species.find((i) => i.id.toString() === con.toString())?.name
+          }, `;
+
+          newConflict = newConflict.slice(0, -2);
+          newConflict += `)**`;
+          newConflictsList.push(newConflict);
+        }
       }
       setConflictList(newConflictsList);
       setStatus(FetchStatus.Loaded);
