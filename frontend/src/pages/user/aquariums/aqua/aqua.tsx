@@ -9,7 +9,8 @@ import AquaApi from "./aqua-api.service";
 import { AquaInfo } from "../../../../utils/models/aquarium/aqua-info";
 import FishApi from "../../../../utils/api/fish-api.service";
 import { AquaHistory } from "../../../../utils/models/aquarium/aqua-history";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "../../../../components/button/button";
 
 const emptyState = {
   fishNumber: 0,
@@ -33,6 +34,7 @@ const AquaPage = () => {
   const [status, setStatus] = useState(FetchStatus.NotStarted);
   const [historyList, setHistoryList] = useState<AquaHistory[]>([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAquaInfo = async () => {
@@ -98,6 +100,9 @@ const AquaPage = () => {
         <InfoBox aquaInfo={aquaInfo} />
         {conflictList.length > 0 && <ConflictBox conflicts={conflictList} />}
         <LogsBox aquaHistory={historyList} />
+        <div className="p-5">
+          <Button text="Edytuj akwarium" onClick={() => navigate("edit")} />
+        </div>
       </div>
     </Loader>
   );
