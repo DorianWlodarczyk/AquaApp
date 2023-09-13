@@ -583,7 +583,7 @@ def delete_accessory(request, type, id):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
-@csrf_exempt
+
 @require_http_methods(["POST"])
 def add_accessory(request, type):
     
