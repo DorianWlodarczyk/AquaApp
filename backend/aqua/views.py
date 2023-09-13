@@ -104,8 +104,6 @@ def add_aquarium(request):
 @require_http_methods(["GET"])
 def aquariums_and_fish(request):
     try:
-        
-       
         token = request.headers.get('token')
         user_id, _ = get_user_id(token=token)
         if user_id is None:
@@ -127,17 +125,19 @@ def aquariums_and_fish(request):
                     Q(id_second_fish=aqua_life.id_fish) & Q(id_first_fish__id_fish__in=fish_ids_in_aquarium)
                 ).distinct().select_related('id_first_fish', 'id_second_fish')
 
-                fish_conflict_list = [
-                    co.id_second_fish.id_fish if co.id_first_fish == aqua_life.id_fish else co.id_first_fish.id_fish 
-                    for co in fish_conflicts
-                ]
-
+                fish_conflict_set = set()
+                for co in fish_conflicts:
+                    if co.id_first_fish == aqua_life.id_fish:
+                        fish_conflict_set.add(co.id_second_fish.id_fish)
+                    else:
+                        fish_conflict_set.add(co.id_first_fish.id_fish)
+                
                 fish_value = {
                     "name": aqua_life.fish_nickname,
                     "id": aqua_life.id_aqua_life_fish,  
                     "species": aqua_life.id_fish.id_fish,  
-                    "conflicts": fish_conflict_list
-}
+                    "conflicts": list(fish_conflict_set)
+                }
                 fish_list.append(fish_value)
             
             value = {
