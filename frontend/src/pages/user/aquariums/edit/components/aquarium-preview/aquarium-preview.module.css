@@ -1,0 +1,32 @@
+.preview {
+  position: relative;
+  width: 200px;
+  height: 185px;
+  left: -25px;
+  transition-duration: 500ms;
+
+  @media(max-width: 500px) {
+    transform: scale(0.7);
+  }
+}
+
+.line{
+  position: absolute;
+  background-color: rgb(141, 141, 141);
+  transition-duration: 500ms;
+  z-index: 1;
+}
+
+.hideLine{
+  position: absolute;
+  background-color: rgb(192, 192, 192);
+  transition-duration: 500ms;
+}
+
+.text{
+  position: absolute;
+  transition-duration: 500ms;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color:rgb(70, 70, 70);
+}
