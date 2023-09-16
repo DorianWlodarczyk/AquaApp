@@ -290,6 +290,13 @@ Example body
     state: "0"
 }
 ```
+Example response
+
+```
+{
+    status: success,
+}
+```
 
 #### Edit fish
 
